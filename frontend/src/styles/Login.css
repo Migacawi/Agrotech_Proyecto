@@ -1,0 +1,143 @@
+:root {
+  --primary-accent: #74e2d7;
+  --bg-dark: #16191c; /* Color de fondo oscuro para que coincida con la imagen */
+  --text-light: #FFFFFF;
+  --input-bg: #1A1C1E;
+  --input-border: #363434;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-dark);
+}
+
+/* Ajuste de la imagen de la izquierda */
+.left-panel {
+  flex: 1.7;
+  overflow: hidden;
+}
+
+.main-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ajuste del Logo */
+.logo-img {
+  width: 180px; /* Ajusta el tamaño según tu logo */
+  height: auto;
+}
+
+/* El resto del estilo se mantiene igual para conservar la nitidez del formulario */
+.right-panel {
+  flex: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.content {
+  width: 100%;
+  max-width: 480px;
+}
+
+.welcome-title {
+  font-size: 3rem;
+  color: var(--primary-accent);
+  margin-bottom: 40px;
+}
+
+.input-group {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: rgb(211, 206, 206);
+}
+
+.input-group input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: white;
+  padding: 12px;
+  border-radius: 15px;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input { width: 100%; }
+
+.password-toggle {
+  position: absolute;
+  right: 9px;
+  background: none;
+  border: none;
+  color: #4b4646;
+  cursor: pointer;
+}
+
+.login-button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #008080, #004d4d);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 5 px;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.social-button {
+  flex: 9;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 0px;
+}
+
+.forgot-password, .create-account {
+  color: var(--primary-accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+ .social-login-divider{
+
+  margin-top: 13px;
+  color: rgb(211, 206, 206);
+
+}
+
+.footer{
+  margin-top: 17px;
+  color:rgb(211, 206, 206);
+}

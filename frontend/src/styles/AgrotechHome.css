@@ -1,0 +1,195 @@
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+html,body{
+width:100%;
+overflow-x:hidden;
+}
+
+/* VARIABLES */
+
+:root{
+--bg-dark-header:#051d1e;
+--bg-nav:#072526;
+--bg-section-1:#0f3536;
+--bg-section-2:#144e50;
+--bg-card:#082223;
+--text-main:#ffffff;
+--color-accent:#4ade80;
+--border-card:#659a9c;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.app-container{
+width:100vw;
+min-height:100vh;
+background:var(--bg-section-1);
+color:var(--text-main);
+display:flex;
+flex-direction:column;
+}
+
+/* HERO */
+
+.hero-banner{
+width:100vw;
+height:40vh;
+min-height:280px;
+max-height:520px;
+overflow:hidden;
+}
+
+.hero-banner img{
+width:100%;
+height:92%;
+object-fit:cover;
+display:block;
+}
+
+/* SECCIONES */
+
+.product-section{
+width:100%;
+padding:60px 4vw;
+}
+
+.ofertas-bg{
+background:var(--bg-section-1);
+}
+
+.capacitaciones-bg{
+background:var(--bg-section-2);
+}
+
+/* TITULOS */
+
+.section-title{
+font-size:2rem;
+margin-bottom:40px;
+}
+
+/* GRID RESPONSIVE AUTOMATICO */
+
+.card-grid{
+width:100%;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:30px;
+}
+
+/* TARJETAS */
+
+.card{
+background:var(--bg-card);
+border:1px solid var(--border-card);
+border-radius:6px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+transition:.2s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 30px rgba(0,0,0,.4);
+}
+
+.card-image{
+width:100%;
+height:240px;
+object-fit:cover;
+}
+
+.card-content{
+padding:16px;
+display:flex;
+flex-direction:column;
+}
+
+.card-title{
+font-size:1.1rem;
+margin-bottom:10px;
+}
+
+.card-desde{
+font-size:.75rem;
+color:#8caeae;
+}
+
+.card-price{
+font-size:1.4rem;
+font-weight:600;
+}
+
+.card-unit{
+font-size:.9rem;
+}
+
+.card-discount{
+font-size:.8rem;
+color:var(--color-accent);
+font-weight:bold;
+margin-top:6px;
+}
+
+/* BOTON */
+
+.btn-ver-todo{
+margin:50px auto 0;
+display:block;
+background:white;
+color:var(--bg-nav);
+border:none;
+padding:12px 40px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.btn-ver-todo:hover{
+background:#e0e0e0;
+}
+
+/* NAVBAR FULL WIDTH */
+
+.navbar{
+width:100vw;
+}
+
+/* RESPONSIVE */
+
+@media (min-width:1600px){
+
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, 250px);
+  justify-content:center;
+  gap:30px; /* espacio horizontal y vertical entre cards */
+}
+.hero-banner{
+height:45vh;
+}
+
+}
+
+@media (max-width:768px){
+
+.hero-banner{
+height:28vh;
+}
+
+.card-image{
+height:200px;
+}
+
+.product-section{
+padding:40px 20px;
+}
+
+}
