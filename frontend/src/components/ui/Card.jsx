@@ -1,9 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/Card.css";
 
 function Card({ item }) {
+
+  const navigate = useNavigate();
+
+  const goToProduct = () => {
+    // Navega a la ruta "/descripcion" y envía el producto en state
+    navigate("/producto", { state: item });
+  };
+
   return (
-    <div className="card">
+    <div className="card" onClick={goToProduct}>
 
       <img
         src={item.img}

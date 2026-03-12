@@ -3,6 +3,7 @@
   padding: 40px;
   background: #f2f2f2;
   min-height: 100vh;
+  border-radius: 10px;
 }
 
 .section-title {
