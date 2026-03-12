@@ -1,0 +1,44 @@
+.NavbarPerfil {
+  display: flex;               /* para alinear horizontalmente */
+  justify-content: space-between; /* logo a la izquierda, perfil a la derecha */
+  align-items: center;         /* centrado vertical */
+  padding: 0 20px;             /* separación a los lados */
+  height: 70px;                /* altura de la navbar */
+  background-color: #07393C;   /* color de fondo */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* sombra sutil */
+  position: sticky;            /* se queda en la parte superior al hacer scroll */
+  top: 0;
+  z-index: 1000;               /* siempre arriba */
+}
+
+/* Sección izquierda: logo + nombre */
+.NavbarPerfil .navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.NavbarPerfil .logo {
+  height: 50px; /* tamaño del logo */
+  width: auto;
+}
+
+.NavbarPerfil .brand {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  
+}
+
+
+.NavbarPerfil .perfil img.icon {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%; /* si quieres circular */
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.NavbarPerfil .perfil img.icon:hover {
+  transform: scale(1.1); /* efecto hover */
+}

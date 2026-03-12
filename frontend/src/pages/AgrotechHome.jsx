@@ -17,6 +17,7 @@ const ofertas = [
 
 function AgrotechHome() {
 
+
   return (
     <div className="app-container">
 
@@ -36,16 +37,14 @@ function AgrotechHome() {
       {/* OFERTAS */}
       <section className="product-section ofertas-bg">
 
-        <h2>Ofertas Destacadas</h2>
+        <h2 className="section-title">Ofertas Destacadas</h2>
 
         <div className="card-grid">
-
-          {ofertas.map(item => (
-            <Card key={item.id} item={item} />
-          ))}
-
-        </div>
-        <BotonVt />
+        {ofertas.map(item => (
+        <Card key={item.id} item={item} />
+      ))}
+      </div>
+      <BotonVt/>
 
       </section>
 

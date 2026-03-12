@@ -1,0 +1,71 @@
+.sidebar {
+  width: 220px;
+  background-color: #07393c; /* verde oscuro */
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  margin-bottom: 30px;
+}
+
+.sidebar-logo {
+  width: 35px;
+  height: 35px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.menu li {
+  width: 100%;
+}
+
+.menu-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 12px 20px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.menu-btn:hover {
+  background-color: #05514b;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 40px;
+  background-color: #05514b;
+}
+
+.submenu li {
+  padding: 8px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.submenu li:hover {
+  color: #a1ff00; /* cambio de color al pasar el mouse */
+}

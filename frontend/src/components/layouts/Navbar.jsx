@@ -1,6 +1,6 @@
 import React from "react";
-import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import "../../styles/Navbar.css";
+import { Link } from "react-router-dom";
 
 function Navbar() {
 
@@ -28,24 +28,24 @@ function Navbar() {
         <div className="language">
           <img src={bandera} alt="Colombia" className="flag" />
           <span>Español Latinoamerica | COP</span>
-        </div>  
+        </div>
+
         <div className="favoritos">
           <img src="/corazon.png" alt="favoritos" className="icon" />
         </div>
-        <div classNmae="carrito">
+
+        <div className="carrito">
           <img src="/carrito.png" alt="carrito" className="icon" />
         </div>
-        <div className="perfil">
-          <img src="/perfil.png" alt="perfil" className="icon" />
-        </div>
 
+        <Link to="/perfil" className="perfil">
+           <img src="/perfil.png" alt="perfil" className="icon" />
+        </Link>
 
       </div>
 
     </header>
   );
- 
-
 }
 
 export default Navbar;
