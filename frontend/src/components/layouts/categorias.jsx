@@ -8,7 +8,7 @@ function Categorias() {
       <ul className="categorias-container">
 
         <li>Categorias</li>
-        <li>Capacitaciones</li>
+        <li>Fertilizantes</li>
         <li>Comprar</li>
         <li>Vender</li>
 
