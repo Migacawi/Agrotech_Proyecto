@@ -1,56 +1,76 @@
-/* BARRA */
-
 .categorias-bar{
-width:100%;
-background:#00282B;
-padding:12px 0;
+  width:100%;
+  background:#00282B;
+  padding:12px 0;
+  position: relative;
 }
 
-/* CONTENEDOR */
+/* Icono línea (hamburger) */
+.linea-icon{
+  display: none;
+  position: absolute;
+  left: 20px;   /* ahora a la izquierda */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
 
+/* CONTENEDOR DE CATEGORIAS */
 .categorias-container{
-width:100%;
-max-width:1600px;
-margin:auto;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-gap:60px;
-list-style:none;
-
-color:white;
-font-size:16px;
+  width:100%;
+  max-width:1600px;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:60px;
+  list-style:none;
+  color:white;
+  font-size:16px;
+  transition: all 0.3s ease;
 }
 
 /* ITEMS */
-
 .categorias-container li{
-cursor:pointer;
-transition:.2s;
+  cursor:pointer;
+  transition:.2s;
 }
 
 .categorias-container li:hover{
-opacity:.7;
+  opacity:.7;
 }
 
 /* PILLA OFERTA */
-
 .oferta-pill{
-background:white;
-color:#062e2f;
-padding:4px 14px;
-border-radius:14px;
-font-weight:600;
+  background:white;
+  color:#062e2f;
+  padding:4px 14px;
+  border-radius:14px;
+  font-weight:600;
 }
 
-/* OCULTAR EN CELULAR */
-
+/* MÓVIL */
 @media (max-width:768px){
+  .categorias-container{
+    display: none; /* ocultar por defecto en móvil */
+    flex-direction: column;
+    gap: 15px;
+    background:#00282B;
+    position: absolute;
+    top: 100%;
+    left: 0;      /* desplegar desde la izquierda */
+    width: 200px;
+    padding: 15px;
+    border-radius: 0 0 8px 8px;
+  }
 
-.categorias-bar{
-display:none;
-}
+  .categorias-container.open{
+    display: flex; /* mostrar cuando open=true */
+  }
 
+  .linea-icon{
+    display: block; /* mostrar icono en móvil */
+  }
 }
