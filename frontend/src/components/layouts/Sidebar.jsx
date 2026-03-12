@@ -38,6 +38,7 @@ function Sidebar() {
             <ul className="submenu">
               <li>Perfil</li>
               <li>Datos personales</li>
+              <li>Estadisticas</li>
             </ul>
           )}
         </li>
