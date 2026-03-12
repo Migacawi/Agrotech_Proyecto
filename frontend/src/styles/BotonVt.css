@@ -15,7 +15,10 @@
   font-weight:600;
   cursor:pointer;
   transition:all 0.2s ease;
+  display:block;
+  margin:30px auto;
 }
+
 
 .boton-vt:hover{
   background:#e5e5e5;

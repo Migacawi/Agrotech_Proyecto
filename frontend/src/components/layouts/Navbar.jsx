@@ -28,16 +28,24 @@ function Navbar() {
         <div className="language">
           <img src={bandera} alt="Colombia" className="flag" />
           <span>Español Latinoamerica | COP</span>
+        </div>  
+        <div className="favoritos">
+          <img src="/corazon.png" alt="favoritos" className="icon" />
+        </div>
+        <div classNmae="carrito">
+          <img src="/carrito.png" alt="carrito" className="icon" />
+        </div>
+        <div className="perfil">
+          <img src="/perfil.png" alt="perfil" className="icon" />
         </div>
 
-        <FaHeart className="icon" />
-        <FaShoppingCart className="icon" />
-        <FaUser className="icon" />
 
       </div>
 
     </header>
   );
+ 
+
 }
 
 export default Navbar;
