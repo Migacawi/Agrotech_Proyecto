@@ -1,6 +1,6 @@
 .sidebar {
   width: 220px;
-  background-color: #07393c; /* verde oscuro */
+  background-color: #07393c;
   color: #fff;
   height: 100vh;
   position: fixed;
@@ -41,15 +41,13 @@
   border: none;
   color: #fff;
   padding: 12px 20px;
-  text-align: left;
   display: flex;
+  justify-content: space-between; /* separa izquierda y derecha */
   align-items: center;
-  gap: 10px;
   cursor: pointer;
   font-size: 16px;
   transition: background 0.2s;
 }
-
 .menu-btn:hover {
   background-color: #05514b;
 }
@@ -68,4 +66,13 @@
 
 .submenu li:hover {
   color: #a1ff00; /* cambio de color al pasar el mouse */
+}
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arrow {
+  font-size: 12px;
 }

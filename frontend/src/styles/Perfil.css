@@ -1,0 +1,99 @@
+.perfil-content {
+  margin-left: 220px;
+  padding: 40px;
+  background: #f2f2f2;
+  min-height: 100vh;
+}
+
+.section-title {
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.perfil-card,
+.compras-card {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.perfil-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.perfil-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.perfil-nombre {
+  font-weight: bold;
+}
+
+.perfil-email {
+  font-size: 14px;
+  color: gray;
+}
+
+.edit-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.saldo-section {
+  margin-top: 30px;
+}
+
+.saldo-total {
+  color: #00ff55;
+  text-shadow: 0 0 6px #00ff55;
+}
+
+.saldo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.saldo-title {
+  font-weight: bold;
+}
+
+.saldo-desc {
+  font-size: 12px;
+  color: gray;
+}
+
+.saldo-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.saldo-value {
+  color: #65FF51;
+  font-weight: bold;
+}
+
+.saldo-btn {
+  background: #07393c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}

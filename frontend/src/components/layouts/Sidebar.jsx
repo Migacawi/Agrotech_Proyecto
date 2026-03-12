@@ -24,11 +24,16 @@ function Sidebar() {
       </div>
 
       <ul className="menu">
-        {/* Mi cuenta */}
-        <li>
-          <button className="menu-btn" onClick={() => toggleMenu("cuenta")}>
-            <FaUser /> Mi cuenta <span>{openMenus.cuenta ? "▲" : "▼"}</span>
-          </button>
+        
+      <li>
+        <button className="menu-btn" onClick={() => toggleMenu("cuenta")}>
+          <span className="menu-left">
+        <FaUser /> Mi Cuenta
+         
+        </span>
+
+        <span className="arrow">{openMenus.cuenta? "▲" : "▼"}</span>
+        </button>
           {openMenus.cuenta && (
             <ul className="submenu">
               <li>Perfil</li>
@@ -39,23 +44,33 @@ function Sidebar() {
 
         {/* Saldo */}
         <li>
-          <button className="menu-btn" onClick={() => toggleMenu("saldo")}>
-            <FaWallet /> Saldo <span>{openMenus.saldo ? "▲" : "▼"}</span>
-          </button>
+        <button className="menu-btn" onClick={() => toggleMenu("saldo")}>
+          <span className="menu-left">
+        <FaWallet /> Saldo
+         
+        </span>
+
+        <span className="arrow">{openMenus.saldo ? "▲" : "▼"}</span>
+        </button>
           {openMenus.saldo && (
-            <ul className="submenu">
-              <li>Saldo Total</li>
-              <li>Saldo de Regalo</li>
-              <li>Saldo de Ganancias</li>
-            </ul>
+        <ul className="submenu">
+        <li>Saldo Total</li>
+        <li>Saldo de Regalo</li>
+        <li>Saldo de Ganancias</li>
+         </ul>
           )}
         </li>
 
         {/* Compras */}
-        <li>
-          <button className="menu-btn" onClick={() => toggleMenu("compras")}>
-            <FaShoppingCart /> Compras <span>{openMenus.compras ? "▲" : "▼"}</span>
-          </button>
+                <li>
+        <button className="menu-btn" onClick={() => toggleMenu("compras")}>
+          <span className="menu-left">
+        <FaShoppingCart /> Compras
+         
+        </span>
+
+        <span className="arrow">{openMenus.compras ? "▲" : "▼"}</span>
+        </button>
           {openMenus.compras && (
             <ul className="submenu">
               <li>Historial</li>
@@ -66,9 +81,14 @@ function Sidebar() {
 
         {/* Ventas */}
         <li>
-          <button className="menu-btn" onClick={() => toggleMenu("ventas")}>
-            <FaMoneyBillWave /> Ventas <span>{openMenus.ventas ? "▲" : "▼"}</span>
-          </button>
+        <button className="menu-btn" onClick={() => toggleMenu("ventas")}>
+          <span className="menu-left">
+        <FaMoneyBillWave /> Ventas
+         
+        </span>
+
+        <span className="arrow">{openMenus.ventas ? "▲" : "▼"}</span>
+        </button>
           {openMenus.ventas && (
             <ul className="submenu">
               <li>Mis ventas</li>
@@ -79,9 +99,14 @@ function Sidebar() {
 
         {/* Ajustes */}
         <li>
-          <button className="menu-btn" onClick={() => toggleMenu("ajustes")}>
-            <FaCog /> Ajustes <span>{openMenus.ajustes ? "▲" : "▼"}</span>
-          </button>
+        <button className="menu-btn" onClick={() => toggleMenu("ajustes")}>
+          <span className="menu-left">
+        <FaCog /> Ajustes
+         
+        </span>
+
+        <span className="arrow">{openMenus.ajustes ? "▲" : "▼"}</span>
+        </button>
           {openMenus.ajustes && (
             <ul className="submenu">
               <li>Preferencias</li>
