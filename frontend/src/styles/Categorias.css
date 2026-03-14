@@ -74,3 +74,8 @@
     display: block; /* mostrar icono en móvil */
   }
 }
+
+.categorias-container a{
+  text-decoration:none;
+  color:inherit;
+}

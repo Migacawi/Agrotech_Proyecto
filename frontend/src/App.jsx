@@ -4,6 +4,9 @@ import AgrotechHome from "./pages/AgrotechHome.jsx";
 import VerTodo from "./pages/VerTodo.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import DescripcionProduct from "./pages/DescripcionProduct.jsx";
+import AñadirProduct from "./pages/AñadirProduct";
+
+
 
 function App() {
   return (
@@ -12,6 +15,7 @@ function App() {
       <Route path="/ver-todo" element={<VerTodo />} />
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/producto" element={<DescripcionProduct />} />
+      <Route path="/añadir-producto" element={<AñadirProduct />} />
     </Routes>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../../styles/Categorias.css";
 import { FaBars } from "react-icons/fa"; // icono de línea/hamburger
+import { Link } from "react-router-dom";
+
 
 function Categorias() {
   const [open, setOpen] = useState(false); // control del menú en móvil
@@ -19,7 +21,10 @@ function Categorias() {
         <li>Categorias</li>
         <li>Fertilizantes</li>
         <li>Comprar</li>
-        <li>Vender</li>
+        <li>
+          <Link to="/añadir-producto">Vender</Link>
+        </li>
+
         <li className="oferta-pill">Ofertas Flash</li>
         <li>Fertilizantes</li>
         <li>Salir</li>
