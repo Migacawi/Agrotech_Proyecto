@@ -3,6 +3,7 @@ import Navbar from "../components/layouts/Navbar";
 import Categorias from "../components/layouts/categorias";
 import SidebarFiltro from "../components/layouts/SidebarFiltro"; 
 import "../styles/VerTodo.css";
+import Footer from "../components/layouts/Footer";
 
 function VerTodo() {
   return (
@@ -32,6 +33,7 @@ function VerTodo() {
           </div>
         </main>
       </div>
+      <Footer/>
     </div>
   );
 }

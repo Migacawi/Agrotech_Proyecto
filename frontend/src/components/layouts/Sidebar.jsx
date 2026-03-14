@@ -18,10 +18,6 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="sidebar-header">
-        <img src="/logo3.png" alt="Agrotech" className="sidebar-logo" />
-        <span>AGROTECH</span>
-      </div>
 
       <ul className="menu">
         

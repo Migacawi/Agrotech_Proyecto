@@ -5,6 +5,8 @@ import Navbar from "../components/layouts/Navbar";
 import Categorias from "../components/layouts/categorias";
 
 import "../styles/DescripcionProduct.css";
+import Footer from "../components/layouts/Footer";
+
 
 function DescripcionProduct() {
   const location = useLocation();
@@ -79,6 +81,7 @@ function DescripcionProduct() {
           </div>
         </div>
       </div>
+    <Footer/>  
     </div>
   );
 }

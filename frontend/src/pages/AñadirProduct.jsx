@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/layouts/Navbar";
 import Categorias from "../components/layouts/categorias";
 import "../styles/AñadirProduct.css";
+import Footer from "../components/layouts/Footer";
 
 function AñadirProduct() {
 
@@ -150,7 +151,7 @@ function AñadirProduct() {
         </form>
 
       </div>
-
+    <Footer/>
     </div>
   );
 }

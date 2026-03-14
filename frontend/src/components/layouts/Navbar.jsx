@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/Navbar.css";
 import { Link } from "react-router-dom";
 
@@ -6,6 +6,12 @@ function Navbar() {
 
   const logo = "/logo3.png";
   const bandera = "/colombia.png";
+
+  const [openCart, setOpenCart] = useState(false);
+
+  const toggleCart = () => {
+    setOpenCart(!openCart);
+  };
 
   return (
     <header className="navbar">
@@ -34,7 +40,8 @@ function Navbar() {
           <img src="/corazon.png" alt="favoritos" className="icon" />
         </div>
 
-        <div className="carrito">
+        {/* ICONO CARRITO */}
+        <div className="carrito" onClick={toggleCart}>
           <img src="/carrito.png" alt="carrito" className="icon" />
         </div>
 
@@ -43,6 +50,27 @@ function Navbar() {
         </Link>
 
       </div>
+
+      {/* POPUP DEL CARRITO */}
+      {openCart && (
+        <div className="cart-popup">
+
+          <h3>Tu carrito</h3>
+
+          <div className="cart-items">
+            <p>No hay productos aún</p>
+          </div>
+
+          <div className="cart-buttons">
+            <button className="buy-now">Comprar ahora</button>
+
+            <Link to="/carrito">
+              <button className="view-cart">Ver carrito</button>
+            </Link>
+          </div>
+
+        </div>
+      )}
 
     </header>
   );

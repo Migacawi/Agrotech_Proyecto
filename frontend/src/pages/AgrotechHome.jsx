@@ -4,6 +4,7 @@ import Card from "../components/ui/Card";
 import Categorias from "../components/layouts/categorias";
 import "../styles/AgrotechHome.css";
 import BotonVt from "../components/ui/BotonVt";
+import Footer from "../components/layouts/Footer";
 
 
 const ofertas = [
@@ -47,7 +48,7 @@ function AgrotechHome() {
       <BotonVt/>
 
       </section>
-
+    <Footer/>
     </div>
   );
 }
