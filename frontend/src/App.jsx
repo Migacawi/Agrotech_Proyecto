@@ -5,6 +5,7 @@ import VerTodo from "./pages/VerTodo.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import DescripcionProduct from "./pages/DescripcionProduct.jsx";
 import AñadirProduct from "./pages/AñadirProduct";
+import Checkout from "./pages/Checkout";
 
 
 
@@ -16,6 +17,7 @@ function App() {
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/producto" element={<DescripcionProduct />} />
       <Route path="/añadir-producto" element={<AñadirProduct />} />
+      <Route path="/Checkout" element={<Checkout />} />
     </Routes>
   );
 }

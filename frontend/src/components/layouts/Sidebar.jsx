@@ -18,6 +18,9 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
+      <div className="sidebar-header">
+        <span>AGROTECH</span>
+      </div>
 
       <ul className="menu">
         

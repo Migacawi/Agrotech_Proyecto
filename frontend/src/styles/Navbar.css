@@ -108,29 +108,68 @@
 
 /* BOTONES */
 
+/* ========================= */
+/* BOTONES DEL CARRITO */
+/* ========================= */
+
 .cart-buttons{
-  margin-top:15px;
+
+  margin-top:20px;
+
   display:flex;
+  flex-direction:column;
+
   gap:10px;
+
 }
 
-.buy-now{
-  flex:1;
-  padding:10px;
+.buy-btn{
+
+  padding:12px;
+
   background:black;
-  border:1px solid white;
+  color:white;
+
+  border:2px solid white;
+
   border-radius:6px;
+
   font-weight:bold;
+
   cursor:pointer;
-  color: white;
+
+  transition:0.2s;
+
 }
 
-.view-cart{
-  flex:1;
-  padding:10px;
+.buy-btn:hover{
+
+  background:#222;
+
+}
+
+.view-btn{
+
+  padding:12px;
+
   background:white;
-  border:1px solid white;
+
   color:black;
+
+  border:2px solid white;
+
   border-radius:6px;
+
+  font-weight:bold;
+
   cursor:pointer;
+
+  transition:0.2s;
+
+}
+
+.view-btn:hover{
+
+  background:#f1f1f1;
+
 }

@@ -1,0 +1,95 @@
+.checkout-page{
+
+  background:#062e2f;
+  min-height:80vh;
+
+  display:flex;
+  justify-content:center;
+  gap:40px;
+
+  padding:50px;
+
+  color:white;
+
+}
+
+/* resumen */
+
+.resumen{
+
+  width:350px;
+
+  background:#0b4445;
+
+  padding:25px;
+
+  border-radius:10px;
+
+}
+
+.producto-resumen{
+
+  display:flex;
+  justify-content:space-between;
+
+  margin:10px 0;
+
+}
+
+.total{
+
+  margin-top:20px;
+
+  font-size:20px;
+  font-weight:bold;
+
+  color:#00ff88;
+
+}
+
+/* formulario */
+
+.checkout-form{
+
+  width:400px;
+
+  background:#083c3d;
+
+  padding:25px;
+
+  border-radius:10px;
+
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+
+}
+
+.checkout-form input,
+.checkout-form select{
+
+  padding:12px;
+
+  border:none;
+
+  border-radius:6px;
+
+}
+
+.confirmar-btn{
+
+  margin-top:10px;
+
+  padding:12px;
+
+  border:none;
+
+  background:#00ff88;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  border-radius:6px;
+
+}
