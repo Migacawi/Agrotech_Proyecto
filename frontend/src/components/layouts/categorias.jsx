@@ -19,15 +19,19 @@ function Categorias() {
 
       <ul className={`categorias-container ${open ? "open" : ""}`}>
         <li>Categorias</li>
-        <li>Fertilizantes</li>
-        <li>Ver Todo</li>
+        <li>
+          <Link to="/ver-todo">Ver Todo</Link>
+        </li>
         <li>
           <Link to="/añadir-producto">Vender</Link>
         </li>
 
         <li className="oferta-pill">Ofertas Flash</li>
-        <li>Fertilizantes</li>
-        <li>Salir</li>
+        <li>
+          <Link to="/">Inicio</Link>
+        </li>
+
+        <li>Cerrar Sesion</li>
       </ul>
     </nav>
   );

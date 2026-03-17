@@ -14,16 +14,13 @@ function Navbar() {
     setOpenCart(!openCart);
   };
 
-  // cerrar al hacer clic fuera
   useEffect(() => {
     function handleClickOutside(event) {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
         setOpenCart(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -32,15 +29,13 @@ function Navbar() {
   return (
     <header className="navbar">
 
-      {/* izquierda */}
-
-      <div className="navbar-left">
+      {/* izquierda — lleva al home */}
+      <Link to="/" className="navbar-left">
         <img src={logo} alt="Agrotech" className="logo" />
         <span className="brand">AGROTECH</span>
-      </div>
+      </Link>
 
       {/* centro */}
-
       <div className="navbar-center">
         <input
           type="text"
@@ -50,7 +45,6 @@ function Navbar() {
       </div>
 
       {/* derecha */}
-
       <div className="navbar-right">
 
         <div className="language">
@@ -61,8 +55,6 @@ function Navbar() {
         <div className="favoritos">
           <img src="/corazon.png" alt="favoritos" className="icon" />
         </div>
-
-        {/* carrito */}
 
         <div className="carrito" onClick={toggleCart}>
           <img src="/carrito.png" alt="carrito" className="icon" />
@@ -75,28 +67,19 @@ function Navbar() {
       </div>
 
       {/* popup carrito */}
-
       {openCart && (
         <div className="cart-popup" ref={cartRef}>
 
           <h3>Carrito</h3>
-
           <p>No hay productos aún</p>
 
           <div className="cart-buttons">
-
             <Link to="/checkout">
-              <button className="buy-btn">
-                Comprar ahora
-              </button>
+              <button className="buy-btn">Comprar ahora</button>
             </Link>
-
             <Link to="/carrito">
-              <button className="view-btn">
-                Ver carrito
-              </button>
+              <button className="view-btn">Ver carrito</button>
             </Link>
-
           </div>
 
         </div>

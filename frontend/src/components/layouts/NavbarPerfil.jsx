@@ -6,21 +6,17 @@ function NavbarPerfil() {
 
   const logo = "/logo3.png";
 
-
   return (
     <header className="NavbarPerfil">
 
-      <div className="navbar-left">
+      <Link to="/" className="navbar-left" style={{ textDecoration: 'none' }}>
         <img src={logo} alt="Agrotech" className="logo" />
         <span className="brand">AGROTECH</span>
+      </Link>
+
+      <div className="perfil">
+        <img src="/perfilprueba.png" alt="perfil" className="icon" />
       </div>
-
-        <div className="perfil">
-          <img src="/perfilprueba.png" alt="perfil" className="icon" />
-        </div>
-
-
-      
 
     </header>
   );

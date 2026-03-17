@@ -12,6 +12,7 @@ function AgrotechHome() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading]     = useState(true);
   const [error, setError]         = useState('');
+  const [indice, setIndice]       = useState(0);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -26,6 +27,15 @@ function AgrotechHome() {
     };
     fetchProductos();
   }, []);
+
+  // Rota cada 3 segundos
+  useEffect(() => {
+    if (productos.length <= 5) return;
+    const intervalo = setInterval(() => {
+      setIndice((prev) => (prev + 5) % productos.length);
+    }, 100000);
+    return () => clearInterval(intervalo);
+  }, [productos]);
 
   const adaptarProducto = (p) => {
     const imagenPrincipal =
@@ -46,6 +56,11 @@ function AgrotechHome() {
       descuentoPorcentaje: 0,
     };
   };
+
+  // Saca 5 productos desde el indice actual
+  const productosVisibles = productos.length > 0
+    ? [...productos, ...productos].slice(indice, indice + 5)
+    : [];
 
   return (
     <div className="app-container">
@@ -84,8 +99,8 @@ function AgrotechHome() {
         {!loading && !error && productos.length > 0 && (
           <>
             <div className="card-grid">
-              {productos.slice(0, 8).map((p) => (
-                <Card key={p.Id} item={adaptarProducto(p)} />
+              {productosVisibles.map((p, i) => (
+                <Card key={`${p.Id}-${i}`} item={adaptarProducto(p)} />
               ))}
             </div>
             <BotonVt />

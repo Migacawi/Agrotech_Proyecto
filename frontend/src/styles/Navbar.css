@@ -173,3 +173,7 @@
   background:#f1f1f1;
 
 }
+ .navbar-left {
+  text-decoration: none;
+  color: inherit;
+}
