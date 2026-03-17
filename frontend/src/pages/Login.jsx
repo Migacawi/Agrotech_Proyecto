@@ -1,22 +1,47 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from 'react-icons/fa';
-import './App.css';
+import { login } from '../api/authService';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
 
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError]     = useState('');
+  const [loading, setLoading] = useState(false);
+  const { setToken }          = useAuthStore();
+  const navigate              = useNavigate();
 
-  //ruta de las imagenes
+  //ruta de las imagenesS
   const imagenFondo = "/fondo_proyecto.jpg"; 
   const imagenLogo = "/logo.png";
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Login con:', email, password);
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
+  try {
+    const { token } = await login(email, password);
+    setToken(token);
+
+    const rol = useAuthStore.getState().getRole();
+    if (rol === 'admin') {
+      navigate('/admin');
+    } else if (rol === 'vendedor') {
+      navigate('/mis-productos');
+    } else {
+      navigate('/');
+    }
+
+  } catch (err) {
+    setError(err.message || 'Error al iniciar sesión');
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="login-container">
       

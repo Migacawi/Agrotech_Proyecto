@@ -8,11 +8,11 @@ import Footer from "../components/layouts/Footer";
 
 
 const ofertas = [
-  { id: 1, titulo: "Fresas", precio: "8000", descuento: "10%", img: "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19" },
+  { id: 1, titulo: "Fresas", precio: "8000", descuento: "10%", img: "https://res.cloudinary.com/dg2uzc4yg/image/upload/v1773696622/agrotech/productos/istf6bnlsw22zb9qmt06.jpg" },
   { id: 2, titulo: "Mango Tommy", precio: "5250", descuento: "5%", img: "https://images.unsplash.com/photo-1553279768-865429fa0078" },
   { id: 3, titulo: "Banano", precio: "8000", descuento: "10%", img: "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19" },
   { id: 4, titulo: "Pera", precio: "5250", descuento: "5%", img: "https://images.unsplash.com/photo-1553279768-865429fa0078" },
-  { id: 5, titulo: "Sexo", precio: "5250", descuento: "5%", img: "https://images.unsplash.com/photo-1553279768-865429fa0078" },
+  { id: 5, titulo: "Sexo", precio: "5250", descuento: "5%", img: "../public/Andres_Rojas.jpg" },
 
 ];
 
