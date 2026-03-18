@@ -9,6 +9,10 @@ import Checkout          from "./pages/Checkout";
 import Login             from "./pages/Login.jsx";
 import ProtectedRoute    from "./router/ProtectedRoute.jsx";
 import AdminUsuarios from "./pages/AdminUsuarios.jsx";
+import AdminProductos from "./pages/AdminProductos.jsx";
+
+
+
 function App() {
   return (
     <Routes>
@@ -31,7 +35,7 @@ function App() {
       {/* Solo admin */}
       <Route element={<ProtectedRoute roles={['Administrador']} />}>
         <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-        {/* <Route path="/admin/productos" element={<AdminProductos />} /> */}
+        <Route path="/admin/productos" element={<AdminProductos />} /> 
         {/* <Route path="/admin/pedidos"   element={<AdminPedidos />} /> */}
       </Route>
 
