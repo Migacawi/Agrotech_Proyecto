@@ -86,7 +86,6 @@ function Sidebar() {
           {openMenus.ventas && (
             <ul className="submenu">
               <li>Mis ventas</li>
-              <li>Reportes</li>
             </ul>
           )}
         </li>

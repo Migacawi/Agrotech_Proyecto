@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
 .NavbarPerfil {
   display: flex;               /* para alinear horizontalmente */
   justify-content: space-between; /* logo a la izquierda, perfil a la derecha */
@@ -9,6 +10,7 @@
   position: sticky;            /* se queda en la parte superior al hacer scroll */
   top: 0;
   z-index: 1000;               /* siempre arriba */
+  font-family:'K2D', sans-serif;
 }
 
 /* Sección izquierda: logo + nombre */
@@ -16,6 +18,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family:'K2D', sans-serif;
 }
 
 .NavbarPerfil .logo {
@@ -27,7 +30,7 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: white;
-  
+  font-family:'K2D', sans-serif;
 }
 
 

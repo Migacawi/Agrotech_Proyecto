@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
 .card{
   width:250px;
   height: 450px;
@@ -16,30 +17,36 @@
 
 .card-content{
   padding:12px;
+  font-family:'K2D', sans-serif;
 }
 
 .card-title{
   font-size:16px;
   font-weight:600;
+  font-family:'K2D', sans-serif;
 }
 
 .card-desde{
   font-size:12px;
   color:gray;
+  font-family:'K2D', sans-serif;
 }
 
 .card-price{
   font-size:18px;
   font-weight:bold;
+  font-family:'K2D', sans-serif;
 }
 
 .card-unit{
   font-size:12px;
+  font-family:'K2D', sans-serif;
 }
 
 .card-discount{
   font-size:12px;
   color:green;
+  font-family:'K2D', sans-serif;
 }
 
 .card-heart-btn{

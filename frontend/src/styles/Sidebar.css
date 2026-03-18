@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
 .sidebar {
   width: 220px;
   background-color: #07393c;
@@ -9,6 +10,7 @@
   padding: 20px 0;
   display: flex;
   flex-direction: column;
+  font-family:'K2D', sans-serif;
 }
 
 .sidebar-header {
@@ -47,6 +49,7 @@
   cursor: pointer;
   font-size: 16px;
   transition: background 0.2s;
+  font-family:'K2D', sans-serif;
 }
 .menu-btn:hover {
   background-color: #05514b;
@@ -71,6 +74,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family:'K2D', sans-serif;
 }
 
 .arrow {

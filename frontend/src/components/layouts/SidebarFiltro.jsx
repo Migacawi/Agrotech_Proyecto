@@ -1,30 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/SidebarFiltro.css';
 
-const categoriasData = [
-  { id: 1, nombre: 'Frutas', cantidad: 575, checked: true },
-  { id: 2, nombre: 'Verduras', cantidad: 732, checked: true },
-  { id: 3, nombre: 'Hortalizas', cantidad: 220, checked: false },
-  { id: 4, nombre: 'Granos', cantidad: 121, checked: false },
-  { id: 5, nombre: 'Tuberculos', cantidad: 39, checked: false },
-  { id: 6, nombre: 'Legumbres', cantidad: 110, checked: false },
-  { id: 7, nombre: 'Frutos secos', cantidad: 10, checked: false },
-  { id: 8, nombre: 'Fertilizantes', cantidad: 4, checked: false },
-];
+const CATEGORIAS = ['Frutas', 'Verduras', 'Hortalizas', 'Granos', 'Tuberculos', 'Legumbres', 'Frutos secos', 'Fertilizantes'];
 
-function SidebarFiltro() {
+function SidebarFiltro({ productos = [], onFiltrar }) {
+  const [precioMin, setPrecioMin]       = useState('');
+  const [precioMax, setPrecioMax]       = useState('');
+  const [categoriasActivas, setCategoriasActivas] = useState([]);
+
+  const toggleCategoria = (cat) => {
+    const nuevas = categoriasActivas.includes(cat)
+      ? categoriasActivas.filter(c => c !== cat)
+      : [...categoriasActivas, cat];
+    setCategoriasActivas(nuevas);
+    onFiltrar({ categorias: nuevas, precioMin, precioMax });
+  };
+
+  const handlePrecio = (min, max) => {
+    onFiltrar({ categorias: categoriasActivas, precioMin: min, precioMax: max });
+  };
+
+  // Cuenta productos reales por categoría
+  const contarCategoria = (cat) =>
+    productos.filter(p => p.Categoria?.toLowerCase() === cat.toLowerCase()).length;
+
   return (
     <aside className="sidebar-container">
-      {/* Sección Precio */}
+
+      {/* Precio */}
       <div className="filtro-seccion">
         <div className="filtro-header"><span>Precio (COP)</span><span>⌵</span></div>
         <div className="filtro-body precio-inputs">
-          <input type="text" className="dark-input" />
-          <input type="text" className="dark-input" />
+          <input
+            type="number"
+            className="dark-input"
+            placeholder="Min"
+            value={precioMin}
+            onChange={(e) => { setPrecioMin(e.target.value); handlePrecio(e.target.value, precioMax); }}
+          />
+          <input
+            type="number"
+            className="dark-input"
+            placeholder="Max"
+            value={precioMax}
+            onChange={(e) => { setPrecioMax(e.target.value); handlePrecio(precioMin, e.target.value); }}
+          />
         </div>
       </div>
 
-      {/* Sección Ciudad */}
+      {/* Ciudad */}
       <div className="filtro-seccion">
         <div className="filtro-header"><span>Ciudad</span><span>^</span></div>
         <div className="filtro-body">
@@ -38,21 +62,26 @@ function SidebarFiltro() {
         </div>
       </div>
 
-      {/* Sección Categoría */}
+      {/* Categoría */}
       <div className="filtro-seccion">
         <div className="filtro-header"><span>Categoria</span><span>⌵</span></div>
         <div className="filtro-body">
-          {categoriasData.map(cat => (
-            <div key={cat.id} className="checkbox-item">
+          {CATEGORIAS.map(cat => (
+            <div key={cat} className="checkbox-item">
               <div className="checkbox-group">
-                <input type="checkbox" checked={cat.checked} readOnly />
-                <span>{cat.nombre}</span>
+                <input
+                  type="checkbox"
+                  checked={categoriasActivas.includes(cat)}
+                  onChange={() => toggleCategoria(cat)}
+                />
+                <span>{cat}</span>
               </div>
-              <span className="count">{cat.cantidad}</span>
+              <span className="count">{contarCategoria(cat)}</span>
             </div>
           ))}
         </div>
       </div>
+
     </aside>
   );
 }
