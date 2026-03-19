@@ -1,50 +1,42 @@
 import { Routes, Route } from "react-router-dom";
 
-import AgrotechHome      from "./pages/AgrotechHome.jsx";
-import VerTodo           from "./pages/VerTodo.jsx";
-import Perfil            from "./pages/Perfil.jsx";
+import AgrotechHome       from "./pages/AgrotechHome.jsx";
+import VerTodo            from "./pages/VerTodo.jsx";
+import Perfil             from "./pages/Perfil.jsx";
 import DescripcionProduct from "./pages/DescripcionProduct.jsx";
-import AñadirProduct     from "./pages/AñadirProduct";
-import Checkout          from "./pages/Checkout";
-import Login             from "./pages/Login.jsx";
-import ProtectedRoute    from "./router/ProtectedRoute.jsx";
-import AdminUsuarios from "./pages/AdminUsuarios.jsx";
-import AdminProductos from "./pages/AdminProductos.jsx";
-
-
+import AñadirProduct      from "./pages/AñadirProduct";
+import Checkout           from "./pages/Checkout";
+import Login              from "./pages/Login.jsx";
+import Register           from "./pages/Register.jsx";       // ← nuevo
+import ProtectedRoute     from "./router/ProtectedRoute.jsx";
+import AdminUsuarios      from "./pages/AdminUsuarios.jsx";
+import AdminProductos     from "./pages/AdminProductos.jsx";
 
 function App() {
   return (
     <Routes>
 
       {/* ── Rutas públicas ──────────────────────────────────────────── */}
-      <Route path="/login"    element={<Login />} />
-      <Route path="/"         element={<AgrotechHome />} />
-      <Route path="/ver-todo" element={<VerTodo />} />
-      <Route path="/producto" element={<DescripcionProduct />} />
+      <Route path="/login"     element={<Login />} />
+      <Route path="/registro"  element={<Register />} />    {/* ← nuevo */}
+      <Route path="/"          element={<AgrotechHome />} />
+      <Route path="/ver-todo"  element={<VerTodo />} />
+      <Route path="/producto"  element={<DescripcionProduct />} />
 
       {/* ── Rutas autenticadas (cualquier rol) ──────────────────────── */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/perfil"   element={<Perfil />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/perfil"          element={<Perfil />} />
+        <Route path="/checkout"        element={<Checkout />} />
         <Route path="/añadir-producto" element={<AñadirProduct />} />
         <Route path="/mis-productos"   element={<AñadirProduct />} />
-        
       </Route>
 
-      {/* Solo admin */}
+      {/* ── Solo admin ──────────────────────────────────────────────── */}
       <Route element={<ProtectedRoute roles={['Administrador']} />}>
-        <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-        <Route path="/admin/productos" element={<AdminProductos />} /> 
-        {/* <Route path="/admin/pedidos"   element={<AdminPedidos />} /> */}
+        <Route path="/admin/usuarios"  element={<AdminUsuarios />} />
+        <Route path="/admin/productos" element={<AdminProductos />} />
       </Route>
 
-      {/* ── Solo vendedor o admin ────────────────────────────────────── 
-      <Route element={<ProtectedRoute roles={['vendedor', 'admin']} />}>
-        <Route path="/añadir-producto" element={<AñadirProduct />} />
-        <Route path="/mis-productos"   element={<AñadirProduct />} />
-      </Route>
-        */}
     </Routes>
   );
 }
