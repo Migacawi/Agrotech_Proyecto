@@ -7,7 +7,7 @@ import DescripcionProduct from "./pages/DescripcionProduct.jsx";
 import AñadirProduct      from "./pages/AñadirProduct";
 import Checkout           from "./pages/Checkout";
 import Login              from "./pages/Login.jsx";
-import Register           from "./pages/Register.jsx";       // ← nuevo
+import Register           from "./pages/Register.jsx";
 import ProtectedRoute     from "./router/ProtectedRoute.jsx";
 import AdminUsuarios      from "./pages/AdminUsuarios.jsx";
 import AdminProductos     from "./pages/AdminProductos.jsx";
@@ -17,11 +17,11 @@ function App() {
     <Routes>
 
       {/* ── Rutas públicas ──────────────────────────────────────────── */}
-      <Route path="/login"     element={<Login />} />
-      <Route path="/registro"  element={<Register />} />    {/* ← nuevo */}
-      <Route path="/"          element={<AgrotechHome />} />
-      <Route path="/ver-todo"  element={<VerTodo />} />
-      <Route path="/producto"  element={<DescripcionProduct />} />
+      <Route path="/login"    element={<Login />} />
+      <Route path="/registro" element={<Register />} />
+      <Route path="/"         element={<AgrotechHome />} />
+      <Route path="/ver-todo" element={<VerTodo />} />
+      <Route path="/producto" element={<DescripcionProduct />} />
 
       {/* ── Rutas autenticadas (cualquier rol) ──────────────────────── */}
       <Route element={<ProtectedRoute />}>

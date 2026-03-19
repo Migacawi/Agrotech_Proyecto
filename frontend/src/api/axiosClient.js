@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://musical-lamp-7v9wrgxr99g42r5p5-5173.app.github.dev';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://cautious-tribble-wrjq9grr4rrphrjr-3000.app.github.dev';
 const axiosClient = axios.create({
   baseURL: `${BASE_URL}/api`,
   headers: {

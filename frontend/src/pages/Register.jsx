@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
+import { register } from '../api/authService';
 import EmailField    from '../components/layouts/EmailField';
 import PasswordField from '../components/layouts/PasswordField';
 import "../styles/Register.css";
@@ -49,8 +50,12 @@ function Register() {
     }
     setLoading(true);
     try {
-      // TODO: reemplaza con tu función real, ej:
-      // await register(form.name, form.email, form.password);
+      await register({
+        Nombre:       form.name,
+        Email:        form.email,
+        PasswordHash: form.password,
+        RolNombre:    'Vendedor',
+      });
       navigate('/login');
     } catch (err) {
       setError(err.message || 'Error al crear la cuenta');
@@ -77,7 +82,6 @@ function Register() {
 
           <form onSubmit={handleSubmit} noValidate>
 
-            {/* Nombre — usa FormField directamente porque EmailField es específico para email */}
             <div className="input-group">
               <label htmlFor="name">Nombre completo</label>
               <input
@@ -91,7 +95,9 @@ function Register() {
                 autoComplete="name"
                 style={fieldErrors.name ? { borderColor: '#e74c3c' } : {}}
               />
-              {fieldErrors.name && <span className="field-error-msg">{fieldErrors.name}</span>}
+              {fieldErrors.name && (
+                <span className="field-error-msg">{fieldErrors.name}</span>
+              )}
             </div>
 
             <EmailField
@@ -118,6 +124,7 @@ function Register() {
             <button type="submit" className="login-button" disabled={loading}>
               {loading ? 'Creando cuenta…' : 'Registrarse'}
             </button>
+
           </form>
 
           <div className="social-login-divider">
@@ -126,13 +133,13 @@ function Register() {
 
           <div className="social-buttons">
             <button className="social-button google"><FaGoogle /> Google</button>
-            <button className="social-button facebook"><FaFacebookF /> Facebook</button>
           </div>
 
           <div className="footer">
             <span>¿Ya tienes una cuenta?</span>{' '}
             <Link to="/login" className="create-account">Iniciar Sesión</Link>
           </div>
+
         </div>
       </div>
     </div>
