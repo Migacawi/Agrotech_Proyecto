@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { FaUser, FaWallet, FaShoppingCart, FaMoneyBillWave, FaCog, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaUser,
+  FaWallet,
+  FaShoppingCart,
+  FaMoneyBillWave,
+  FaCog,
+  FaUsers,
+  FaSignOutAlt,
+  FaStore,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Sidebar.css";
 
@@ -10,12 +19,12 @@ function Sidebar() {
   const navigate = useNavigate();
 
   const [openMenus, setOpenMenus] = useState({
-    cuenta:    false,
-    saldo:     false,
-    compras:   false,
-    ventas:    false,
-    ajustes:   false,
-    admin:     false,
+    cuenta: false,
+    saldo: false,
+    compras: false,
+    ventas: false,
+    ajustes: false,
+    admin: false,
   });
 
   const toggleMenu = (menu) => {
@@ -34,11 +43,12 @@ function Sidebar() {
       </div>
 
       <ul className="menu">
-
         {/* Mi Cuenta */}
         <li>
           <button className="menu-btn" onClick={() => toggleMenu("cuenta")}>
-            <span className="menu-left"><FaUser /> Mi Cuenta</span>
+            <span className="menu-left">
+              <FaUser /> Mi Cuenta
+            </span>
             <span className="arrow">{openMenus.cuenta ? "▲" : "▼"}</span>
           </button>
           {openMenus.cuenta && (
@@ -52,7 +62,9 @@ function Sidebar() {
         {/* Saldo */}
         <li>
           <button className="menu-btn" onClick={() => toggleMenu("saldo")}>
-            <span className="menu-left"><FaWallet /> Saldo</span>
+            <span className="menu-left">
+              <FaWallet /> Saldo
+            </span>
             <span className="arrow">{openMenus.saldo ? "▲" : "▼"}</span>
           </button>
           {openMenus.saldo && (
@@ -67,7 +79,9 @@ function Sidebar() {
         {/* Compras */}
         <li>
           <button className="menu-btn" onClick={() => toggleMenu("compras")}>
-            <span className="menu-left"><FaShoppingCart /> Compras</span>
+            <span className="menu-left">
+              <FaShoppingCart /> Compras
+            </span>
             <span className="arrow">{openMenus.compras ? "▲" : "▼"}</span>
           </button>
           {openMenus.compras && (
@@ -80,11 +94,19 @@ function Sidebar() {
         {/* Ventas */}
         <li>
           <button className="menu-btn" onClick={() => toggleMenu("ventas")}>
-            <span className="menu-left"><FaMoneyBillWave /> Ventas</span>
+            <span className="menu-left">
+              <FaMoneyBillWave /> Ventas
+            </span>
             <span className="arrow">{openMenus.ventas ? "▲" : "▼"}</span>
           </button>
           {openMenus.ventas && (
             <ul className="submenu">
+              <li
+                onClick={() => navigate("/mis-productos")}
+                style={{ cursor: "pointer" }}
+              >
+                Mis Productos
+              </li>
               <li>Mis ventas</li>
             </ul>
           )}
@@ -93,7 +115,9 @@ function Sidebar() {
         {/* Ajustes */}
         <li>
           <button className="menu-btn" onClick={() => toggleMenu("ajustes")}>
-            <span className="menu-left"><FaCog /> Ajustes</span>
+            <span className="menu-left">
+              <FaCog /> Ajustes
+            </span>
             <span className="arrow">{openMenus.ajustes ? "▲" : "▼"}</span>
           </button>
           {openMenus.ajustes && (
@@ -108,18 +132,29 @@ function Sidebar() {
         {isAdmin() && (
           <li>
             <button className="menu-btn" onClick={() => toggleMenu("admin")}>
-              <span className="menu-left"><FaUsers /> Administración</span>
+              <span className="menu-left">
+                <FaUsers /> Administración
+              </span>
               <span className="arrow">{openMenus.admin ? "▲" : "▼"}</span>
             </button>
             {openMenus.admin && (
               <ul className="submenu">
-                <li onClick={() => navigate("/admin/usuarios")} style={{ cursor: 'pointer' }}>
+                <li
+                  onClick={() => navigate("/admin/usuarios")}
+                  style={{ cursor: "pointer" }}
+                >
                   Gestión de Usuarios
                 </li>
-                <li onClick={() => navigate("/admin/productos")} style={{ cursor: 'pointer' }}>
+                <li
+                  onClick={() => navigate("/admin/productos")}
+                  style={{ cursor: "pointer" }}
+                >
                   Gestión de Productos
                 </li>
-                <li onClick={() => navigate("/admin/pedidos")} style={{ cursor: 'pointer' }}>
+                <li
+                  onClick={() => navigate("/admin/pedidos")}
+                  style={{ cursor: "pointer" }}
+                >
                   Gestión de Pedidos
                 </li>
               </ul>
@@ -130,10 +165,11 @@ function Sidebar() {
         {/* Cerrar Sesión */}
         <li>
           <button className="menu-btn" onClick={handleLogout}>
-            <span className="menu-left"><FaSignOutAlt /> Cerrar Sesión</span>
+            <span className="menu-left">
+              <FaSignOutAlt /> Cerrar Sesión
+            </span>
           </button>
         </li>
-
       </ul>
     </aside>
   );

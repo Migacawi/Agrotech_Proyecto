@@ -5,17 +5,27 @@ import AdminProductosTable from "../components/layouts/AdminProductosTable";
 import AdminProductoModal from "../components/layouts/AdminProductoModal";
 import "../styles/Perfil.css";
 
-import { getProductos, updateProducto, deleteProducto } from "../api/productosService";
+import {
+  getProductos,
+  updateProducto,
+  deleteProducto,
+} from "../api/productosService";
 
 function AdminProductos() {
-  const [productos, setProductos]       = useState([]);
-  const [loading, setLoading]           = useState(true);
-  const [error, setError]               = useState("");
-  const [modalOpen, setModalOpen]       = useState(false);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const [productoEdit, setProductoEdit] = useState(null);
-  const [form, setForm]                 = useState({ Nombre: "", Categoria: "", PrecioPorLibra: "", StockLibras: "", Descripcion: "" });
-  const [mensaje, setMensaje]           = useState("");
-  const [loadingEdit, setLoadingEdit]   = useState(false);
+  const [form, setForm] = useState({
+    Nombre: "",
+    Categoria: "",
+    PrecioPorLibra: "",
+    StockLibras: "",
+    Descripcion: "",
+  });
+  const [mensaje, setMensaje] = useState("");
+  const [loadingEdit, setLoadingEdit] = useState(false);
 
   useEffect(() => {
     fetchProductos();
@@ -35,11 +45,11 @@ function AdminProductos() {
   const abrirModal = (producto) => {
     setProductoEdit(producto);
     setForm({
-      Nombre:         producto.Nombre,
-      Categoria:      producto.Categoria,
+      Nombre: producto.Nombre,
+      Categoria: producto.Categoria,
       PrecioPorLibra: producto.PrecioPorLibra,
-      StockLibras:    producto.StockLibras,
-      Descripcion:    producto.Descripcion || "",
+      StockLibras: producto.StockLibras,
+      Descripcion: producto.Descripcion || "",
     });
     setMensaje("");
     setModalOpen(true);
@@ -50,11 +60,11 @@ function AdminProductos() {
     setMensaje("");
     try {
       await updateProducto(productoEdit.Id, {
-        Nombre:         form.Nombre,
-        Categoria:      form.Categoria,
+        Nombre: form.Nombre,
+        Categoria: form.Categoria,
         PrecioPorLibra: Number(form.PrecioPorLibra),
-        StockLibras:    Number(form.StockLibras),
-        Descripcion:    form.Descripcion,
+        StockLibras: Number(form.StockLibras),
+        Descripcion: form.Descripcion,
       });
       setMensaje("¡Producto actualizado!");
       fetchProductos();
@@ -87,8 +97,8 @@ function AdminProductos() {
       <div className="perfil-content">
         <h3 className="section-title">GESTIÓN DE PRODUCTOS</h3>
 
-        {loading && <p style={{ color: '#07393c' }}>Cargando productos...</p>}
-        {error   && <p style={{ color: '#ff6b6b' }}>{error}</p>}
+        {loading && <p style={{ color: "#07393c" }}>Cargando productos...</p>}
+        {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
 
         {!loading && !error && (
           <AdminProductosTable
@@ -106,6 +116,7 @@ function AdminProductos() {
             onCancelar={() => setModalOpen(false)}
             loading={loadingEdit}
             mensaje={mensaje}
+            mostrarImagen={false} // ← admin no ve imagen
           />
         )}
       </div>
