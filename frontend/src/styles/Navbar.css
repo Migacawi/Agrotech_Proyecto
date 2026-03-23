@@ -256,3 +256,9 @@
     width: 60px;
   }
 }
+.cart-items {
+  max-height: 250px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #74e2d7 transparent;
+}

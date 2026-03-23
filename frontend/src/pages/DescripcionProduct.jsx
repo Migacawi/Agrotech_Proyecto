@@ -7,9 +7,13 @@ import Categorias from "../components/layouts/categorias";
 import "../styles/DescripcionProduct.css";
 import Footer from "../components/layouts/Footer";
 
+import useCartStore from "../store/cartStore";
+
 function DescripcionProduct() {
   const location = useLocation();
   const producto = location.state;
+
+  const { addItem } = useCartStore();
 
   if (!producto) {
     return (
@@ -27,6 +31,16 @@ function DescripcionProduct() {
   const stock = producto?.stock ?? 0;
   const descuentoPorcentaje = producto?.descuentoPorcentaje ?? 0;
   const precioDescontado = precio - (precio * descuentoPorcentaje) / 100;
+
+  const handleAgregarCarrito = () => {
+    addItem({
+      id: producto.id,
+      nombre: producto.titulo,
+      precio: precioDescontado,
+      imagen: producto.img,
+      stock: stock,
+    });
+  };
 
   return (
     <div style={{ background: "#07393C", minHeight: "100vh", color: "white" }}>
@@ -65,7 +79,7 @@ function DescripcionProduct() {
             <p>Región: {producto.region}</p>
           </div>
 
-          <button className="btn-carrito">
+          <button className="btn-carrito" onClick={handleAgregarCarrito}>
             🛒 Añadir Al Carrito - ${precioDescontado.toLocaleString()}
           </button>
 
