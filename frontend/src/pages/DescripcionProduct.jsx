@@ -7,7 +7,6 @@ import Categorias from "../components/layouts/categorias";
 import "../styles/DescripcionProduct.css";
 import Footer from "../components/layouts/Footer";
 
-
 function DescripcionProduct() {
   const location = useLocation();
   const producto = location.state;
@@ -30,10 +29,11 @@ function DescripcionProduct() {
   const precioDescontado = precio - (precio * descuentoPorcentaje) / 100;
 
   return (
-    <div className="perfil-page">
+    <div style={{ background: "#07393C", minHeight: "100vh", color: "white" }}>
       <Navbar />
       <Categorias />
 
+      {/* PARTE SUPERIOR — imagen + info */}
       <div className="descripcion-container">
         <div className="descripcion-imagen">
           <img src={producto.img} alt={producto.titulo} />
@@ -49,8 +49,12 @@ function DescripcionProduct() {
             </span>
             {descuentoPorcentaje > 0 && (
               <>
-                <span className="precio-original">${precio.toLocaleString()}</span>
-                <span className="precio-descuento">{descuentoPorcentaje}% OFF</span>
+                <span className="precio-original">
+                  ${precio.toLocaleString()}
+                </span>
+                <span className="precio-descuento">
+                  {descuentoPorcentaje}% OFF
+                </span>
               </>
             )}
           </div>
@@ -73,7 +77,8 @@ function DescripcionProduct() {
                   <b>{oferta.cantidad}</b> {oferta.producto}
                 </p>
                 <p className="precio-oferta-vendedor">
-                  ${oferta.precio.toLocaleString()} <span>{oferta.detalle}</span>
+                  ${oferta.precio.toLocaleString()}{" "}
+                  <span>{oferta.detalle}</span>
                 </p>
               </div>
             ))}
@@ -81,7 +86,27 @@ function DescripcionProduct() {
           </div>
         </div>
       </div>
-    <Footer/>  
+
+      {/* PARTE INFERIOR — descripción y detalles */}
+      {(producto.descripcionCorta || producto.detalles) && (
+        <div className="descripcion-extra">
+          {producto.descripcionCorta && (
+            <div className="extra-card">
+              <h3 className="extra-title">📋 Descripción</h3>
+              <p className="extra-text">{producto.descripcionCorta}</p>
+            </div>
+          )}
+
+          {producto.detalles && (
+            <div className="extra-card">
+              <h3 className="extra-title">🔍 Detalles Adicionales</h3>
+              <p className="extra-text">{producto.detalles}</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 }

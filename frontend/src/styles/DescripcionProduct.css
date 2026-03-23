@@ -1,21 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
+
 .descripcion-container {
   display: flex;
   gap: 50px;
   padding: 30px 70px;
-  background: #07393C; /* ejemplo fondo oscuro */
+  background: #07393c;
   color: white;
- 
-  min-height: 900px;
+  min-height: auto;
 }
 
 .descripcion-imagen img {
-  width: 800px;
-  height: auto;
+  width: 500px;
+  height: 500px;
   border-radius: 12px;
-  object-fit: contain;
+  object-fit: cover;
   background: white;
-  padding: 20px;
+  padding: 10px;
 }
 
 .descripcion-info {
@@ -28,7 +28,7 @@
   font-weight: 700;
   font-size: 2rem;
   margin-bottom: 8px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .producto-subtitulo {
@@ -78,23 +78,23 @@
   margin-top: 30px;
   padding: 15px;
   background-color: #000;
-  color: #82F8FF;
+  color: #82f8ff;
   font-weight: 700;
   font-size: 1rem;
-  border: 2px solid #82F8FF;
+  border: 2px solid #82f8ff;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .btn-carrito:hover {
-  background-color: #82F8FF;
+  background-color: #82f8ff;
   color: #fff;
 }
 
 .ofertas-vendedor {
-  margin-top: 40px;
-  background-color: #002222;
+  margin-top: 20px;
+  background-color: #00282b;
   padding: 20px;
   border-radius: 10px;
 }
@@ -127,5 +127,30 @@
   font-size: 0.9rem;
 }
 
+/* SECCION INFERIOR */
+.descripcion-extra {
+  display: flex;
+  gap: 30px;
+  padding: 20px 70px 40px 70px;
+  background: #07393c;
+}
 
+.extra-card {
+  flex: 1;
+  background: #00282b;
+  border-radius: 10px;
+  padding: 24px;
+}
 
+.extra-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #74e2d7;
+}
+
+.extra-text {
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.6;
+}

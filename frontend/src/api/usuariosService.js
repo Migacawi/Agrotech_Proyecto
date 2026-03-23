@@ -1,11 +1,11 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 /**
  * Obtener todos los usuarios (admin)
  * GET /api/usuarios
  */
 export const getUsuarios = async () => {
-  const { data } = await axiosClient.get('/usuarios');
+  const { data } = await axiosClient.get("/usuarios");
   return data;
 };
 
@@ -25,7 +25,7 @@ export const getUsuarioById = async (id) => {
  * Validaciones: Nombre 7-13 chars, Email válido, Password mín 6 chars
  */
 export const createUsuario = async (usuarioData) => {
-  const { data } = await axiosClient.post('/usuarios', usuarioData);
+  const { data } = await axiosClient.post("/usuarios", usuarioData);
   return data;
 };
 
@@ -44,5 +44,13 @@ export const updateUsuario = async (id, usuarioData) => {
  */
 export const deleteUsuario = async (id) => {
   const { data } = await axiosClient.delete(`/usuarios/${id}`);
+  return data;
+};
+export const updateFotoUsuario = async (id, file) => {
+  const formData = new FormData();
+  formData.append("foto", file);
+  const { data } = await axiosClient.put(`/usuarios/${id}/foto`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return data;
 };

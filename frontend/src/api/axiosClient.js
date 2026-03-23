@@ -1,23 +1,24 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://cautious-tribble-wrjq9grr4rrphrjr-3000.app.github.dev';
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://zg1rgk22-3000.use2.devtunnels.ms";
 const axiosClient = axios.create({
   baseURL: `${BASE_URL}/api`,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // ─── Request interceptor: adjunta el JWT automáticamente ───────────────────
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // ─── Response interceptor: manejo global de errores ────────────────────────
@@ -28,12 +29,12 @@ axiosClient.interceptors.response.use(
 
     if (status === 401) {
       // Token expirado o inválido → limpiar sesión
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      localStorage.removeItem("token");
+      window.location.href = "/login";
     }
 
     if (status === 403) {
-      console.warn('Acceso denegado: no tienes permisos para esta acción.');
+      console.warn("Acceso denegado: no tienes permisos para esta acción.");
     }
 
     // Extraer mensaje legible del backend
@@ -41,10 +42,10 @@ axiosClient.interceptors.response.use(
       error.response?.data?.message ||
       error.response?.data?.error ||
       error.message ||
-      'Error desconocido';
+      "Error desconocido";
 
     return Promise.reject(new Error(message));
-  }
+  },
 );
 
 export default axiosClient;
