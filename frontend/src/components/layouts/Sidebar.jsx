@@ -53,7 +53,12 @@ function Sidebar() {
           </button>
           {openMenus.cuenta && (
             <ul className="submenu">
-              <li>Perfil</li>
+              <li
+                onClick={() => navigate("/perfil")}
+                style={{ cursor: "pointer" }}
+              >
+                Perfil
+              </li>
               <li>Estadisticas</li>
             </ul>
           )}

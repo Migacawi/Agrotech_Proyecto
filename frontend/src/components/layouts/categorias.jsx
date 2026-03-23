@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import "../../styles/Categorias.css";
 import { FaBars } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CategoriasHome from "./CategoriasHome";
+import useAuthStore from "../../store/authStore";
 
 function Categorias() {
-  const [open, setOpen]             = useState(false);
-  const [panelOpen, setPanelOpen]   = useState(false);
+  const [open, setOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const { logout } = useAuthStore();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setOpen(!open);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <>
@@ -20,10 +28,7 @@ function Categorias() {
         </div>
 
         <ul className={`categorias-container ${open ? "open" : ""}`}>
-          <li
-            onClick={() => setPanelOpen(true)}
-            style={{ cursor: 'pointer' }}
-          >
+          <li onClick={() => setPanelOpen(true)} style={{ cursor: "pointer" }}>
             Categorias
           </li>
           <li>
@@ -36,7 +41,9 @@ function Categorias() {
           <li>
             <Link to="/">Inicio</Link>
           </li>
-          <li>Cerrar Sesion</li>
+          <li onClick={handleLogout} style={{ cursor: "pointer" }}>
+            Cerrar Sesión
+          </li>
         </ul>
       </nav>
     </>
