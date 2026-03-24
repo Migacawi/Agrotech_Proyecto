@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
-.categorias-bar{
-  width:100%;
-  background:#00282B;
-  padding:12px 0;
+
+.categorias-bar {
+  width: 100%;
+  background: #00282B;
+  padding: 12px 0;
   position: relative;
 }
 
-/* Icono línea (hamburger) */
-.linea-icon{
+.linea-icon {
   display: none;
   position: absolute;
-  left: 20px;   /* ahora a la izquierda */
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
@@ -18,65 +18,73 @@
   cursor: pointer;
 }
 
-/* CONTENEDOR DE CATEGORIAS */
-.categorias-container{
-  width:100%;
-  max-width:1600px;
-  margin:auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:60px;
-  list-style:none;
-  color:white;
-  font-size:16px;
+.categorias-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  list-style: none;
+  color: white;
+  font-size: 16px;
   transition: all 0.3s ease;
 }
 
-/* ITEMS */
-.categorias-container li{
-  cursor:pointer;
-  transition:.2s;
+.categorias-container li {
+  cursor: pointer;
+  transition: .2s;
 }
 
-.categorias-container li:hover{
-  opacity:.7;
+.categorias-container li:hover {
+  opacity: .7;
 }
 
-/* PILLA OFERTA */
-.oferta-pill{
-  background:white;
-  color:#062e2f;
-  padding:4px 14px;
-  border-radius:14px;
-  font-weight:600;
+.oferta-pill {
+  background: white;
+  color: #062e2f;
+  padding: 4px 14px;
+  border-radius: 14px;
+  font-weight: 600;
 }
 
-/* MÓVIL */
-@media (max-width:768px){
-  .categorias-container{
-    display: none; /* ocultar por defecto en móvil */
+@media (max-width: 768px) {
+  .categorias-container {
+    display: none;
     flex-direction: column;
     gap: 15px;
-    background:#00282B;
+    background: #00282B;
     position: absolute;
     top: 100%;
-    left: 0;      /* desplegar desde la izquierda */
+    left: 0;
     width: 200px;
     padding: 15px;
     border-radius: 0 0 8px 8px;
   }
 
-  .categorias-container.open{
-    display: flex; /* mostrar cuando open=true */
+  .categorias-container.open {
+    display: flex;
   }
 
-  .linea-icon{
-    display: block; /* mostrar icono en móvil */
+  .linea-icon {
+    display: block;
   }
 }
 
-.categorias-container a{
-  text-decoration:none;
-  color:inherit;
+.categorias-container a {
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 14px;
+  border-radius: 14px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.categorias-container a:hover,
+.categorias-container a.active {
+  opacity: 1;
+  background: #82f8ff;
+  color: #062e2f;
+  font-weight: 600;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
 }

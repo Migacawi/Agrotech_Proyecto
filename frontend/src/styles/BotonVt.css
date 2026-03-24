@@ -1,27 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
-.boton-vt-container{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin-top:50px;
+
+.boton-vt-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 
-.boton-vt{
-  background:white;
-  color:#062e2f;
-  border:none;
-  padding:12px 40px;
-  border-radius:25px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  transition:all 0.2s ease;
-  display:block;
-  margin:30px auto;
+.boton-vt {
+  background: white;
+  color: #062e2f;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  margin: 30px auto;
 }
 
-
-.boton-vt:hover{
-  background:#e5e5e5;
-  transform:scale(1.05);
+.boton-vt:hover {
+  background: #82f8ff;
+  color: #062e2f;
+  transform: scale(1.05);
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
 }

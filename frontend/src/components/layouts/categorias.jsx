@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../styles/Categorias.css";
 import { FaBars } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CategoriasHome from "./CategoriasHome";
 import useAuthStore from "../../store/authStore";
 
@@ -32,14 +32,14 @@ function Categorias() {
             Categorias
           </li>
           <li>
-            <Link to="/ver-todo">Ver Todo</Link>
+            <NavLink to="/ver-todo">Ver Todo</NavLink>
           </li>
           <li>
-            <Link to="/añadir-producto">Vender</Link>
+            <NavLink to="/añadir-producto">Vender</NavLink>
           </li>
           <li className="oferta-pill">Ofertas Flash</li>
           <li>
-            <Link to="/">Inicio</Link>
+            <NavLink to="/" end>Inicio</NavLink>
           </li>
           <li onClick={handleLogout} style={{ cursor: "pointer" }}>
             Cerrar Sesión
