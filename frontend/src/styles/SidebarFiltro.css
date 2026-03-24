@@ -121,3 +121,11 @@
   font-size: 0.85rem;
   color: #a0c2c1;
 }
+.filtro-body {
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

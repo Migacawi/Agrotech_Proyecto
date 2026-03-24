@@ -97,11 +97,13 @@
   background-color: #00282b;
   padding: 20px;
   border-radius: 10px;
+  max-width: 350px; /* ajusta este valor a tu gusto */
 }
 
 .ofertas-vendedor h3 {
   font-weight: 700;
   margin-bottom: 15px;
+  
 }
 
 .oferta-item {

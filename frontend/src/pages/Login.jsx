@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api/authService';
 import useAuthStore from '../store/authStore';
 import EmailField    from '../components/layouts/EmailField';
 import PasswordField from '../components/layouts/PasswordField';
 import "../styles/Login.css";
+import Swal from 'sweetalert2';
 
 function Login() {
   const [form, setForm]       = useState({ email: '', password: '' });
-  const [error, setError]     = useState('');
   const [loading, setLoading] = useState(false);
   const { setToken }          = useAuthStore();
   const navigate              = useNavigate();
@@ -20,9 +20,7 @@ function Login() {
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+  const handleSubmit = async () => {
     setLoading(true);
     try {
       const { token } = await login(form.email, form.password);
@@ -32,7 +30,12 @@ function Login() {
       else if (rol === 'vendedor') navigate('/mis-productos');
       else                         navigate('/');
     } catch (err) {
-      setError(err.message || 'Error al iniciar sesión');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al iniciar sesión',
+        text: err.message || 'Correo o contraseña incorrectos',
+        confirmButtonColor: '#07393c',
+      });
     } finally {
       setLoading(false);
     }
@@ -52,35 +55,20 @@ function Login() {
         <div className="content">
           <h1 className="welcome-title">Bienvenido</h1>
 
-          {error && <p className="form-error">{error}</p>}
-
-          <form onSubmit={handleSubmit} noValidate>
-
-            {}
-            <EmailField
-              value={form.email}
-              onChange={handleChange}
-            />
-
-            {}
-            <PasswordField
-              value={form.password}
-              onChange={handleChange}
-              showForgot={true}
-            />
-
-            <button type="submit" className="login-button" disabled={loading}>
+          <div onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}>
+            <EmailField value={form.email} onChange={handleChange} />
+            <PasswordField value={form.password} onChange={handleChange} showForgot={true} />
+            <button type="button" onClick={handleSubmit} className="login-button" disabled={loading}>
               {loading ? 'Cargando…' : 'Iniciar Sesión'}
             </button>
-          </form>
+          </div>
 
           <div className="social-login-divider">
             <span>O inicia sesión con:</span>
           </div>
 
           <div className="social-buttons">
-            <button className="social-button google"><FaGoogle /> Google</button>
-            <button className="social-button facebook"><FaFacebookF /> Facebook</button>
+            <button type="button" className="social-button google"><FaGoogle /> Google</button>
           </div>
 
           <div className="footer">

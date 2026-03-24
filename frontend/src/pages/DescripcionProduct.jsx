@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Navbar from "../components/layouts/Navbar";
 import Categorias from "../components/layouts/categorias";
@@ -11,7 +11,8 @@ import useCartStore from "../store/cartStore";
 
 function DescripcionProduct() {
   const location = useLocation();
-  const producto = location.state;
+  const navigate  = useNavigate();
+  const producto  = location.state;
 
   const { addItem } = useCartStore();
 
@@ -27,19 +28,70 @@ function DescripcionProduct() {
     );
   }
 
-  const precio = producto?.precio ?? 0;
-  const stock = producto?.stock ?? 0;
+  const precio              = producto?.precio ?? 0;
+  const stock               = producto?.stock ?? 0;
   const descuentoPorcentaje = producto?.descuentoPorcentaje ?? 0;
-  const precioDescontado = precio - (precio * descuentoPorcentaje) / 100;
+  const precioDescontado    = precio - (precio * descuentoPorcentaje) / 100;
+
+  const fechaCosechaFormateada = producto.fechaCosecha
+    ? new Date(producto.fechaCosecha).toLocaleDateString("es-CO", {
+        year:  "numeric",
+        month: "long",
+        day:   "numeric",
+      })
+    : null;
+
+  const ofertasVendedor = (producto.todosLosProductos || [])
+    .filter(p => p.VendedorId === producto.vendedorId && p.Id !== producto.id)
+    .slice(0, 4)
+    .map(p => ({
+      id:          p.Id,
+      nombre:      p.Nombre,
+      precio:      p.PrecioPorLibra,
+      stock:       p.StockLibras,
+      descripcion: p.Descripcion,
+      img:
+        p.Imagenes?.find(i => i.EsPrincipal)?.UrlImagen ||
+        p.Imagenes?.[0]?.UrlImagen ||
+        "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19",
+    }));
 
   const handleAgregarCarrito = () => {
     addItem({
-      id: producto.id,
+      id:     producto.id,
       nombre: producto.titulo,
       precio: precioDescontado,
       imagen: producto.img,
-      stock: stock,
+      stock:  stock,
     });
+  };
+
+  const navegarAProducto = (idDestino) => {
+    const crudo = producto.todosLosProductos.find(p => p.Id === idDestino);
+    if (!crudo) return;
+
+    const adaptado = {
+      id:                  crudo.Id,
+      titulo:              crudo.Nombre,
+      precio:              crudo.PrecioPorLibra,
+      descuento:           "0%",
+      img:
+        crudo.Imagenes?.find(i => i.EsPrincipal)?.UrlImagen ||
+        crudo.Imagenes?.[0]?.UrlImagen ||
+        "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19",
+      stock:               crudo.StockLibras,
+      descripcionCorta:    crudo.Descripcion,
+      detalles:            crudo.Detalles,
+      fechaCosecha:        crudo.FechaCosecha,
+      vendedorId:          crudo.VendedorId,
+      vendedorNombre:      crudo.Usuario?.Nombre || crudo.Usuario?.nombre || "Vendedor",
+      region:              "Colombia",
+      envio:               "A convenir",
+      descuentoPorcentaje: 0,
+      todosLosProductos:   producto.todosLosProductos,
+    };
+
+    navigate("/producto", { state: adaptado });
   };
 
   return (
@@ -47,7 +99,6 @@ function DescripcionProduct() {
       <Navbar />
       <Categorias />
 
-      {/* PARTE SUPERIOR — imagen + info */}
       <div className="descripcion-container">
         <div className="descripcion-imagen">
           <img src={producto.img} alt={producto.titulo} />
@@ -74,46 +125,85 @@ function DescripcionProduct() {
           </div>
 
           <div className="detalles-producto">
-            <p>Envío: {producto.envio}</p>
-            <p>Disponible: {stock.toLocaleString()} unidades</p>
-            <p>Región: {producto.region}</p>
+            <p>Envio: {producto.envio}</p>
+            <p>Disponible: {stock.toLocaleString()} libras</p>
+            <p>Region: {producto.region}</p>
+            {fechaCosechaFormateada && (
+              <p>Fecha de cosecha: {fechaCosechaFormateada}</p>
+            )}
+            {producto.vendedorNombre && (
+              <p>Vendedor: {producto.vendedorNombre}</p>
+            )}
           </div>
 
           <button className="btn-carrito" onClick={handleAgregarCarrito}>
-            🛒 Añadir Al Carrito - ${precioDescontado.toLocaleString()}
+            Anadir Al Carrito - ${precioDescontado.toLocaleString()}
           </button>
 
           <div className="ofertas-vendedor">
-            <h3>Ofertas del Vendedor</h3>
-            {producto.ofertasVendedor?.map((oferta, idx) => (
-              <div key={idx} className="oferta-item">
-                <p>
-                  <b>{oferta.cantidad}</b> {oferta.producto}
-                </p>
-                <p className="precio-oferta-vendedor">
-                  ${oferta.precio.toLocaleString()}{" "}
-                  <span>{oferta.detalle}</span>
-                </p>
-              </div>
-            ))}
-            <button className="ver-mas">Ver Mas Ofertas</button>
+            <h3>Mas productos de este vendedor</h3>
+            {ofertasVendedor.length === 0 ? (
+              <p style={{ color: "#a0c2c1", fontSize: "0.9rem" }}>
+                Este vendedor no tiene otros productos publicados.
+              </p>
+            ) : (
+              ofertasVendedor.map((oferta) => (
+                <div
+                  key={oferta.id}
+                  className="oferta-item"
+                  onClick={() => navegarAProducto(oferta.id)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    cursor: "pointer",
+                    padding: "10px 0",
+                    borderBottom: "1px solid rgba(116, 226, 215, 0.2)",
+                  }}
+                >
+                  <img
+                    src={oferta.img}
+                    alt={oferta.nombre}
+                    style={{
+                      width: "55px",
+                      height: "55px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      flexShrink: 0,
+                    }}
+                  />
+                  <div style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
+                    <p style={{ margin: 0, fontWeight: "600", fontSize: "0.95rem" }}>
+                      {oferta.nombre}
+                    </p>
+                    {oferta.descripcion && (
+                      <p style={{ margin: 0, color: "#aaa", fontSize: "0.82rem" }}>
+                        {oferta.descripcion}
+                      </p>
+                    )}
+                    <p style={{ margin: 0, color: "#74e2d7", fontSize: "0.88rem" }}>
+                      ${oferta.precio.toLocaleString()} / libra
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
+
         </div>
       </div>
 
-      {/* PARTE INFERIOR — descripción y detalles */}
       {(producto.descripcionCorta || producto.detalles) && (
         <div className="descripcion-extra">
           {producto.descripcionCorta && (
             <div className="extra-card">
-              <h3 className="extra-title">📋 Descripción</h3>
+              <h3 className="extra-title">Descripcion</h3>
               <p className="extra-text">{producto.descripcionCorta}</p>
             </div>
           )}
-
           {producto.detalles && (
             <div className="extra-card">
-              <h3 className="extra-title">🔍 Detalles Adicionales</h3>
+              <h3 className="extra-title">Detalles Adicionales</h3>
               <p className="extra-text">{producto.detalles}</p>
             </div>
           )}

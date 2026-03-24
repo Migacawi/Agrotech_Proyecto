@@ -10,10 +10,10 @@ import { getProductos } from "../api/productosService";
 
 function AgrotechHome() {
   const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [indice, setIndice] = useState(0);
-  const [indice2, setIndice2] = useState(0);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState("");
+  const [indice, setIndice]       = useState(0);
+  const [indice2, setIndice2]     = useState(0);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -29,7 +29,6 @@ function AgrotechHome() {
     fetchProductos();
   }, []);
 
-  // Rota ofertas cada 10 segundos
   useEffect(() => {
     if (productos.length <= 5) return;
     const intervalo = setInterval(() => {
@@ -38,7 +37,6 @@ function AgrotechHome() {
     return () => clearInterval(intervalo);
   }, [productos]);
 
-  // Rota más vendidos cada 10 segundos (desfasado)
   useEffect(() => {
     if (productos.length <= 5) return;
     const intervalo = setInterval(() => {
@@ -54,17 +52,21 @@ function AgrotechHome() {
       "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19";
 
     return {
-      id: p.Id,
-      titulo: p.Nombre,
-      precio: p.PrecioPorLibra,
-      descuento: "0%",
-      img: imagenPrincipal,
-      stock: p.StockLibras,
-      descripcionCorta: p.Descripcion,
-      detalles: p.Detalles, // ← agrega esta línea
-      region: "Colombia",
-      envio: "A convenir",
+      id:                  p.Id,
+      titulo:              p.Nombre,
+      precio:              p.PrecioPorLibra,
+      descuento:           "0%",
+      img:                 imagenPrincipal,
+      stock:               p.StockLibras,
+      descripcionCorta:    p.Descripcion,
+      detalles:            p.Detalles,
+      fechaCosecha:        p.FechaCosecha,       // ✅
+      vendedorId:          p.VendedorId,         // ✅
+      vendedorNombre:      p.Usuario?.Nombre || p.Usuario?.nombre || "Vendedor", // ✅
+      region:              "Colombia",
+      envio:               "A convenir",
       descuentoPorcentaje: 0,
+      todosLosProductos:   productos,            // ✅ para ofertas del vendedor
     };
   };
 
@@ -83,12 +85,10 @@ function AgrotechHome() {
       <Navbar />
       <Categorias />
 
-      {/* HERO */}
       <div className="hero-banner">
         <img src="/fondo_main.jpg" alt="Frutas frescas" />
       </div>
 
-      {/* OFERTAS DESTACADAS */}
       <section className="product-section ofertas-bg">
         <div className="section-header">
           <div className="section-title-wrapper">
@@ -105,13 +105,11 @@ function AgrotechHome() {
             Cargando productos...
           </p>
         )}
-
         {error && (
           <p style={{ color: "#ff6b6b", textAlign: "center", padding: "20px" }}>
             {error}
           </p>
         )}
-
         {!loading && !error && productos.length === 0 && (
           <p style={{ color: "#aaa", textAlign: "center", padding: "20px" }}>
             No hay productos disponibles aún.
@@ -130,7 +128,6 @@ function AgrotechHome() {
         )}
       </section>
 
-      {/* MÁS VENDIDOS */}
       {!loading && !error && productos.length > 0 && (
         <section className="product-section capacitaciones-bg">
           <div className="section-header">
@@ -142,13 +139,11 @@ function AgrotechHome() {
               Los productos favoritos de nuestra comunidad
             </p>
           </div>
-
           <div className="card-grid">
             {masVendidosVisibles.map((p, i) => (
               <Card key={`vendido-${p.Id}-${i}`} item={adaptarProducto(p)} />
             ))}
           </div>
-
           <BotonVt texto="Ver Todo" />
         </section>
       )}

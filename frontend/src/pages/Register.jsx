@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api/authService';
 import EmailField    from '../components/layouts/EmailField';
 import PasswordField from '../components/layouts/PasswordField';
 import "../styles/Register.css";
+import Swal from 'sweetalert2';
 
 function Register() {
   const [form, setForm] = useState({
@@ -14,7 +15,6 @@ function Register() {
     confirmPassword: '',
   });
   const [fieldErrors, setFieldErrors] = useState({});
-  const [error, setError]             = useState('');
   const [loading, setLoading]         = useState(false);
   const navigate                      = useNavigate();
 
@@ -42,7 +42,6 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -56,9 +55,20 @@ function Register() {
         PasswordHash: form.password,
         RolNombre:    'Vendedor',
       });
+      await Swal.fire({
+        icon: 'success',
+        title: '¡Cuenta creada!',
+        text: 'Tu cuenta fue creada correctamente.',
+        confirmButtonColor: '#07393c',
+      });
       navigate('/login');
     } catch (err) {
-      setError(err.message || 'Error al crear la cuenta');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message || 'Error al crear la cuenta',
+        confirmButtonColor: '#07393c',
+      });
     } finally {
       setLoading(false);
     }
@@ -78,10 +88,7 @@ function Register() {
         <div className="content">
           <h1 className="welcome-title">Crear Cuenta</h1>
 
-          {error && <p className="form-error">{error}</p>}
-
           <form onSubmit={handleSubmit} noValidate>
-
             <div className="input-group">
               <label htmlFor="name">Nombre completo</label>
               <input
@@ -100,18 +107,8 @@ function Register() {
               )}
             </div>
 
-            <EmailField
-              value={form.email}
-              onChange={handleChange}
-              error={fieldErrors.email}
-            />
-
-            <PasswordField
-              value={form.password}
-              onChange={handleChange}
-              error={fieldErrors.password}
-            />
-
+            <EmailField value={form.email} onChange={handleChange} error={fieldErrors.email} />
+            <PasswordField value={form.password} onChange={handleChange} error={fieldErrors.password} />
             <PasswordField
               name="confirmPassword"
               label="Confirmar contraseña"
@@ -124,7 +121,6 @@ function Register() {
             <button type="submit" className="login-button" disabled={loading}>
               {loading ? 'Creando cuenta…' : 'Registrarse'}
             </button>
-
           </form>
 
           <div className="social-login-divider">
@@ -139,7 +135,6 @@ function Register() {
             <span>¿Ya tienes una cuenta?</span>{' '}
             <Link to="/login" className="create-account">Iniciar Sesión</Link>
           </div>
-
         </div>
       </div>
     </div>

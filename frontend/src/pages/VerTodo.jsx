@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "../components/layouts/Navbar";
 import Categorias from "../components/layouts/categorias";
-import SidebarFiltro from "../components/layouts/SidebarFiltro"; 
+import SidebarFiltro from "../components/layouts/SidebarFiltro";
 import Card from "../components/ui/Card";
 import "../styles/VerTodo.css";
 import Footer from "../components/layouts/Footer";
@@ -12,11 +12,11 @@ import { getProductos } from '../api/productosService';
 const PRODUCTOS_POR_PAGINA = 20;
 
 function VerTodo() {
-  const [productos, setProductos]   = useState([]);
-  const [filtrados, setFiltrados]   = useState([]);
-  const [loading, setLoading]       = useState(true);
-  const [error, setError]           = useState('');
-  const [pagina, setPagina]         = useState(1);
+  const [productos, setProductos] = useState([]);
+  const [filtrados, setFiltrados] = useState([]);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState('');
+  const [pagina, setPagina]       = useState(1);
 
   const [searchParams] = useSearchParams();
 
@@ -26,7 +26,6 @@ function VerTodo() {
         const data = await getProductos();
         setProductos(data);
 
-        // Si viene ?categoria= en la URL, aplica el filtro automáticamente
         const categoriaURL = searchParams.get('categoria');
         if (categoriaURL) {
           setFiltrados(data.filter(p =>
@@ -35,7 +34,6 @@ function VerTodo() {
         } else {
           setFiltrados(data);
         }
-
       } catch (err) {
         setError('No se pudieron cargar los productos');
       } finally {
@@ -53,11 +51,9 @@ function VerTodo() {
         categorias.some(c => c.toLowerCase() === p.Categoria?.toLowerCase())
       );
     }
-
     if (precioMin !== '') {
       resultado = resultado.filter(p => Number(p.PrecioPorLibra) >= Number(precioMin));
     }
-
     if (precioMax !== '') {
       resultado = resultado.filter(p => Number(p.PrecioPorLibra) <= Number(precioMax));
     }
@@ -80,9 +76,14 @@ function VerTodo() {
       img:                 imagenPrincipal,
       stock:               p.StockLibras,
       descripcionCorta:    p.Descripcion,
+      detalles:            p.Detalles,
+      fechaCosecha:        p.FechaCosecha,       // ✅
+      vendedorId:          p.VendedorId,         // ✅
+      vendedorNombre:      p.Usuario?.Nombre || p.Usuario?.nombre || "Vendedor", // ✅
       region:              'Colombia',
       envio:               'A convenir',
       descuentoPorcentaje: 0,
+      todosLosProductos:   productos,            // ✅ para ofertas del vendedor
     };
   };
 
@@ -112,16 +113,14 @@ function VerTodo() {
               ? `${categoriaActual} — ${filtrados.length} productos`
               : '¡Compra las mejores frutas y verduras!'}
           </h2>
-        </div>  
+        </div>
         <span className="results-filter">Popularidad: los mas populares ▽</span>
       </div>
 
       <div className="main-content-wrapper">
-
         <SidebarFiltro productos={productos} onFiltrar={handleFiltrar} />
-        
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '30px' }}>
 
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '30px' }}>
           <main style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
 
             {loading && (
@@ -129,19 +128,16 @@ function VerTodo() {
                 Cargando productos...
               </p>
             )}
-
             {error && (
               <p style={{ color: '#ff6b6b', padding: '20px', gridColumn: 'span 4' }}>
                 {error}
               </p>
             )}
-
             {!loading && !error && filtrados.length === 0 && (
               <p style={{ color: '#aaa', padding: '20px', gridColumn: 'span 4' }}>
                 No hay productos con esos filtros.
               </p>
             )}
-
             {!loading && !error && productosPagina.map((p) => (
               <Card key={p.Id} item={adaptarProducto(p)} />
             ))}
@@ -150,7 +146,6 @@ function VerTodo() {
 
           {!loading && totalPaginas > 1 && (
             <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', paddingBottom: '20px' }}>
-
               <button
                 onClick={() => irAPagina(pagina - 1)}
                 disabled={pagina === 1}
@@ -193,10 +188,8 @@ function VerTodo() {
               >
                 Siguiente →
               </button>
-
             </div>
           )}
-
         </div>
       </div>
 
