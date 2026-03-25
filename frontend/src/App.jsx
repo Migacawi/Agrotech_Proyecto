@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import AgrotechHome from "./pages/AgrotechHome.jsx";
@@ -12,6 +13,7 @@ import ProtectedRoute from "./router/ProtectedRoute.jsx";
 import AdminUsuarios from "./pages/AdminUsuarios.jsx";
 import AdminProductos from "./pages/AdminProductos.jsx";
 import MisProductos from "./pages/MisProductos.jsx";
+import ConfirmacionPedido from "./pages/ConfirmacionPedido.jsx"; // ← nueva
 
 function App() {
   return (
@@ -28,8 +30,8 @@ function App() {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/añadir-producto" element={<AñadirProduct />} />
-
         <Route path="/mis-productos" element={<MisProductos />} />
+        <Route path="/confirmacion/:id" element={<ConfirmacionPedido />} /> {/* ← nueva */}
       </Route>
 
       {/* ── Solo admin ──────────────────────────────────────────────── */}

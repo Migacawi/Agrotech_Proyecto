@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: 'K2D', sans-serif; }
+
+/* ── página ── */
+.confirmacion-page {
+  background: #062e2f;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  color: white;
+}
+
+.confirmacion-wrapper {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── tarjetas ── */
+.confirmacion-card {
+  background: #0b4445;
+  padding: 28px;
+  border-radius: 10px;
+  border: 1px solid #0f5557;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── header ── */
+.confirmacion-header {
+  text-align: center;
+  padding: 40px 28px;
+}
+
+.confirmacion-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.confirmacion-titulo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00ff88;
+  margin-bottom: 8px;
+}
+
+.confirmacion-mensaje {
+  color: #7ab8a8;
+  font-size: 0.95rem;
+}
+
+/* ── fila info ── */
+.confirmacion-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #0f5557;
+}
+
+.confirmacion-fila:last-child {
+  border-bottom: none;
+}
+
+.confirmacion-label {
+  font-size: 13px;
+  color: #7ab8a8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confirmacion-valor {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8f5f0;
+}
+
+.confirmacion-valor.total {
+  font-size: 1.3rem;
+  color: #00ff88;
+}
+
+/* ── badge estado ── */
+.badge-estado {
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.badge-estado.completado {
+  background: rgba(0,255,136,0.15);
+  color: #00ff88;
+}
+
+.badge-estado.pendiente {
+  background: rgba(255,200,0,0.15);
+  color: #ffc800;
+}
+
+/* ── section title ── */
+.confirmacion-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #5ec9a0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+
+/* ── productos ── */
+.confirmacion-producto {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid #0f5557;
+}
+
+.confirmacion-producto:last-child {
+  border-bottom: none;
+}
+
+.confirmacion-producto img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.confirmacion-producto-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.confirmacion-producto-nombre {
+  font-size: 15px;
+  color: #e8f5f0;
+  font-weight: 600;
+}
+
+.confirmacion-producto-meta {
+  font-size: 13px;
+  color: #7ab8a8;
+}
+
+.confirmacion-producto-precio {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e8f5f0;
+  flex-shrink: 0;
+}
+
+/* ── vendedor ── */
+.confirmacion-vendedor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.confirmacion-vendedor-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #0f5557;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.confirmacion-vendedor-nombre {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8f5f0;
+}
+
+.confirmacion-vendedor-label {
+  font-size: 12px;
+  color: #7ab8a8;
+}
+
+/* ── botones ── */
+.confirmacion-botones {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-secundario {
+  flex: 1;
+  padding: 13px;
+  border-radius: 6px;
+  border: 1px solid #1a6e70;
+  background: transparent;
+  color: #5ec9a0;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'K2D', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-secundario:hover { opacity: 0.8; }
+
+.btn-primario {
+  flex: 1;
+  padding: 13px;
+  border-radius: 6px;
+  border: none;
+  background: #00ff88;
+  color: #062e2f;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'K2D', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-primario:hover { opacity: 0.85; }
+
+/* ── responsive ── */
+@media (max-width: 768px) {
+  .confirmacion-page { padding: 30px 16px; }
+  .confirmacion-botones { flex-direction: column; }
+}

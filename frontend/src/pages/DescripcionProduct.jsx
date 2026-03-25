@@ -14,6 +14,10 @@ function DescripcionProduct() {
   const navigate  = useNavigate();
   const producto  = location.state;
 
+  console.log("producto completo:", producto);
+  console.log("fechaCosecha:", producto?.fechaCosecha);
+  console.log("FechaCosecha:", producto?.FechaCosecha);
+
   const { addItem } = useCartStore();
 
   if (!producto) {
@@ -33,8 +37,11 @@ function DescripcionProduct() {
   const descuentoPorcentaje = producto?.descuentoPorcentaje ?? 0;
   const precioDescontado    = precio - (precio * descuentoPorcentaje) / 100;
 
-  const fechaCosechaFormateada = producto.fechaCosecha
-    ? new Date(producto.fechaCosecha).toLocaleDateString("es-CO", {
+  // Intentamos ambas variantes del campo por si acaso
+  const rawFecha = producto.fechaCosecha || producto.FechaCosecha || null;
+
+  const fechaCosechaFormateada = rawFecha
+    ? new Date(rawFecha).toLocaleDateString("es-CO", {
         year:  "numeric",
         month: "long",
         day:   "numeric",
@@ -82,11 +89,9 @@ function DescripcionProduct() {
       stock:               crudo.StockLibras,
       descripcionCorta:    crudo.Descripcion,
       detalles:            crudo.Detalles,
-      fechaCosecha:        crudo.FechaCosecha,
+      fechaCosecha:        crudo.FechaCosecha || crudo.fechaCosecha,
       vendedorId:          crudo.VendedorId,
       vendedorNombre:      crudo.Usuario?.Nombre || crudo.Usuario?.nombre || "Vendedor",
-      region:              "Colombia",
-      envio:               "A convenir",
       descuentoPorcentaje: 0,
       todosLosProductos:   producto.todosLosProductos,
     };
@@ -189,11 +194,10 @@ function DescripcionProduct() {
               ))
             )}
           </div>
-
         </div>
       </div>
 
-      {(producto.descripcionCorta || producto.detalles) && (
+      {(producto.descripcionCorta || fechaCosechaFormateada) && (
         <div className="descripcion-extra">
           {producto.descripcionCorta && (
             <div className="extra-card">
@@ -201,10 +205,10 @@ function DescripcionProduct() {
               <p className="extra-text">{producto.descripcionCorta}</p>
             </div>
           )}
-          {producto.detalles && (
+          {fechaCosechaFormateada && (
             <div className="extra-card">
-              <h3 className="extra-title">Detalles Adicionales</h3>
-              <p className="extra-text">{producto.detalles}</p>
+              <h3 className="extra-title">Fecha de Cosecha</h3>
+              <p className="extra-text">{fechaCosechaFormateada}</p>
             </div>
           )}
         </div>

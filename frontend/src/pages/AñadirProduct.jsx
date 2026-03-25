@@ -48,7 +48,6 @@ function AñadirProduct() {
     e.preventDefault();
     setLoading(true);
 
-    // Validación de imagen
     if (!imagen) {
       Swal.fire({
         icon: 'warning',
@@ -60,7 +59,6 @@ function AñadirProduct() {
       return;
     }
 
-    // Validación de fecha
     if (!producto.fechaCosecha) {
       Swal.fire({
         icon: 'warning',
@@ -72,7 +70,6 @@ function AñadirProduct() {
       return;
     }
 
-    // Validación de precio
     if (Number(producto.precio) <= 0) {
       Swal.fire({
         icon: 'warning',
@@ -84,7 +81,6 @@ function AñadirProduct() {
       return;
     }
 
-    // Validación de stock
     if (Number(producto.stock) <= 0) {
       Swal.fire({
         icon: 'warning',
@@ -100,6 +96,7 @@ function AñadirProduct() {
       const nuevoProducto = await createProducto({
         Nombre:         producto.nombre,
         Descripcion:    producto.descripcion,
+        Detalles:       producto.detalles,   // ← esto faltaba
         Categoria:      producto.categoria,
         PrecioPorLibra: Number(producto.precio),
         StockLibras:    Number(producto.stock),
