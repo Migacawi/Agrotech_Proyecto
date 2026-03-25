@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://vigilant-barnacle-g4wv5744pqr72w46w-3000.app.github.dev";
+  import.meta.env.VITE_API_URL || "https://ubiquitous-parakeet-7v4jrpvvx76x2pxqw-3000.app.github.dev";
 const axiosClient = axios.create({
   baseURL: `${BASE_URL}/api`,
   headers: {
