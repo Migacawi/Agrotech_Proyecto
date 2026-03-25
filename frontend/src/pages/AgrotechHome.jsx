@@ -9,11 +9,11 @@ import Footer from "../components/layouts/Footer";
 import { getProductos } from "../api/productosService";
 
 function AgrotechHome() {
-  const [productos, setProductos] = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState("");
-  const [indice, setIndice]       = useState(0);
-  const [indice2, setIndice2]     = useState(0);
+  const [productos, setProductos]           = useState([]);
+  const [loading, setLoading]               = useState(true);
+  const [error, setError]                   = useState("");
+  const [indiceOfertas, setIndiceOfertas]   = useState(0);
+  const [indiceVendidos, setIndiceVendidos] = useState(0);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -29,57 +29,68 @@ function AgrotechHome() {
     fetchProductos();
   }, []);
 
-  useEffect(() => {
-    if (productos.length <= 5) return;
-    const intervalo = setInterval(() => {
-      setIndice((prev) => (prev + 5) % productos.length);
-    }, 10000);
-    return () => clearInterval(intervalo);
-  }, [productos]);
+  // Separar productos con oferta y sin oferta
+  const productosConOferta = productos.filter(
+    (p) => Number(p.PrecioOriginal) > Number(p.PrecioPorLibra)
+  );
+  const productosSinOferta = productos.filter(
+    (p) => !(Number(p.PrecioOriginal) > Number(p.PrecioPorLibra))
+  );
 
+  // Carrusel Ofertas Destacadas
   useEffect(() => {
-    if (productos.length <= 5) return;
+    if (productosConOferta.length <= 5) return;
     const intervalo = setInterval(() => {
-      setIndice2((prev) => (prev + 5) % productos.length);
+      setIndiceOfertas((prev) => (prev + 5) % productosConOferta.length);
     }, 10000);
     return () => clearInterval(intervalo);
-  }, [productos]);
+  }, [productosConOferta.length]);
+
+  // Carrusel Más Vendidos
+  useEffect(() => {
+    if (productosSinOferta.length <= 5) return;
+    const intervalo = setInterval(() => {
+      setIndiceVendidos((prev) => (prev + 5) % productosSinOferta.length);
+    }, 10000);
+    return () => clearInterval(intervalo);
+  }, [productosSinOferta.length]);
 
   const adaptarProducto = (p) => {
-  const precioActual   = Number(p.PrecioPorLibra);
-  const precioOriginal = Number(p.PrecioOriginal) || precioActual;
-  const descuento      = precioOriginal > precioActual
-    ? Math.round(((precioOriginal - precioActual) / precioOriginal) * 100)
-    : 0;
+    const precioActual   = Number(p.PrecioPorLibra);
+    const precioOriginal = Number(p.PrecioOriginal) || precioActual;
+    const descuento      = precioOriginal > precioActual
+      ? Math.round(((precioOriginal - precioActual) / precioOriginal) * 100)
+      : 0;
 
-  const imagenPrincipal =
-    p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
-    p.Imagenes?.[0]?.UrlImagen ||
-    'https://images.unsplash.com/photo-1464965911861-74ce9de9ce19';
+    const imagenPrincipal =
+      p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
+      p.Imagenes?.[0]?.UrlImagen ||
+      'https://images.unsplash.com/photo-1464965911861-74ce9de9ce19';
 
-  return {
-    id:                  p.Id,
-    titulo:              p.Nombre,
-    precio:              precioActual,
-    precioOriginal:      precioOriginal,
-    descuento:           descuento > 0 ? `${descuento}%` : '0%',
-    descuentoPorcentaje: descuento,
-    img:                 imagenPrincipal,
-    stock:               p.StockLibras,
-    descripcionCorta:    p.Descripcion,
-    region:              'Colombia',
-    envio:               'A convenir',
+    return {
+      id:                  p.Id,
+      titulo:              p.Nombre,
+      precio:              precioActual,
+      precioOriginal:      precioOriginal,
+      descuento:           descuento > 0 ? `${descuento}%` : '0%',
+      descuentoPorcentaje: descuento,
+      img:                 imagenPrincipal,
+      stock:               p.StockLibras,
+      descripcionCorta:    p.Descripcion,
+      region:              'Colombia',
+      envio:               'A convenir',
+    };
   };
-};
 
-  const productosVisibles =
-    productos.length > 0
-      ? [...productos, ...productos].slice(indice, indice + 5)
+  // Slices circulares para cada sección
+  const ofertasVisibles =
+    productosConOferta.length > 0
+      ? [...productosConOferta, ...productosConOferta].slice(indiceOfertas, indiceOfertas + 5)
       : [];
 
-  const masVendidosVisibles =
-    productos.length > 0
-      ? [...productos, ...productos].slice(indice2, indice2 + 5)
+  const vendidosVisibles =
+    productosSinOferta.length > 0
+      ? [...productosSinOferta, ...productosSinOferta].slice(indiceVendidos, indiceVendidos + 5)
       : [];
 
   return (
@@ -91,6 +102,7 @@ function AgrotechHome() {
         <img src="/fondo_main.jpg" alt="Frutas frescas" />
       </div>
 
+      {/* ── OFERTAS DESTACADAS ── */}
       <section className="product-section ofertas-bg">
         <div className="section-header">
           <div className="section-title-wrapper">
@@ -112,16 +124,16 @@ function AgrotechHome() {
             {error}
           </p>
         )}
-        {!loading && !error && productos.length === 0 && (
+        {!loading && !error && productosConOferta.length === 0 && (
           <p style={{ color: "#aaa", textAlign: "center", padding: "20px" }}>
-            No hay productos disponibles aún.
+            No hay ofertas disponibles en este momento.
           </p>
         )}
 
-        {!loading && !error && productos.length > 0 && (
+        {!loading && !error && productosConOferta.length > 0 && (
           <>
             <div className="card-grid">
-              {productosVisibles.map((p, i) => (
+              {ofertasVisibles.map((p, i) => (
                 <Card key={`oferta-${p.Id}-${i}`} item={adaptarProducto(p)} />
               ))}
             </div>
@@ -130,7 +142,8 @@ function AgrotechHome() {
         )}
       </section>
 
-      {!loading && !error && productos.length > 0 && (
+      {/* ── MÁS VENDIDOS ── */}
+      {!loading && !error && productosSinOferta.length > 0 && (
         <section className="product-section capacitaciones-bg">
           <div className="section-header">
             <div className="section-title-wrapper">
@@ -142,7 +155,7 @@ function AgrotechHome() {
             </p>
           </div>
           <div className="card-grid">
-            {masVendidosVisibles.map((p, i) => (
+            {vendidosVisibles.map((p, i) => (
               <Card key={`vendido-${p.Id}-${i}`} item={adaptarProducto(p)} />
             ))}
           </div>
