@@ -4,6 +4,7 @@ import Sidebar from "../components/layouts/Sidebar";
 import AdminUsuariosTable from "../components/layouts/AdminUsuariosTable";
 import AdminUsuarioModal from "../components/layouts/AdminUsuarioModal";
 import "../styles/Perfil.css";
+import Swal from "sweetalert2";
 
 import { getUsuarios, updateUsuario, deleteUsuario } from "../api/usuariosService";
 
@@ -44,12 +45,17 @@ function AdminUsuarios() {
     setMensaje("");
     try {
       await updateUsuario(usuarioEdit.Id, { Nombre: form.Nombre, Email: form.Email });
-      setMensaje("¡Usuario actualizado!");
+      setModalOpen(false);
+      setMensaje("");
       fetchUsuarios();
-      setTimeout(() => {
-        setModalOpen(false);
-        setMensaje("");
-      }, 1500);
+      Swal.fire({
+        icon: "success",
+        title: "¡Usuario actualizado!",
+        text: "Los cambios fueron guardados correctamente.",
+        confirmButtonColor: "#07393c",
+        background: "#062e2f",
+        color: "#e8f5f0",
+      });
     } catch (err) {
       setMensaje(err.message || "Error al actualizar");
     } finally {
@@ -58,12 +64,42 @@ function AdminUsuarios() {
   };
 
   const handleEliminar = async (id) => {
-    if (!window.confirm("¿Seguro que quieres eliminar este usuario?")) return;
+    const result = await Swal.fire({
+      title: "¿Eliminar usuario?",
+      text: "Esta acción no se puede deshacer.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ff4d4d",
+      cancelButtonColor: "#07393c",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+      background: "#062e2f",
+      color: "#e8f5f0",
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
       await deleteUsuario(id);
       setUsuarios(usuarios.filter((u) => u.Id !== id));
+      Swal.fire({
+        icon: "success",
+        title: "Usuario eliminado",
+        confirmButtonColor: "#07393c",
+        background: "#062e2f",
+        color: "#e8f5f0",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
-      alert(err.message || "Error al eliminar");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message || "No se pudo eliminar el usuario.",
+        confirmButtonColor: "#07393c",
+        background: "#062e2f",
+        color: "#e8f5f0",
+      });
     }
   };
 
@@ -75,8 +111,8 @@ function AdminUsuarios() {
       <div className="perfil-content">
         <h3 className="section-title">GESTIÓN DE USUARIOS</h3>
 
-        {loading && <p style={{ color: '#07393c' }}>Cargando usuarios...</p>}
-        {error   && <p style={{ color: '#ff6b6b' }}>{error}</p>}
+        {loading && <p style={{ color: "#07393c" }}>Cargando usuarios...</p>}
+        {error   && <p style={{ color: "#ff6b6b" }}>{error}</p>}
 
         {!loading && !error && (
           <AdminUsuariosTable

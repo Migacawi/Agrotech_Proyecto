@@ -4,6 +4,7 @@ import Sidebar from "../components/layouts/Sidebar";
 import AdminProductosTable from "../components/layouts/AdminProductosTable";
 import AdminProductoModal from "../components/layouts/AdminProductoModal";
 import "../styles/Perfil.css";
+import Swal from "sweetalert2";
 
 import {
   getProductos,
@@ -12,19 +13,19 @@ import {
 } from "../api/productosService";
 
 function AdminProductos() {
-  const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
+  const [productos, setProductos]     = useState([]);
+  const [loading, setLoading]         = useState(true);
+  const [error, setError]             = useState("");
+  const [modalOpen, setModalOpen]     = useState(false);
   const [productoEdit, setProductoEdit] = useState(null);
-  const [form, setForm] = useState({
+  const [form, setForm]               = useState({
     Nombre: "",
     Categoria: "",
     PrecioPorLibra: "",
     StockLibras: "",
     Descripcion: "",
   });
-  const [mensaje, setMensaje] = useState("");
+  const [mensaje, setMensaje]         = useState("");
   const [loadingEdit, setLoadingEdit] = useState(false);
 
   useEffect(() => {
@@ -45,11 +46,11 @@ function AdminProductos() {
   const abrirModal = (producto) => {
     setProductoEdit(producto);
     setForm({
-      Nombre: producto.Nombre,
-      Categoria: producto.Categoria,
+      Nombre:         producto.Nombre,
+      Categoria:      producto.Categoria,
       PrecioPorLibra: producto.PrecioPorLibra,
-      StockLibras: producto.StockLibras,
-      Descripcion: producto.Descripcion || "",
+      StockLibras:    producto.StockLibras,
+      Descripcion:    producto.Descripcion || "",
     });
     setMensaje("");
     setModalOpen(true);
@@ -60,18 +61,23 @@ function AdminProductos() {
     setMensaje("");
     try {
       await updateProducto(productoEdit.Id, {
-        Nombre: form.Nombre,
-        Categoria: form.Categoria,
+        Nombre:         form.Nombre,
+        Categoria:      form.Categoria,
         PrecioPorLibra: Number(form.PrecioPorLibra),
-        StockLibras: Number(form.StockLibras),
-        Descripcion: form.Descripcion,
+        StockLibras:    Number(form.StockLibras),
+        Descripcion:    form.Descripcion,
       });
-      setMensaje("¡Producto actualizado!");
+      setModalOpen(false);
+      setMensaje("");
       fetchProductos();
-      setTimeout(() => {
-        setModalOpen(false);
-        setMensaje("");
-      }, 1500);
+      Swal.fire({
+        icon: "success",
+        title: "¡Producto actualizado!",
+        text: "Los cambios fueron guardados correctamente.",
+        confirmButtonColor: "#07393c",
+        background: "#062e2f",
+        color: "#e8f5f0",
+      });
     } catch (err) {
       setMensaje(err.message || "Error al actualizar");
     } finally {
@@ -80,12 +86,42 @@ function AdminProductos() {
   };
 
   const handleEliminar = async (id) => {
-    if (!window.confirm("¿Seguro que quieres eliminar este producto?")) return;
+    const result = await Swal.fire({
+      title: "¿Eliminar producto?",
+      text: "Esta acción no se puede deshacer.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ff4d4d",
+      cancelButtonColor: "#07393c",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+      background: "#062e2f",
+      color: "#e8f5f0",
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
       await deleteProducto(id);
       setProductos(productos.filter((p) => p.Id !== id));
+      Swal.fire({
+        icon: "success",
+        title: "Producto eliminado",
+        confirmButtonColor: "#07393c",
+        background: "#062e2f",
+        color: "#e8f5f0",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
-      alert(err.message || "Error al eliminar");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message || "No se pudo eliminar el producto.",
+        confirmButtonColor: "#07393c",
+        background: "#062e2f",
+        color: "#e8f5f0",
+      });
     }
   };
 
@@ -98,7 +134,7 @@ function AdminProductos() {
         <h3 className="section-title">GESTIÓN DE PRODUCTOS</h3>
 
         {loading && <p style={{ color: "#07393c" }}>Cargando productos...</p>}
-        {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
+        {error   && <p style={{ color: "#ff6b6b" }}>{error}</p>}
 
         {!loading && !error && (
           <AdminProductosTable
@@ -116,7 +152,7 @@ function AdminProductos() {
             onCancelar={() => setModalOpen(false)}
             loading={loadingEdit}
             mensaje={mensaje}
-            mostrarImagen={false} // ← admin no ve imagen
+            mostrarImagen={false}
           />
         )}
       </div>
