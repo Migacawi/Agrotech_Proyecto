@@ -94,13 +94,15 @@ function AñadirProduct() {
 
     try {
       const nuevoProducto = await createProducto({
-        Nombre:         producto.nombre,
-        Descripcion:    producto.descripcion,
-        Detalles:       producto.detalles,   // ← esto faltaba
-        Categoria:      producto.categoria,
-        PrecioPorLibra: Number(producto.precio),
-        StockLibras:    Number(producto.stock),
-        fechaCosecha:   producto.fechaCosecha,
+
+        Nombre:          producto.nombre,
+        Descripcion:     producto.descripcion,
+        Categoria:       producto.categoria,
+        PrecioPorLibra:  Number(producto.precio),
+        PrecioOriginal:  Number(producto.precio), // ← agrega esto
+        StockLibras:     Number(producto.stock),
+        fechaCosecha:    producto.fechaCosecha,
+
       });
 
       if (imagen) {

@@ -35,18 +35,63 @@
 .categorias-container li {
   cursor: pointer;
   transition: .2s;
+  padding: 4px 14px;
+  border-radius: 14px;
 }
 
+/* Hover para li normales (Categorias, Cerrar Sesion) */
 .categorias-container li:hover {
-  opacity: .7;
+  background: #82f8ff;
+  color: #062e2f;
+  font-weight: 600;
+  opacity: 1;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
 }
 
+/* Links dentro de li */
+.categorias-container a {
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 14px;
+  border-radius: 14px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.categorias-container a:hover,
+.categorias-container a.active {
+  opacity: 1;
+  background: #82f8ff;
+  color: #062e2f;
+  font-weight: 600;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Ofertas Flash — blanco con hover iluminado */
 .oferta-pill {
   background: white;
   color: #062e2f;
   padding: 4px 14px;
   border-radius: 14px;
   font-weight: 600;
+}
+
+.oferta-pill:hover {
+  background: white;
+  color: #062e2f;
+  box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.8);
+  opacity: 1;
+}
+
+/* Link dentro de oferta-pill */
+.oferta-pill a {
+  color: #062e2f !important;
+  padding: 0;
+}
+
+.oferta-pill a:hover {
+  background: transparent;
+  color: #062e2f !important;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
@@ -70,21 +115,4 @@
   .linea-icon {
     display: block;
   }
-}
-
-.categorias-container a {
-  text-decoration: none;
-  color: inherit;
-  padding: 4px 14px;
-  border-radius: 14px;
-  transition: background 0.2s, color 0.2s;
-}
-
-.categorias-container a:hover,
-.categorias-container a.active {
-  opacity: 1;
-  background: #82f8ff;
-  color: #062e2f;
-  font-weight: 600;
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
 }

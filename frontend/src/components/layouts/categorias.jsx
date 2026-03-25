@@ -37,7 +37,11 @@ function Categorias() {
           <li>
             <NavLink to="/añadir-producto">Vender</NavLink>
           </li>
-          <li className="oferta-pill">Ofertas Flash</li>
+          <li className="oferta-pill">
+          <NavLink to="/ver-todo?ofertas=true" style={{ color: 'inherit', textDecoration: 'none' }}>
+          Ofertas Flash
+          </NavLink>
+          </li>
           <li>
             <NavLink to="/" end>Inicio</NavLink>
           </li>
