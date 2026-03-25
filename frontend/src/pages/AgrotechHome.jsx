@@ -46,29 +46,31 @@ function AgrotechHome() {
   }, [productos]);
 
   const adaptarProducto = (p) => {
-    const imagenPrincipal =
-      p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
-      p.Imagenes?.[0]?.UrlImagen ||
-      "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19";
+  const precioActual   = Number(p.PrecioPorLibra);
+  const precioOriginal = Number(p.PrecioOriginal) || precioActual;
+  const descuento      = precioOriginal > precioActual
+    ? Math.round(((precioOriginal - precioActual) / precioOriginal) * 100)
+    : 0;
 
-    return {
-      id:                  p.Id,
-      titulo:              p.Nombre,
-      precio:              p.PrecioPorLibra,
-      descuento:           "0%",
-      img:                 imagenPrincipal,
-      stock:               p.StockLibras,
-      descripcionCorta:    p.Descripcion,
-      detalles:            p.Detalles,
-      fechaCosecha:        p.FechaCosecha,       // ✅
-      vendedorId:          p.VendedorId,         // ✅
-      vendedorNombre:      p.Usuario?.Nombre || p.Usuario?.nombre || "Vendedor", // ✅
-      region:              "Colombia",
-      envio:               "A convenir",
-      descuentoPorcentaje: 0,
-      todosLosProductos:   productos,            // ✅ para ofertas del vendedor
-    };
+  const imagenPrincipal =
+    p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
+    p.Imagenes?.[0]?.UrlImagen ||
+    'https://images.unsplash.com/photo-1464965911861-74ce9de9ce19';
+
+  return {
+    id:                  p.Id,
+    titulo:              p.Nombre,
+    precio:              precioActual,
+    precioOriginal:      precioOriginal,
+    descuento:           descuento > 0 ? `${descuento}%` : '0%',
+    descuentoPorcentaje: descuento,
+    img:                 imagenPrincipal,
+    stock:               p.StockLibras,
+    descripcionCorta:    p.Descripcion,
+    region:              'Colombia',
+    envio:               'A convenir',
   };
+};
 
   const productosVisibles =
     productos.length > 0

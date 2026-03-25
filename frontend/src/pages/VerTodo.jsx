@@ -27,13 +27,23 @@ function VerTodo() {
         setProductos(data);
 
         const categoriaURL = searchParams.get('categoria');
+        const ofertasURL   = searchParams.get('ofertas');
+
+        let resultado = [...data];
+
         if (categoriaURL) {
-          setFiltrados(data.filter(p =>
+          resultado = resultado.filter(p =>
             p.Categoria?.toLowerCase() === categoriaURL.toLowerCase()
-          ));
-        } else {
-          setFiltrados(data);
+          );
         }
+
+        if (ofertasURL === 'true') {
+          resultado = resultado.filter(p =>
+            Number(p.PrecioOriginal) > Number(p.PrecioPorLibra)
+          );
+        }
+
+        setFiltrados(resultado);
       } catch (err) {
         setError('No se pudieron cargar los productos');
       } finally {
@@ -43,17 +53,25 @@ function VerTodo() {
     fetchProductos();
   }, [searchParams]);
 
-  const handleFiltrar = ({ categorias, precioMin, precioMax }) => {
+  const handleFiltrar = ({ categorias, precioMin, precioMax, soloOfertas }) => {
     let resultado = [...productos];
+
+    if (soloOfertas) {
+      resultado = resultado.filter(p =>
+        Number(p.PrecioOriginal) > Number(p.PrecioPorLibra)
+      );
+    }
 
     if (categorias.length > 0) {
       resultado = resultado.filter(p =>
         categorias.some(c => c.toLowerCase() === p.Categoria?.toLowerCase())
       );
     }
+
     if (precioMin !== '') {
       resultado = resultado.filter(p => Number(p.PrecioPorLibra) >= Number(precioMin));
     }
+
     if (precioMax !== '') {
       resultado = resultado.filter(p => Number(p.PrecioPorLibra) <= Number(precioMax));
     }
@@ -63,6 +81,12 @@ function VerTodo() {
   };
 
   const adaptarProducto = (p) => {
+    const precioActual   = Number(p.PrecioPorLibra);
+    const precioOriginal = Number(p.PrecioOriginal) || precioActual;
+    const descuento      = precioOriginal > precioActual
+      ? Math.round(((precioOriginal - precioActual) / precioOriginal) * 100)
+      : 0;
+
     const imagenPrincipal =
       p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
       p.Imagenes?.[0]?.UrlImagen ||
@@ -71,19 +95,15 @@ function VerTodo() {
     return {
       id:                  p.Id,
       titulo:              p.Nombre,
-      precio:              p.PrecioPorLibra,
-      descuento:           '0%',
+      precio:              precioActual,
+      precioOriginal:      precioOriginal,
+      descuento:           descuento > 0 ? `${descuento}%` : '0%',
+      descuentoPorcentaje: descuento,
       img:                 imagenPrincipal,
       stock:               p.StockLibras,
       descripcionCorta:    p.Descripcion,
-      detalles:            p.Detalles,
-      fechaCosecha:        p.FechaCosecha,       // ✅
-      vendedorId:          p.VendedorId,         // ✅
-      vendedorNombre:      p.Usuario?.Nombre || p.Usuario?.nombre || "Vendedor", // ✅
       region:              'Colombia',
       envio:               'A convenir',
-      descuentoPorcentaje: 0,
-      todosLosProductos:   productos,            // ✅ para ofertas del vendedor
     };
   };
 
@@ -97,6 +117,7 @@ function VerTodo() {
   };
 
   const categoriaActual = searchParams.get('categoria');
+  const esOfertas       = searchParams.get('ofertas') === 'true';
 
   return (
     <div className="ver-todo-page">
@@ -106,10 +127,12 @@ function VerTodo() {
       <div className="results-header-container">
         <div className="text-group-left">
           <p className="breadcrumb-text">
-            Tienda &gt; {categoriaActual || 'Todos los productos'}
+            Tienda &gt; {esOfertas ? 'Ofertas Flash' : categoriaActual || 'Todos los productos'}
           </p>
           <h2 className="results-count">
-            {categoriaActual
+            {esOfertas
+              ? `🔥 Ofertas Flash — ${filtrados.length} productos`
+              : categoriaActual
               ? `${categoriaActual} — ${filtrados.length} productos`
               : '¡Compra las mejores frutas y verduras!'}
           </h2>

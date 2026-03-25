@@ -4,28 +4,38 @@ import '../../styles/SidebarFiltro.css';
 const CATEGORIAS = ['Frutas', 'Verduras', 'Granos', 'Tuberculos', 'Fertilizantes'];
 
 function SidebarFiltro({ productos = [], onFiltrar }) {
-  const [precioMin, setPrecioMin]               = useState('');
-  const [precioMax, setPrecioMax]               = useState('');
+  const [precioMin, setPrecioMin]                 = useState('');
+  const [precioMax, setPrecioMax]                 = useState('');
   const [categoriasActivas, setCategoriasActivas] = useState([]);
+  const [soloOfertas, setSoloOfertas]             = useState(false);
 
-  const [abiertoPrecio,     setAbiertoPrecio]     = useState(true);
-  const [abiertoCity,  setAbiertoCity]  = useState(true);
-  const [abiertoCategoria,  setAbiertoCategoria]  = useState(true);
+  const [abiertoPrecio,    setAbiertoPrecio]    = useState(true);
+  const [abiertoOfertas,   setAbiertoOfertas]   = useState(true);
+  const [abiertoCategoria, setAbiertoCategoria] = useState(true);
 
   const toggleCategoria = (cat) => {
     const nuevas = categoriasActivas.includes(cat)
       ? categoriasActivas.filter(c => c !== cat)
       : [...categoriasActivas, cat];
     setCategoriasActivas(nuevas);
-    onFiltrar({ categorias: nuevas, precioMin, precioMax });
+    onFiltrar({ categorias: nuevas, precioMin, precioMax, soloOfertas });
   };
 
   const handlePrecio = (min, max) => {
-    onFiltrar({ categorias: categoriasActivas, precioMin: min, precioMax: max });
+    onFiltrar({ categorias: categoriasActivas, precioMin: min, precioMax: max, soloOfertas });
+  };
+
+  const handleOfertas = (valor) => {
+    setSoloOfertas(valor);
+    onFiltrar({ categorias: categoriasActivas, precioMin, precioMax, soloOfertas: valor });
   };
 
   const contarCategoria = (cat) =>
     productos.filter(p => p.Categoria?.toLowerCase() === cat.toLowerCase()).length;
+
+  const totalOfertas = productos.filter(p =>
+    Number(p.PrecioOriginal) > Number(p.PrecioPorLibra)
+  ).length;
 
   return (
     <aside className="sidebar-container">
@@ -56,21 +66,25 @@ function SidebarFiltro({ productos = [], onFiltrar }) {
         )}
       </div>
 
-      {/* Ciudad */}
+      {/* Ofertas */}
       <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => setAbiertoCity(!abiertoCity)}>
-          <span>Ciudad</span>
-          <span>{abiertoCity ? '⌃' : '⌵'}</span>
+        <div className="filtro-header" onClick={() => setAbiertoOfertas(!abiertoOfertas)}>
+          <span>Ofertas</span>
+          <span>{abiertoOfertas ? '⌃' : '⌵'}</span>
         </div>
-        {abiertoCity && (
+        {abiertoOfertas && (
           <div className="filtro-body">
-            <select className="dark-select">
-              <option>Todas las ciudades</option>
-              <option>Bogota</option>
-              <option>Medellin</option>
-              <option>Cali</option>
-              <option>Barranquilla</option>
-            </select>
+            <div className="checkbox-item">
+              <div className="checkbox-group">
+                <input
+                  type="checkbox"
+                  checked={soloOfertas}
+                  onChange={(e) => handleOfertas(e.target.checked)}
+                />
+                <span>Solo productos con oferta</span>
+              </div>
+              <span className="count">{totalOfertas}</span>
+            </div>
           </div>
         )}
       </div>
