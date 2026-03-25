@@ -24,3 +24,14 @@ export const register = async ({ Nombre, Email, PasswordHash, RolNombre }) => {
   });
   return data;
 };
+
+/**
+ * Login con Google.
+ * POST /api/auth/google
+ * Body: { googleToken }
+ * Respuesta esperada: { token: "..." }
+ */
+export const loginConGoogle = async (googleToken) => {
+  const { data } = await axiosClient.post('/auth/google', { googleToken });
+  return data;
+};

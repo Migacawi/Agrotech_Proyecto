@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { FaGoogle } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
-import { login } from '../api/authService';
-import useAuthStore from '../store/authStore';
-import EmailField    from '../components/layouts/EmailField';
-import PasswordField from '../components/layouts/PasswordField';
+import { GoogleLogin } from '@react-oauth/google';
+import { login, loginConGoogle } from '../api/authService';
+import useAuthStore          from '../store/authStore';
+import EmailField            from '../components/layouts/EmailField';
+import PasswordField         from '../components/layouts/PasswordField';
 import "../styles/Login.css";
 import Swal from 'sweetalert2';
 
@@ -17,6 +17,13 @@ function Login() {
   const imagenFondo = "/fondo_proyecto.jpg";
   const imagenLogo  = "/logo.png";
 
+  const redirigirPorRol = () => {
+  const rol = useAuthStore.getState().getRole()?.toLowerCase();
+  if (rol === 'administrador')  navigate('/admin/usuarios');
+  else if (rol === 'vendedor')  navigate('/mis-productos');
+  else                          navigate('/');
+};
+
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -25,10 +32,7 @@ function Login() {
     try {
       const { token } = await login(form.email, form.password);
       setToken(token);
-      const rol = useAuthStore.getState().getRole();
-      if (rol === 'admin')         navigate('/admin');
-      else if (rol === 'vendedor') navigate('/mis-productos');
-      else                         navigate('/');
+      redirigirPorRol();
     } catch (err) {
       Swal.fire({
         icon: 'error',
@@ -39,6 +43,30 @@ function Login() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const { token } = await loginConGoogle(credentialResponse.credential);
+      setToken(token);
+      redirigirPorRol();
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error con Google',
+        text: err.message || 'No se pudo iniciar sesión con Google',
+        confirmButtonColor: '#07393c',
+      });
+    }
+  };
+
+  const handleGoogleError = () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error con Google',
+      text: 'No se pudo completar el inicio de sesión con Google',
+      confirmButtonColor: '#07393c',
+    });
   };
 
   return (
@@ -58,7 +86,12 @@ function Login() {
           <div onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}>
             <EmailField value={form.email} onChange={handleChange} />
             <PasswordField value={form.password} onChange={handleChange} showForgot={true} />
-            <button type="button" onClick={handleSubmit} className="login-button" disabled={loading}>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="login-button"
+              disabled={loading}
+            >
               {loading ? 'Cargando…' : 'Iniciar Sesión'}
             </button>
           </div>
@@ -68,7 +101,15 @@ function Login() {
           </div>
 
           <div className="social-buttons">
-            <button type="button" className="social-button google"><FaGoogle /> Google</button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              useOneTap
+              shape="rectangular"
+              text="signin_with"
+              locale="es"
+              width="100%"
+            />
           </div>
 
           <div className="footer">

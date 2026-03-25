@@ -49,7 +49,7 @@ function Checkout() {
         Authorization: `Bearer ${token}`,
       };
 
-      const resPedido = await fetch("https://vigilant-barnacle-g4wv5744pqr72w46w-3000.app.github.dev/api/pedidos", {
+      const resPedido = await fetch("https://cautious-goldfish-5gq54w94q459h5xg-3000.app.github.dev/api/pedidos", {
         method: "POST",
         headers,
         body: JSON.stringify({
@@ -71,7 +71,7 @@ function Checkout() {
 
       const pedidoId = dataPedido.Id;
 
-      const resPago = await fetch("https://vigilant-barnacle-g4wv5744pqr72w46w-3000.app.github.dev/api/pagos/procesar", {
+      const resPago = await fetch("https://cautious-goldfish-5gq54w94q459h5xg-3000.app.github.dev/api/pagos/procesar", {
         method: "POST",
         headers,
         body: JSON.stringify({

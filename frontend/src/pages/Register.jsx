@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { FaGoogle } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
-import { register } from '../api/authService';
-import EmailField    from '../components/layouts/EmailField';
-import PasswordField from '../components/layouts/PasswordField';
+import { GoogleLogin } from '@react-oauth/google';
+import { register, loginConGoogle } from '../api/authService';
+import useAuthStore       from '../store/authStore';
+import EmailField         from '../components/layouts/EmailField';
+import PasswordField      from '../components/layouts/PasswordField';
 import "../styles/Register.css";
 import Swal from 'sweetalert2';
 
@@ -17,6 +18,7 @@ function Register() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading]         = useState(false);
   const navigate                      = useNavigate();
+  const { setToken }                  = useAuthStore();
 
   const imagenFondo = "/fondo_proyecto.jpg";
   const imagenLogo  = "/logo.png";
@@ -74,6 +76,33 @@ function Register() {
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const { token } = await loginConGoogle(credentialResponse.credential);
+      setToken(token);
+      const rol = useAuthStore.getState().getRole()?.toLowerCase();
+      if (rol === 'administrador')  navigate('/admin/usuarios');
+      else if (rol === 'vendedor')  navigate('/mis-productos');
+      else                          navigate('/');
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error con Google',
+        text: err.message || 'No se pudo registrar con Google',
+        confirmButtonColor: '#07393c',
+      });
+    }
+  };
+
+  const handleGoogleError = () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error con Google',
+      text: 'No se pudo completar el registro con Google',
+      confirmButtonColor: '#07393c',
+    });
+  };
+
   return (
     <div className="login-container">
       <div className="left-panel">
@@ -128,7 +157,15 @@ function Register() {
           </div>
 
           <div className="social-buttons">
-            <button className="social-button google"><FaGoogle /> Google</button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              useOneTap
+              shape="rectangular"
+              text="signup_with"
+              locale="es"
+              width="100%"
+            />
           </div>
 
           <div className="footer">
