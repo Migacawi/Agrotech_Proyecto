@@ -2,18 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import "../../styles/Navbar.css";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 import useCartStore from "../../store/cartStore";
+import useFavoritosStore from "../../store/favoritosStore";
 
 function Navbar() {
   const logo = "/logo3.png";
   const bandera = "/colombia.png";
-
+  const { favoritos } = useFavoritosStore();
   const [openCart, setOpenCart] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const cartRef = useRef(null);
   const searchRef = useRef(null);
-
+  const navigate = useNavigate();
   const { items, removeItem, deleteItem, getTotal, getTotalItems } =
     useCartStore();
 
@@ -74,8 +75,15 @@ function Navbar() {
           <span className="language-text">Español Latinoamerica | COP</span>
         </div>
 
-        <div className="favoritos">
+        <div
+          className="favoritos icon-container"
+          onClick={() => navigate("/mis-favoritos")}
+        >
           <img src="/corazon.png" alt="favoritos" className="icon" />
+
+          {favoritos.length > 0 && (
+            <span className="icon-badge">{favoritos.length}</span>
+          )}
         </div>
 
         {/* carrito con contador */}

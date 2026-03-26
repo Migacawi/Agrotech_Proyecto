@@ -7,16 +7,18 @@ import {
   FaCog,
   FaUsers,
   FaSignOutAlt,
-  FaStore,
+  FaHeart,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Sidebar.css";
-
 import useAuthStore from "../../store/authStore";
 
 function Sidebar() {
   const { user, logout, isAdmin } = useAuthStore();
   const navigate = useNavigate();
+
+  // ⚠️ Reemplaza esto con tu store real de favoritos
+  const favoritos = [];
 
   const [openMenus, setOpenMenus] = useState({
     cuenta: false,
@@ -51,6 +53,7 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.cuenta ? "▲" : "▼"}</span>
           </button>
+
           {openMenus.cuenta && (
             <ul className="submenu">
               <li
@@ -59,7 +62,35 @@ function Sidebar() {
               >
                 Perfil
               </li>
+
               <li>Estadisticas</li>
+
+              {/* ❤️ Favoritos */}
+              <li
+                onClick={() => navigate("/mis-favoritos")}
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <FaHeart style={{ marginRight: "6px" }} /> Mis Favoritos
+                {favoritos.length > 0 && (
+                  <span
+                    style={{
+                      background: "#ff4d4d",
+                      color: "white",
+                      borderRadius: "10px",
+                      fontSize: "11px",
+                      padding: "1px 7px",
+                      marginLeft: "6px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {favoritos.length}
+                  </span>
+                )}
+              </li>
             </ul>
           )}
         </li>
@@ -72,6 +103,7 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.saldo ? "▲" : "▼"}</span>
           </button>
+
           {openMenus.saldo && (
             <ul className="submenu">
               <li>Saldo Total</li>
@@ -89,6 +121,7 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.compras ? "▲" : "▼"}</span>
           </button>
+
           {openMenus.compras && (
             <ul className="submenu">
               <li>Historial</li>
@@ -104,6 +137,7 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.ventas ? "▲" : "▼"}</span>
           </button>
+
           {openMenus.ventas && (
             <ul className="submenu">
               <li
@@ -125,6 +159,7 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.ajustes ? "▲" : "▼"}</span>
           </button>
+
           {openMenus.ajustes && (
             <ul className="submenu">
               <li>Preferencias</li>
@@ -133,7 +168,7 @@ function Sidebar() {
           )}
         </li>
 
-        {/* Solo Administrador */}
+        {/* Admin */}
         {isAdmin() && (
           <li>
             <button className="menu-btn" onClick={() => toggleMenu("admin")}>
@@ -142,6 +177,7 @@ function Sidebar() {
               </span>
               <span className="arrow">{openMenus.admin ? "▲" : "▼"}</span>
             </button>
+
             {openMenus.admin && (
               <ul className="submenu">
                 <li
@@ -167,7 +203,7 @@ function Sidebar() {
           </li>
         )}
 
-        {/* Cerrar Sesión */}
+        {/* Logout */}
         <li>
           <button className="menu-btn" onClick={handleLogout}>
             <span className="menu-left">

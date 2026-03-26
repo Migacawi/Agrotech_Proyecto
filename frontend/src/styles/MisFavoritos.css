@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
+
+.favoritos-page {
+  background-color: #07393c;
+  min-height: 100vh;
+  width: 100%;
+  color: white;
+}
+
+.favoritos-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 30px 14% 20px 14%;
+  color: white;
+}
+
+.favoritos-header-container .results-count {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: "K2D", sans-serif;
+  margin: 0;
+  color: white; /* ✅ FORZAR BLANCO */
+}
+
+.favoritos-header-container .results-count {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: "K2D", sans-serif;
+  margin: 0;
+}
+
+.btn-limpiar-favoritos {
+  background: transparent;
+  border: 1px solid rgba(255, 107, 107, 0.6);
+  color: #ff6b6b;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-family: "K2D", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-limpiar-favoritos:hover {
+  background: rgba(255, 107, 107, 0.15);
+  border-color: #ff6b6b;
+}
+
+.favoritos-content {
+  padding: 0 5% 60px 5%;
+}
+
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.favoritos-estado {
+  text-align: center;
+  padding: 40px;
+  color: #74e2d7;
+  font-family: "K2D", sans-serif;
+}
+
+.favoritos-estado.error {
+  color: #ff6b6b;
+}
+
+.favoritos-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 80px 20px;
+  text-align: center;
+  font-family: "K2D", sans-serif;
+}
+
+.favoritos-vacio-icon {
+  font-size: 64px;
+  opacity: 0.5;
+}
+
+.favoritos-vacio h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e8f5f0;
+}
+
+.favoritos-vacio p {
+  font-size: 0.95rem;
+  color: #8caeae;
+  max-width: 320px;
+}
+
+@media (max-width: 768px) {
+  .favoritos-header-container {
+    padding: 20px 5%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+.favoritos-page h1,
+.favoritos-page h2,
+.favoritos-page h3 {
+  color: white;
+}

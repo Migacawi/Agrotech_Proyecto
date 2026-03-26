@@ -1,12 +1,33 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Card.css";
+import useFavoritosStore from "../../store/favoritosStore";
+import useCartStore from "../../store/cartStore";
 
 function Card({ item }) {
   const navigate = useNavigate();
+  const { toggleFavorito, esFavorito } = useFavoritosStore();
+  const { addItem } = useCartStore();
+  const esFav = esFavorito(item.id);
 
   const goToProduct = () => {
     navigate("/producto", { state: item });
+  };
+
+  const handleAgregarCarrito = (e) => {
+    e.stopPropagation();
+    addItem({
+      id: item.id,
+      nombre: item.titulo,
+      precio: item.precio,
+      imagen: item.img,
+      stock: item.stock,
+    });
+  };
+
+  const handleToggleFavorito = (e) => {
+    e.stopPropagation();
+    toggleFavorito(item.id);
   };
 
   return (
@@ -15,28 +36,33 @@ function Card({ item }) {
         src={item.img}
         alt={item.titulo}
         className="card-image"
+        onError={(e) => {
+          e.target.src =
+            "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19";
+        }}
       />
 
+      {/* Botón corazón */}
+      <button
+        className={`card-heart-btn ${esFav ? "active" : ""}`}
+        onClick={handleToggleFavorito}
+        title={esFav ? "Quitar de favoritos" : "Agregar a favoritos"}
+      >
+        {esFav ? "❤️" : "🤍"}
+      </button>
+
       <div className="card-content">
-        <h3 className="card-title">{item.titulo}</h3>
         <p className="card-desde">Desde</p>
+        <h3 className="card-title">{item.titulo}</h3>
         <p className="card-price">
-          $ {item.precio} <span className="card-unit">kg</span>
+          ${item.precio?.toLocaleString("es-CO")}
+          <span className="card-unit"> /libra</span>
         </p>
-        <p className="card-discount">
-          {item.descuento} Descuento
-        </p>
-        <button
-          className="card-comprar-btn"
-          onClick={(e) => { e.stopPropagation(); goToProduct(); }}
-        >
-          Comprar Ahora
-        </button>
-        <button
-          className="card-heart-btn"
-          onClick={(e) => e.stopPropagation()}
-        >
-          ❤️
+        {item.descuentoPorcentaje > 0 && (
+          <p className="card-discount">🔥 {item.descuento} OFF</p>
+        )}
+        <button className="card-comprar-btn" onClick={handleAgregarCarrito}>
+          Agregar al carrito
         </button>
       </div>
     </div>
