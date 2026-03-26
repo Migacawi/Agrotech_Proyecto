@@ -8,10 +8,20 @@ import useFavoritosStore from "../store/favoritosStore";
 import "../styles/MisFavoritos.css";
 
 function MisFavoritos() {
-  const { favoritos, limpiarFavoritos } = useFavoritosStore();
+  const {
+    favoritos,
+    limpiarFavoritos,
+    limpiarNoVistos, // ✅ nuevo
+  } = useFavoritosStore();
+
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // ✅ limpiar badge al entrar
+  useEffect(() => {
+    limpiarNoVistos();
+  }, []);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -69,6 +79,7 @@ function MisFavoritos() {
             {productos.length !== 1 ? "s" : ""}
           </h2>
         </div>
+
         {favoritos.length > 0 && (
           <button className="btn-limpiar-favoritos" onClick={limpiarFavoritos}>
             Limpiar lista

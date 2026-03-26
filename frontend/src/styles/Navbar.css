@@ -292,3 +292,30 @@
   align-items: center;
   justify-content: center;
 }
+/* contenedor relativo */
+.icon-container {
+  position: relative;
+  cursor: pointer;
+}
+
+/* numerito */
+.icon-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+
+  background: #74e2d7;
+  color: #07393c;
+
+  border-radius: 50%;
+
+  width: 18px;
+  height: 18px;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,74 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
-.footer{
-  width:100%;
-  background:#000;
-  color:white;
-  padding:60px 40px 30px 40px;
+.footer {
+  width: 100%;
+  background: #000; /* ✅ negro como pediste */
+  color: #e8f5f0;
+  padding: 60px 40px 30px 40px;
+  font-family: "K2D", sans-serif;
 }
 
-.footer-container{
-  max-width:1200px;
-  margin:auto;
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
 
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
 }
 
-.footer-logo{
-  width:160px;
-  margin-bottom:15px;
+.footer-logo {
+  width: 160px;
+  margin-bottom: 15px;
 }
 
-.footer-section h4{
-  margin-bottom:15px;
+/* ✅ TITULOS */
+.footer-section h4 {
+  margin-bottom: 15px;
+  color: #74e2d7;
 }
 
-.footer-section ul{
-  list-style:none;
-  padding:0;
+/* ✅ TEXTO DESCRIPCIÓN (LO QUE TE FALTABA) */
+.footer-section p {
+  color: #b5cfcf; /* gris claro elegante */
+  line-height: 1.5;
+  font-size: 14px;
 }
 
-.footer-section li{
-  margin-bottom:8px;
-  opacity:0.8;
-  cursor:pointer;
+/* LISTAS */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
 }
 
-.footer-section li:hover{
-  opacity:1;
+.footer-section li {
+  margin-bottom: 10px;
+  color: #cfeaea;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.footer-newsletter{
-  max-width:1200px;
-  margin:50px auto 30px auto;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.footer-section li:hover {
+  color: #74e2d7;
+  transform: translateX(3px);
 }
 
-.newsletter-box{
-  display:flex;
-}
-
-.newsletter-box input{
-  padding:12px;
-  width:250px;
-  border:none;
-}
-
-.newsletter-box button{
-  padding:12px 20px;
-  background:#00ff6a;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.footer-bottom{
-  text-align:center;
-  border-top:1px solid rgba(255,255,255,0.1);
-  padding-top:20px;
-  opacity:0.7;
+/* ✅ COPYRIGHT (LO QUE TE FALTABA) */
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  margin-top: 30px;
+  color: #b5cfcf; /* mismo tono que descripción */
+  font-size: 13px;
 }

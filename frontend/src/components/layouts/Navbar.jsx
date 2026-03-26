@@ -10,6 +10,7 @@ function Navbar() {
   const logo = "/logo3.png";
   const bandera = "/colombia.png";
   const { favoritos } = useFavoritosStore();
+  const { favoritosNoVistos } = useFavoritosStore();
   const [openCart, setOpenCart] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const cartRef = useRef(null);
@@ -74,15 +75,14 @@ function Navbar() {
           <img src={bandera} alt="Colombia" className="flag" />
           <span className="language-text">Español Latinoamerica | COP</span>
         </div>
-
         <div
           className="favoritos icon-container"
           onClick={() => navigate("/mis-favoritos")}
         >
           <img src="/corazon.png" alt="favoritos" className="icon" />
 
-          {favoritos.length > 0 && (
-            <span className="icon-badge">{favoritos.length}</span>
+          {favoritosNoVistos > 0 && (
+            <span className="icon-badge">{favoritosNoVistos}</span>
           )}
         </div>
 
