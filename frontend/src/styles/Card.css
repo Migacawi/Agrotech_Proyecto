@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
 
 .card {
   width: 250px;
@@ -6,14 +6,18 @@
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1), 0 0 6px 1px rgba(130, 248, 255, 0.3);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.1),
+    0 0 6px 1px rgba(130, 248, 255, 0.3);
   position: relative;
   transition: box-shadow 0.2s ease;
   cursor: pointer;
 }
 
 .card:hover {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1), 0 0 12px 3px rgba(130, 248, 255, 0.6);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.1),
+    0 0 12px 3px rgba(130, 248, 255, 0.6);
 }
 
 .card-image {
@@ -29,36 +33,39 @@
 
 .card-content {
   padding: 12px;
-  font-family: 'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
 }
 
 .card-title {
   font-size: 16px;
   font-weight: 600;
-  font-family: 'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  color: white;
 }
 
 .card-desde {
   font-size: 12px;
-  color: gray;
-  font-family: 'K2D', sans-serif;
+  color: white;
+  font-family: "K2D", sans-serif;
 }
 
 .card-price {
   font-size: 18px;
   font-weight: bold;
-  font-family: 'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  color: white;
 }
 
 .card-unit {
   font-size: 12px;
-  font-family: 'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  color: white;
 }
 
 .card-discount {
   font-size: 12px;
-  color: green;
-  font-family: 'K2D', sans-serif;
+  color: #82f8ff;
+  font-family: "K2D", sans-serif;
 }
 
 .card-comprar-btn {
@@ -72,13 +79,16 @@
   border-radius: 25px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
   cursor: pointer;
   box-shadow: 0 0 8px 2px rgba(130, 248, 255, 0.4);
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease, max-height 0.3s ease, margin-top 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    max-height 0.3s ease,
+    margin-top 0.3s ease;
 }
 
 .card:hover .card-comprar-btn {

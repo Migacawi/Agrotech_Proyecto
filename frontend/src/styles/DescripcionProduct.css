@@ -5,7 +5,7 @@
   gap: 50px;
   padding: 30px 70px;
   background: #07393c;
-  color: white;
+  color: #333333;
   min-height: auto;
 }
 
@@ -28,11 +28,12 @@
   font-weight: 700;
   font-size: 2rem;
   margin-bottom: 8px;
-  font-family: "Roboto", sans-serif;
+  font-family: "K2D", sans-serif;
+  color: white;
 }
 
 .producto-subtitulo {
-  color: #ccc;
+  color: #cccccc;
   font-size: 0.9rem;
   margin-bottom: 20px;
   font-weight: 300;
@@ -53,7 +54,7 @@
 }
 
 .precio-original {
-  color: #aaa;
+  color: #aaaaaa;
   font-size: 1.2rem;
   text-decoration: line-through;
 }
@@ -67,11 +68,16 @@
   border-radius: 5px;
 }
 
+.detalles-producto {
+  color: #cccccc;
+}
+
 .detalles-producto p {
   margin: 3px 0;
   font-size: 0.85rem;
   font-weight: 400;
   line-height: 1.3;
+  color: #cccccc;
 }
 
 .btn-carrito {
@@ -97,13 +103,13 @@
   background-color: #00282b;
   padding: 20px;
   border-radius: 10px;
-  max-width: 350px; /* ajusta este valor a tu gusto */
+  max-width: 350px;
 }
 
 .ofertas-vendedor h3 {
   font-weight: 700;
   margin-bottom: 15px;
-  
+  color: #74e2d7;
 }
 
 .oferta-item {
@@ -111,6 +117,7 @@
   justify-content: space-between;
   margin-bottom: 8px;
   font-size: 0.9rem;
+  color: #cccccc;
 }
 
 .precio-oferta-vendedor {
@@ -129,7 +136,6 @@
   font-size: 0.9rem;
 }
 
-/* SECCION INFERIOR */
 .descripcion-extra {
   display: flex;
   gap: 30px;
@@ -153,6 +159,6 @@
 
 .extra-text {
   font-size: 0.95rem;
-  color: #ccc;
+  color: #cccccc;
   line-height: 1.6;
 }
