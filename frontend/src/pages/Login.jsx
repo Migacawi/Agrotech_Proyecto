@@ -19,8 +19,8 @@ function Login() {
 
   const redirigirPorRol = () => {
   const rol = useAuthStore.getState().getRole()?.toLowerCase();
-  if (rol === 'administrador')  navigate('/admin/usuarios');
-  else if (rol === 'vendedor')  navigate('/mis-productos');
+  if (rol === 'administrador')  navigate('/');
+  else if (rol === 'vendedor')  navigate('/');
   else                          navigate('/');
 };
 

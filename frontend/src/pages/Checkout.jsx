@@ -273,7 +273,7 @@ function Checkout() {
       };
 
       const resPedido = await fetch(
-        "https://zg1rgk22-3000.use2.devtunnels.ms/api/pedidos",
+        "https://bug-free-fortnight-pjq5gpjj9xpghwrp-3000.app.github.dev",
         {
           method: "POST",
           headers,
@@ -297,7 +297,7 @@ function Checkout() {
       const pedidoId = dataPedido.Id;
 
       const resPago = await fetch(
-        "https://zg1rgk22-3000.use2.devtunnels.ms/api/pagos/procesar",
+        "https://bug-free-fortnight-pjq5gpjj9xpghwrp-3000.app.github.dev",
         {
           method: "POST",
           headers,

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 function PasswordField({
   value,
@@ -7,7 +8,7 @@ function PasswordField({
   name         = 'password',
   label        = 'Contraseña',
   placeholder  = 'Ingresa tu contraseña',
-  showForgot   = false,   // true solo en Login para mostrar "¿Olvidaste tu contraseña?"
+  showForgot   = false,
   error        = '',
 }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,9 +18,9 @@ function PasswordField({
       <div className="password-label-row">
         <label htmlFor={name}>{label}</label>
         {showForgot && (
-          <a href="#" className="forgot-password">
+          <Link to="/recuperar-password" className="forgot-password">
             ¿Has olvidado tu contraseña?
-          </a>
+          </Link>
         )}
       </div>
 
