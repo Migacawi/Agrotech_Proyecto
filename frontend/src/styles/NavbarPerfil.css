@@ -1,28 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
+
 .NavbarPerfil {
-  display: flex;               /* para alinear horizontalmente */
-  justify-content: space-between; /* logo a la izquierda, perfil a la derecha */
-  align-items: center;         /* centrado vertical */
-  padding: 0 20px;             /* separación a los lados */
-  height: 70px;                /* altura de la navbar */
-  background-color: #07393C;   /* color de fondo */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* sombra sutil */
-  position: sticky;            /* se queda en la parte superior al hacer scroll */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 70px;
+  background-color: #07393c;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
   top: 0;
-  z-index: 1000;               /* siempre arriba */
-  font-family:'K2D', sans-serif;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  font-family: "K2D", sans-serif;
 }
 
-/* Sección izquierda: logo + nombre */
 .NavbarPerfil .navbar-left {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  text-decoration: none;
+  color: white;
 }
 
 .NavbarPerfil .logo {
-  height: 50px; /* tamaño del logo */
+  height: 50px;
   width: auto;
 }
 
@@ -30,18 +34,23 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: white;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
 }
 
+.NavbarPerfil .perfil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .NavbarPerfil .perfil img.icon {
   height: 40px;
   width: 40px;
-  border-radius: 50%; /* si quieres circular */
+  border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
 .NavbarPerfil .perfil img.icon:hover {
-  transform: scale(1.1); /* efecto hover */
+  transform: scale(1.1);
 }

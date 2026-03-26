@@ -1,18 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
+
+.perfil-page {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background: #f2f2f2;
+}
+
 .perfil-content {
   margin-left: 220px;
+  margin-top: 70px;
   padding: 40px;
   background: #f2f2f2;
-  min-height: 100vh;
-  border-radius: 10px;
-  font-family:'K2D', sans-serif;
+  min-height: calc(100vh - 70px);
+  font-family: "K2D", sans-serif;
 }
 
 .section-title {
   font-size: 14px;
   letter-spacing: 2px;
   margin-bottom: 30px;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  color: #07393c;
+  text-transform: uppercase;
 }
 
 .perfil-grid {
@@ -27,51 +37,86 @@
   background: white;
   padding: 20px;
   border-radius: 6px;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.perfil-card h4,
+.compras-card h4 {
+  margin: 0 0 15px 0;
+  color: #07393c;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .perfil-info {
   display: flex;
   align-items: center;
   gap: 15px;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
 }
 
 .perfil-avatar {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .perfil-nombre {
-  font-weight: bold;
-  font-family:'K2D', sans-serif;
+  font-weight: 600;
+  color: #07393c;
+  font-family: "K2D", sans-serif;
+  margin: 0;
+  font-size: 16px;
 }
 
 .perfil-email {
-  font-size: 14px;
-  color: gray;
-  font-family:'K2D', sans-serif;
+  font-size: 13px;
+  color: #999;
+  font-family: "K2D", sans-serif;
+  margin: 0;
 }
 
 .edit-btn {
   margin-left: auto;
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.edit-btn:hover {
+  transform: scale(1.1);
 }
 
 .saldo-section {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
   margin-top: 30px;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.saldo-section h4 {
+  margin: 0 0 20px 0;
+  color: #07393c;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .saldo-total {
   color: #00ff55;
   text-shadow: 0 0 6px #00ff55;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  margin: 0 0 20px 0;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 .saldo-item {
@@ -79,36 +124,79 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.saldo-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.saldo-item > div:first-child {
+  flex: 1;
 }
 
 .saldo-title {
-  font-weight: bold;
-  font-family:'K2D', sans-serif;
+  font-weight: 600;
+  color: #07393c;
+  font-family: "K2D", sans-serif;
+  margin: 0 0 5px 0;
+  font-size: 14px;
 }
 
 .saldo-desc {
   font-size: 12px;
-  color: gray;
-  font-family:'K2D', sans-serif;
+  color: #999;
+  font-family: "K2D", sans-serif;
+  margin: 0;
 }
 
 .saldo-right {
   display: flex;
   align-items: center;
   gap: 15px;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  flex-shrink: 0;
 }
 
 .saldo-value {
-  color: #65FF51;
+  color: #65ff51;
   font-weight: bold;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
+  white-space: nowrap;
+  font-size: 14px;
 }
 
 .saldo-btn {
   background: #07393c;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
   cursor: pointer;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-weight: bold;
+  font-family: "K2D", sans-serif;
+  transition: all 0.3s;
+  font-size: 16px;
+}
+
+.saldo-btn:hover {
+  background: #052a2d;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .perfil-content {
+    margin-left: 0;
+    margin-top: 70px;
+    padding: 20px;
+  }
+
+  .perfil-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }

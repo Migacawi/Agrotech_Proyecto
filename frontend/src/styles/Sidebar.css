@@ -1,82 +1,116 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
+
 .sidebar {
-  width: 220px;
-  background-color: #07393c;
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  top: 0;
+  position: fixed; /* ← CRITICAL: Fixed para no ocupar espacio en el flujo */
   left: 0;
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  font-family:'K2D', sans-serif;
+  top: 0;
+  width: 220px;
+  height: 100vh;
+  background: #07393c;
+  color: white;
+  overflow-y: auto;
+  z-index: 100;
+  font-family: "K2D", sans-serif;
 }
 
 .sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 20px;
-  margin-bottom: 30px;
-}
-
-.sidebar-logo {
-  width: 35px;
-  height: 35px;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #74e2d7;
+  letter-spacing: 1px;
 }
 
 .menu {
   list-style: none;
-  padding: 0;
   margin: 0;
-  flex: 1;
-}
-
-.menu li {
-  width: 100%;
+  padding: 0;
 }
 
 .menu-btn {
   width: 100%;
+  padding: 14px 20px;
   background: none;
   border: none;
-  color: #fff;
-  padding: 12px 20px;
+  color: white;
+  text-align: left;
+  cursor: pointer;
   display: flex;
-  justify-content: space-between; /* separa izquierda y derecha */
+  justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.2s;
-  font-family:'K2D', sans-serif;
-}
-.menu-btn:hover {
-  background-color: #05514b;
-}
-
-.submenu {
-  list-style: none;
-  padding-left: 40px;
-  background-color: #05514b;
-}
-
-.submenu li {
-  padding: 8px 0;
+  font-family: "K2D", sans-serif;
   font-size: 14px;
-  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.submenu li:hover {
-  color: #a1ff00; /* cambio de color al pasar el mouse */
+.menu-btn:hover {
+  background: rgba(116, 226, 215, 0.1);
+  color: #74e2d7;
 }
+
 .menu-left {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family:'K2D', sans-serif;
 }
 
 .arrow {
   font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.2);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.submenu li {
+  padding: 12px 20px 12px 40px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.submenu li:hover {
+  background: rgba(116, 226, 215, 0.15);
+  color: #74e2d7;
+  padding-left: 45px;
+}
+
+/* Scrollbar personalizado */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(116, 226, 215, 0.05);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(116, 226, 215, 0.3);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(116, 226, 215, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 200px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
 }

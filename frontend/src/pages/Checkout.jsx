@@ -25,62 +25,140 @@ const saBase = {
 
 const saStyles = {
   overlay: {
-    position: "fixed", inset: 0,
+    position: "fixed",
+    inset: 0,
     background: "rgba(4,22,22,0.82)",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    zIndex: 9999, padding: "20px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+    padding: "20px",
   },
   box: {
-    background: "#07393C", border: "1px solid #1a5c60",
-    borderRadius: "14px", padding: "36px 32px 28px",
-    width: "100%", maxWidth: "360px",
-    textAlign: "center", position: "relative",
+    background: "#07393C",
+    border: "1px solid #1a5c60",
+    borderRadius: "14px",
+    padding: "36px 32px 28px",
+    width: "100%",
+    maxWidth: "360px",
+    textAlign: "center",
+    position: "relative",
     fontFamily: "'Segoe UI', sans-serif",
   },
   badge: {
-    position: "absolute", top: "-13px", left: "50%",
+    position: "absolute",
+    top: "-13px",
+    left: "50%",
     transform: "translateX(-50%)",
-    background: "#74e2d7", color: "#07393C",
-    fontSize: "11px", fontWeight: 700,
-    padding: "3px 14px", borderRadius: "20px",
-    letterSpacing: "0.5px", whiteSpace: "nowrap",
+    background: "#74e2d7",
+    color: "#07393C",
+    fontSize: "11px",
+    fontWeight: 700,
+    padding: "3px 14px",
+    borderRadius: "20px",
+    letterSpacing: "0.5px",
+    whiteSpace: "nowrap",
   },
   icon: {
-    width: "64px", height: "64px", borderRadius: "50%",
-    margin: "0 auto 20px", display: "flex",
-    alignItems: "center", justifyContent: "center", fontSize: "26px",
+    width: "64px",
+    height: "64px",
+    borderRadius: "50%",
+    margin: "0 auto 20px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "26px",
   },
-  icon_success: { background: "rgba(122,184,168,0.15)", border: "2px solid #7ab8a8", color: "#7ab8a8" },
-  icon_error:   { background: "rgba(255,112,112,0.12)", border: "2px solid #ff7070", color: "#ff7070" },
-  icon_warning: { background: "rgba(250,182,87,0.12)",  border: "2px solid #fab657", color: "#fab657" },
-  icon_confirm: { background: "rgba(116,226,215,0.10)", border: "2px solid #74e2d7", color: "#74e2d7" },
-  title:     { fontSize: "18px", fontWeight: 600, color: "#e8f5f3", marginBottom: "10px", lineHeight: 1.3 },
-  text:      { fontSize: "13.5px", color: "#7ab8a8", marginBottom: "24px", lineHeight: 1.55 },
+  icon_success: {
+    background: "rgba(122,184,168,0.15)",
+    border: "2px solid #7ab8a8",
+    color: "#7ab8a8",
+  },
+  icon_error: {
+    background: "rgba(255,112,112,0.12)",
+    border: "2px solid #ff7070",
+    color: "#ff7070",
+  },
+  icon_warning: {
+    background: "rgba(250,182,87,0.12)",
+    border: "2px solid #fab657",
+    color: "#fab657",
+  },
+  icon_confirm: {
+    background: "rgba(116,226,215,0.10)",
+    border: "2px solid #74e2d7",
+    color: "#74e2d7",
+  },
+  title: {
+    fontSize: "18px",
+    fontWeight: 600,
+    color: "#e8f5f3",
+    marginBottom: "10px",
+    lineHeight: 1.3,
+  },
+  text: {
+    fontSize: "13.5px",
+    color: "#7ab8a8",
+    marginBottom: "24px",
+    lineHeight: 1.55,
+  },
   highlight: { color: "#74e2d7", fontWeight: 600 },
-  btnRow:    { display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" },
-  btnPrimary:   { ...saBase, background: "#74e2d7", color: "#07393C" },
-  btnDanger:    { ...saBase, background: "#ff7070", color: "#fff" },
-  btnWarning:   { ...saBase, background: "#fab657", color: "#07393C" },
-  btnSecondary: { ...saBase, background: "transparent", border: "1px solid #2e686c", color: "#7ab8a8" },
+  btnRow: {
+    display: "flex",
+    gap: "10px",
+    justifyContent: "center",
+    flexWrap: "wrap",
+  },
+  btnPrimary: { ...saBase, background: "#74e2d7", color: "#07393C" },
+  btnDanger: { ...saBase, background: "#ff7070", color: "#fff" },
+  btnWarning: { ...saBase, background: "#fab657", color: "#07393C" },
+  btnSecondary: {
+    ...saBase,
+    background: "transparent",
+    border: "1px solid #2e686c",
+    color: "#7ab8a8",
+  },
 };
 
-const btnConfirmStyle = { success: saStyles.btnPrimary, error: saStyles.btnDanger, warning: saStyles.btnWarning, confirm: saStyles.btnPrimary };
+const btnConfirmStyle = {
+  success: saStyles.btnPrimary,
+  error: saStyles.btnDanger,
+  warning: saStyles.btnWarning,
+  confirm: saStyles.btnPrimary,
+};
 
-function SweetAlert({ type = "success", title, text, badge, highlight, confirmText = "Aceptar", cancelText, onConfirm, onCancel, onClose }) {
+function SweetAlert({
+  type = "success",
+  title,
+  text,
+  badge,
+  highlight,
+  confirmText = "Aceptar",
+  cancelText,
+  onConfirm,
+  onCancel,
+  onClose,
+}) {
   const iconStyle = { ...saStyles.icon, ...saStyles[`icon_${type}`] };
 
   const renderText = () => {
-    if (!highlight || !text?.includes(highlight)) return <p style={saStyles.text}>{text}</p>;
+    if (!highlight || !text?.includes(highlight))
+      return <p style={saStyles.text}>{text}</p>;
     const parts = text.split(highlight);
     return (
       <p style={saStyles.text}>
-        {parts[0]}<strong style={saStyles.highlight}>{highlight}</strong>{parts[1]}
+        {parts[0]}
+        <strong style={saStyles.highlight}>{highlight}</strong>
+        {parts[1]}
       </p>
     );
   };
 
   return (
-    <div style={saStyles.overlay} onClick={(e) => e.target === e.currentTarget && onClose?.()}>
+    <div
+      style={saStyles.overlay}
+      onClick={(e) => e.target === e.currentTarget && onClose?.()}
+    >
       <div style={saStyles.box} role="dialog" aria-modal="true">
         {badge && <span style={saStyles.badge}>{badge}</span>}
         <div style={iconStyle}>{ICONS[type]}</div>
@@ -99,8 +177,12 @@ function SweetAlert({ type = "success", title, text, badge, highlight, confirmTe
             <button
               style={saStyles.btnSecondary}
               onClick={onCancel ?? onClose}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#74e2d7")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#2e686c")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.borderColor = "#74e2d7")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.borderColor = "#2e686c")
+              }
             >
               {cancelText}
             </button>
@@ -115,33 +197,40 @@ function SweetAlert({ type = "success", title, text, badge, highlight, confirmTe
 function Checkout() {
   const navigate = useNavigate();
 
-  const { items, addItem, removeItem, deleteItem, getTotal, clearCart } = useCartStore();
+  const { items, addItem, removeItem, deleteItem, getTotal, clearCart } =
+    useCartStore();
   const { user } = useAuthStore();
 
-  const [nombre,    setNombre]    = useState("");
+  const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
-  const [barrio,    setBarrio]    = useState("");
-  const [ciudad,    setCiudad]    = useState("Bogotá");
-  const [telefono,  setTelefono]  = useState("");
-  const [pago,      setPago]      = useState("efectivo");
-  const [cargando,  setCargando]  = useState(false);
+  const [barrio, setBarrio] = useState("");
+  const [ciudad, setCiudad] = useState("Bogotá");
+  const [telefono, setTelefono] = useState("");
+  const [pago, setPago] = useState("efectivo");
+  const [cargando, setCargando] = useState(false);
 
   const [alerta, setAlerta] = useState(null);
 
-  const [errores, setErrores] = useState({ nombre: "", barrio: "", telefono: "" });
+  const [errores, setErrores] = useState({
+    nombre: "",
+    barrio: "",
+    telefono: "",
+  });
 
   const subtotal = getTotal();
 
   const validarNombre = (val) => {
     if (!val.trim()) return "";
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(val)) return "Solo se permiten letras.";
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(val))
+      return "Solo se permiten letras.";
     if (val.trim().length < 5) return "Mínimo 5 caracteres.";
     return "";
   };
 
   const validarBarrio = (val) => {
     if (!val.trim()) return "";
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(val)) return "Solo se permiten letras.";
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(val))
+      return "Solo se permiten letras.";
     return "";
   };
 
@@ -183,42 +272,42 @@ function Checkout() {
         Authorization: `Bearer ${token}`,
       };
 
-<<<<<<< HEAD
-      const resPedido = await fetch("https://cautious-goldfish-5gq54w94q459h5xg-3000.app.github.dev/api/pedidos", {
-=======
-      const resPedido = await fetch("https://ubiquitous-parakeet-7v4jrpvvx76x2pxqw-3000.app.github.dev/api/pedidos", {
->>>>>>> 62a53e12c82f4dcc6816a195f662870749694405
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          CompradorId: user?.id,
-          Total:       subtotal,
-          Estado:      "Pendiente",
-          detalles:    items.map((i) => ({
-            ProductoId:     i.id,
-            Cantidad:       i.cantidad,
-            PrecioUnitario: i.precio,
-          })),
-        }),
-      });
+      const resPedido = await fetch(
+        "https://zg1rgk22-3000.use2.devtunnels.ms/api/pedidos",
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            CompradorId: user?.id,
+            Total: subtotal,
+            Estado: "Pendiente",
+            detalles: items.map((i) => ({
+              ProductoId: i.id,
+              Cantidad: i.cantidad,
+              PrecioUnitario: i.precio,
+            })),
+          }),
+        },
+      );
 
       const dataPedido = await resPedido.json();
-      if (!resPedido.ok) throw new Error(dataPedido.error || "Error al crear el pedido.");
+      if (!resPedido.ok)
+        throw new Error(dataPedido.error || "Error al crear el pedido.");
 
       const pedidoId = dataPedido.Id;
 
-<<<<<<< HEAD
-      const resPago = await fetch("https://cautious-goldfish-5gq54w94q459h5xg-3000.app.github.dev/api/pagos/procesar", {
-=======
-      const resPago = await fetch("https://ubiquitous-parakeet-7v4jrpvvx76x2pxqw-3000.app.github.dev/api/pagos/procesar", {
->>>>>>> 62a53e12c82f4dcc6816a195f662870749694405
-        method: "POST",
-        headers,
-        body: JSON.stringify({ pedidoId, metodoPago: pago }),
-      });
+      const resPago = await fetch(
+        "https://zg1rgk22-3000.use2.devtunnels.ms/api/pagos/procesar",
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ pedidoId, metodoPago: pago }),
+        },
+      );
 
       const dataPago = await resPago.json();
-      if (!resPago.ok) throw new Error(dataPago.error || "Error al procesar el pago.");
+      if (!resPago.ok)
+        throw new Error(dataPago.error || "Error al procesar el pago.");
 
       clearCart();
 
@@ -231,17 +320,16 @@ function Checkout() {
           setAlerta(null);
           navigate(`/confirmacion/${pedidoId}`, {
             state: {
-              mensaje:    dataPago.mensaje,
+              mensaje: dataPago.mensaje,
               estadoPago: dataPago.pago?.Estado,
               metodoPago: pago,
-              total:      subtotal,
+              total: subtotal,
               items,
-              vendedor:   items[0]?.vendedor || null,
+              vendedor: items[0]?.vendedor || null,
             },
           });
         },
       });
-
     } catch (err) {
       setAlerta({
         type: "error",
@@ -250,7 +338,7 @@ function Checkout() {
         confirmText: "Reintentar",
         cancelText: "Cancelar",
         onConfirm: () => setAlerta(null),
-        onCancel:  () => setAlerta(null),
+        onCancel: () => setAlerta(null),
       });
     } finally {
       setCargando(false);
@@ -258,8 +346,8 @@ function Checkout() {
   };
 
   const confirmarPedido = () => {
-    const errNombre   = validarNombre(nombre);
-    const errBarrio   = validarBarrio(barrio);
+    const errNombre = validarNombre(nombre);
+    const errBarrio = validarBarrio(barrio);
     const errTelefono = validarTelefono(telefono);
 
     setErrores({ nombre: errNombre, barrio: errBarrio, telefono: errTelefono });
@@ -270,7 +358,10 @@ function Checkout() {
         title: "Carrito vacío",
         text: "No tienes productos en el carrito. Agrega algo antes de continuar.",
         confirmText: "Ir a la tienda",
-        onConfirm: () => { setAlerta(null); navigate("/ver-todo"); },
+        onConfirm: () => {
+          setAlerta(null);
+          navigate("/ver-todo");
+        },
       });
       return;
     }
@@ -328,18 +419,25 @@ function Checkout() {
       highlight: `$${subtotal.toLocaleString("es-CO")} COP`,
       confirmText: "Sí, confirmar",
       cancelText: "Volver",
-      onConfirm: () => { setAlerta(null); ejecutarPedido(); },
-      onCancel:  () => setAlerta(null),
+      onConfirm: () => {
+        setAlerta(null);
+        ejecutarPedido();
+      },
+      onCancel: () => setAlerta(null),
     });
   };
 
   const opcionesPago = [
-    { value: "efectivo",      label: "Contra entrega", icon: "💵" },
-    { value: "transferencia", label: "Transferencia",  icon: "🏦" },
-    { value: "tarjeta",       label: "Tarjeta",        icon: "💳" },
+    { value: "efectivo", label: "Contra entrega", icon: "💵" },
+    { value: "transferencia", label: "Transferencia", icon: "🏦" },
+    { value: "tarjeta", label: "Tarjeta", icon: "💳" },
   ];
 
-  const estiloErrorCampo = { color: "#ff7070", fontSize: "11px", marginTop: "4px" };
+  const estiloErrorCampo = {
+    color: "#ff7070",
+    fontSize: "11px",
+    marginTop: "4px",
+  };
 
   return (
     <>
@@ -347,7 +445,6 @@ function Checkout() {
       <Categorias />
 
       <div className="checkout-page">
-
         {/* ── RESUMEN ── */}
         <div className="checkout-card">
           <p className="section-title">Resumen del pedido</p>
@@ -364,28 +461,63 @@ function Checkout() {
 
               {items.map((p) => (
                 <div key={p.id} className="product-row">
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
                     {p.imagen && (
                       <img
                         src={p.imagen}
                         alt={p.nombre}
-                        style={{ width: 44, height: 44, borderRadius: 6, objectFit: "cover", flexShrink: 0 }}
+                        style={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: 6,
+                          objectFit: "cover",
+                          flexShrink: 0,
+                        }}
                       />
                     )}
                     <div>
                       <p className="product-name">{p.nombre}</p>
-                      <p className="product-meta">${p.precio.toLocaleString("es-CO")} / libra</p>
+                      <p className="product-meta">
+                        ${p.precio.toLocaleString("es-CO")} / libra
+                      </p>
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-                    <button className="qty-btn" onClick={() => removeItem(p.id)}>−</button>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <button
+                      className="qty-btn"
+                      onClick={() => removeItem(p.id)}
+                    >
+                      −
+                    </button>
                     <span className="qty-badge">{p.cantidad}</span>
-                    <button className="qty-btn" onClick={() => addItem(p)}>+</button>
-                    <button className="qty-btn qty-btn--delete" onClick={() => deleteItem(p.id)}>✕</button>
+                    <button className="qty-btn" onClick={() => addItem(p)}>
+                      +
+                    </button>
+                    <button
+                      className="qty-btn qty-btn--delete"
+                      onClick={() => deleteItem(p.id)}
+                    >
+                      ✕
+                    </button>
                   </div>
 
-                  <p className="product-price">${(p.precio * p.cantidad).toLocaleString("es-CO")}</p>
+                  <p className="product-price">
+                    ${(p.precio * p.cantidad).toLocaleString("es-CO")}
+                  </p>
                 </div>
               ))}
 
@@ -401,7 +533,9 @@ function Checkout() {
               </div>
               <div className="total-row">
                 <span className="total-label">Total a pagar</span>
-                <span className="total-amount">${subtotal.toLocaleString("es-CO")} COP</span>
+                <span className="total-amount">
+                  ${subtotal.toLocaleString("es-CO")} COP
+                </span>
               </div>
             </>
           )}
@@ -436,7 +570,10 @@ function Checkout() {
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">Ciudad</label>
-              <select value={ciudad} onChange={(e) => setCiudad(e.target.value)}>
+              <select
+                value={ciudad}
+                onChange={(e) => setCiudad(e.target.value)}
+              >
                 <option>Bogotá</option>
                 <option>Medellín</option>
                 <option>Cali</option>
@@ -452,7 +589,9 @@ function Checkout() {
                 onChange={handleBarrio}
                 style={{ borderColor: errores.barrio ? "#ff7070" : undefined }}
               />
-              {errores.barrio && <p style={estiloErrorCampo}>{errores.barrio}</p>}
+              {errores.barrio && (
+                <p style={estiloErrorCampo}>{errores.barrio}</p>
+              )}
             </div>
           </div>
 
@@ -465,7 +604,9 @@ function Checkout() {
               onChange={handleTelefono}
               style={{ borderColor: errores.telefono ? "#ff7070" : undefined }}
             />
-            {errores.telefono && <p style={estiloErrorCampo}>{errores.telefono}</p>}
+            {errores.telefono && (
+              <p style={estiloErrorCampo}>{errores.telefono}</p>
+            )}
           </div>
 
           <div className="divider" />
@@ -492,16 +633,10 @@ function Checkout() {
             {cargando ? "Procesando pedido..." : "Confirmar pedido"}
           </button>
         </div>
-
       </div>
 
       {/* ── SWEET ALERT ── */}
-      {alerta && (
-        <SweetAlert
-          {...alerta}
-          onClose={() => setAlerta(null)}
-        />
-      )}
+      {alerta && <SweetAlert {...alerta} onClose={() => setAlerta(null)} />}
 
       <Footer />
     </>
