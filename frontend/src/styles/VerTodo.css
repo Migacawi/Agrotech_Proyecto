@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
 /* Contenedor del texto superior */
 .results-header-container {
   display: flex;
@@ -9,43 +9,46 @@
 }
 /* El texto superior (Tienda > Frutas) */
 .breadcrumb-text {
-  font-size: 0.9rem;    /* Tamaño pequeño */
-  color: #a0c2c1;       /* Color suavizado */
+  font-size: 0.9rem; /* Tamaño pequeño */
+  color: #a0c2c1; /* Color suavizado */
   margin: 0;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
   opacity: 0.8;
 }
 .results-count {
-  font-size: 1.8rem;    
+  font-size: 1.8rem;
   font-weight: bold;
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
   margin: 0;
+  color: white;
 }
 .results-filter {
   font-size: 1rem;
   padding-bottom: 5px; /* Ajuste fino para alinearlo visualmente */
-  font-family:'K2D', sans-serif;
+  font-family: "K2D", sans-serif;
 }
 
 /* El envoltorio que separa Sidebar de Tarjetas */
 .main-content-wrapper {
-  display: flex;       /* Esto pone los hijos en línea (horizontal) */
+  display: flex; /* Esto pone los hijos en línea (horizontal) */
   align-items: flex-start;
   padding: 0 5% 40px 5%;
-  gap: 30px;          
+  gap: 30px;
 }
 
 /* El área de las tarjetas */
 .cards-grid-container {
-  flex: 1;             /* Esto hace que las tarjetas usen todo el espacio restante */
+  flex: 1; /* Esto hace que las tarjetas usen todo el espacio restante */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Preparado para tus tarjetas */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(200px, 1fr)
+  ); /* Preparado para tus tarjetas */
   gap: 20px;
 }
 .ver-todo-page {
-  background-color: #07393C; /* El verde muy oscuro de tu diseño */
-  min-height: 100vh;         /* Ocupa el 100% de la altura de la pantalla */
+  background-color: #07393c; /* El verde muy oscuro de tu diseño */
+  min-height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
   width: 100%;
-  color: white;              /* Para que los textos por defecto sean blancos */
+  color: white; /* Para que los textos por defecto sean blancos */
 }
-

@@ -32,6 +32,12 @@ function Footer() {
             <li onClick={() => navigate("/ver-todo?categoria=fertilizantes")}>
               Fertilizantes
             </li>
+            <li onClick={() => navigate("/ver-todo?categoria=granos")}>
+              Granos
+            </li>
+            <li onClick={() => navigate("/ver-todo?categoria=tuberculos")}>
+              Tubérculos
+            </li>
             <li onClick={() => navigate("/ver-todo?ofertas=true")}>Ofertas</li>
           </ul>
         </div>
@@ -61,9 +67,20 @@ function Footer() {
             >
               📸 Instagram
             </li>
-            <li onClick={() => window.open("https://github.com/tuusuario")}>
-              💻 GitHub
+            <li onClick={() => window.open("https://github.com/Migacawi")}>
+              💻 GitHub Gabriel
             </li>
+            <li
+              onClick={() =>
+                window.open("https://github.com/nicoalejo0856-collab")
+              }
+            >
+              💻 GitHub Alejandro
+            </li>
+            <li onClick={() => window.open("https://github.com/andrewsdae")}>
+              💻 GitHub Andres
+            </li>
+
             <li onClick={() => window.open("https://linkedin.com")}>
               🔗 LinkedIn
             </li>

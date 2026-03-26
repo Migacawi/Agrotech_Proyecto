@@ -151,23 +151,6 @@ function Sidebar() {
           )}
         </li>
 
-        {/* Ajustes */}
-        <li>
-          <button className="menu-btn" onClick={() => toggleMenu("ajustes")}>
-            <span className="menu-left">
-              <FaCog /> Ajustes
-            </span>
-            <span className="arrow">{openMenus.ajustes ? "▲" : "▼"}</span>
-          </button>
-
-          {openMenus.ajustes && (
-            <ul className="submenu">
-              <li>Preferencias</li>
-              <li>Seguridad</li>
-            </ul>
-          )}
-        </li>
-
         {/* Admin */}
         {isAdmin() && (
           <li>
