@@ -12,13 +12,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import "../../styles/Sidebar.css";
 import useAuthStore from "../../store/authStore";
+import useFavoritosStore from "../../store/favoritosStore"; // ← nuevo
 
 function Sidebar() {
   const { user, logout, isAdmin } = useAuthStore();
+  const { favoritos } = useFavoritosStore(); // ← nuevo
   const navigate = useNavigate();
-
-  // ⚠️ Reemplaza esto con tu store real de favoritos
-  const favoritos = [];
 
   const [openMenus, setOpenMenus] = useState({
     cuenta: false,
@@ -29,9 +28,8 @@ function Sidebar() {
     admin: false,
   });
 
-  const toggleMenu = (menu) => {
+  const toggleMenu = (menu) =>
     setOpenMenus({ ...openMenus, [menu]: !openMenus[menu] });
-  };
 
   const handleLogout = () => {
     logout();
@@ -62,7 +60,6 @@ function Sidebar() {
               >
                 Perfil
               </li>
-
               <li>Estadisticas</li>
 
               {/* ❤️ Favoritos */}
@@ -103,7 +100,6 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.saldo ? "▲" : "▼"}</span>
           </button>
-
           {openMenus.saldo && (
             <ul className="submenu">
               <li>Saldo Total</li>
@@ -121,7 +117,6 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.compras ? "▲" : "▼"}</span>
           </button>
-
           {openMenus.compras && (
             <ul className="submenu">
               <li>Historial</li>
@@ -137,7 +132,6 @@ function Sidebar() {
             </span>
             <span className="arrow">{openMenus.ventas ? "▲" : "▼"}</span>
           </button>
-
           {openMenus.ventas && (
             <ul className="submenu">
               <li
@@ -160,7 +154,6 @@ function Sidebar() {
               </span>
               <span className="arrow">{openMenus.admin ? "▲" : "▼"}</span>
             </button>
-
             {openMenus.admin && (
               <ul className="submenu">
                 <li

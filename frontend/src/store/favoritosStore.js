@@ -1,34 +1,56 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import useAuthStore from "./authStore";
 
-const useFavoritosStore = create(
-  persist(
-    (set, get) => ({
-      favoritos: [],
-      favoritosNoVistos: 0, // ✅ nuevo
+// Helpers para leer/escribir en localStorage por usuario
+const getKey = () => {
+  const userId = useAuthStore.getState().user?.id;
+  return userId ? `agrotech-favoritos-${userId}` : "agrotech-favoritos-guest";
+};
 
-      toggleFavorito: (id) => {
-        const { favoritos, favoritosNoVistos } = get();
-        const existe = favoritos.includes(id);
+const cargarFavoritos = () => {
+  try {
+    const data = localStorage.getItem(getKey());
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+};
 
-        set({
-          favoritos: existe
-            ? favoritos.filter((f) => f !== id)
-            : [...favoritos, id],
+const guardarFavoritos = (favoritos) => {
+  localStorage.setItem(getKey(), JSON.stringify(favoritos));
+};
 
-          // ✅ solo suma si es nuevo favorito
-          favoritosNoVistos: existe ? favoritosNoVistos : favoritosNoVistos + 1,
-        });
-      },
+const useFavoritosStore = create((set, get) => ({
+  favoritos: cargarFavoritos(),
+  favoritosNoVistos: 0,
 
-      esFavorito: (id) => get().favoritos.includes(id),
+  // Recargar favoritos del usuario actual (llamar al hacer login)
+  recargarFavoritos: () => {
+    set({ favoritos: cargarFavoritos(), favoritosNoVistos: 0 });
+  },
 
-      limpiarFavoritos: () => set({ favoritos: [], favoritosNoVistos: 0 }),
+  toggleFavorito: (id) => {
+    const { favoritos, favoritosNoVistos } = get();
+    const existe = favoritos.includes(id);
+    const nuevos = existe
+      ? favoritos.filter((f) => f !== id)
+      : [...favoritos, id];
 
-      limpiarNoVistos: () => set({ favoritosNoVistos: 0 }), // ✅ nuevo
-    }),
-    { name: "agrotech-favoritos" },
-  ),
-);
+    guardarFavoritos(nuevos);
+    set({
+      favoritos: nuevos,
+      favoritosNoVistos: existe ? favoritosNoVistos : favoritosNoVistos + 1,
+    });
+  },
+
+  esFavorito: (id) => get().favoritos.includes(id),
+
+  limpiarFavoritos: () => {
+    guardarFavoritos([]);
+    set({ favoritos: [], favoritosNoVistos: 0 });
+  },
+
+  limpiarNoVistos: () => set({ favoritosNoVistos: 0 }),
+}));
 
 export default useFavoritosStore;
