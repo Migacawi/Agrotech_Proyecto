@@ -7,6 +7,9 @@ import "../styles/Checkout.css";
 
 import useCartStore from "../store/cartStore";
 import useAuthStore from "../store/authStore";
+import PagoEfectivo from "../components/ui/PagoEfectivo";
+import PagoTransferencia from "../components/ui/PagoTransferencia";
+import PagoTarjeta from "../components/ui/PagoTarjeta";
 
 /* ── Sweet Alert inline ── */
 const ICONS = { success: "✓", error: "✕", warning: "!", confirm: "?" };
@@ -208,8 +211,8 @@ function Checkout() {
   const [telefono, setTelefono] = useState("");
   const [pago, setPago] = useState("efectivo");
   const [cargando, setCargando] = useState(false);
-
   const [alerta, setAlerta] = useState(null);
+  const [modalPagoOpen, setModalPagoOpen] = useState(false);
 
   const [errores, setErrores] = useState({
     nombre: "",
@@ -272,23 +275,20 @@ function Checkout() {
         Authorization: `Bearer ${token}`,
       };
 
-      const resPedido = await fetch(
-        "https://bug-free-fortnight-pjq5gpjj9xpghwrp-3000.app.github.dev",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            CompradorId: user?.id,
-            Total: subtotal,
-            Estado: "Pendiente",
-            detalles: items.map((i) => ({
-              ProductoId: i.id,
-              Cantidad: i.cantidad,
-              PrecioUnitario: i.precio,
-            })),
-          }),
-        },
-      );
+      const resPedido = await fetch("http://localhost:3000/api/pedidos", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          CompradorId: user?.id,
+          Total: subtotal,
+          Estado: "Pendiente",
+          detalles: items.map((i) => ({
+            ProductoId: i.id,
+            Cantidad: i.cantidad,
+            PrecioUnitario: i.precio,
+          })),
+        }),
+      });
 
       const dataPedido = await resPedido.json();
       if (!resPedido.ok)
@@ -296,14 +296,11 @@ function Checkout() {
 
       const pedidoId = dataPedido.Id;
 
-      const resPago = await fetch(
-        "https://bug-free-fortnight-pjq5gpjj9xpghwrp-3000.app.github.dev",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ pedidoId, metodoPago: pago }),
-        },
-      );
+      const resPago = await fetch("http://localhost:3000/api/pagos/procesar", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ pedidoId, metodoPago: pago }),
+      });
 
       const dataPago = await resPago.json();
       if (!resPago.ok)
@@ -345,11 +342,10 @@ function Checkout() {
     }
   };
 
-  const confirmarPedido = () => {
+  const validarFormulario = () => {
     const errNombre = validarNombre(nombre);
     const errBarrio = validarBarrio(barrio);
     const errTelefono = validarTelefono(telefono);
-
     setErrores({ nombre: errNombre, barrio: errBarrio, telefono: errTelefono });
 
     if (items.length === 0) {
@@ -363,7 +359,7 @@ function Checkout() {
           navigate("/ver-todo");
         },
       });
-      return;
+      return false;
     }
 
     if (!nombre.trim() || !direccion.trim() || !telefono.trim()) {
@@ -374,7 +370,7 @@ function Checkout() {
         confirmText: "Entendido",
         onConfirm: () => setAlerta(null),
       });
-      return;
+      return false;
     }
 
     if (nombre.trim().length < 5) {
@@ -385,7 +381,7 @@ function Checkout() {
         confirmText: "Entendido",
         onConfirm: () => setAlerta(null),
       });
-      return;
+      return false;
     }
 
     if (errNombre || errBarrio || errTelefono) {
@@ -396,7 +392,7 @@ function Checkout() {
         confirmText: "Entendido",
         onConfirm: () => setAlerta(null),
       });
-      return;
+      return false;
     }
 
     if (telefono.length !== 10) {
@@ -407,24 +403,15 @@ function Checkout() {
         confirmText: "Entendido",
         onConfirm: () => setAlerta(null),
       });
-      return;
+      return false;
     }
 
-    // Modal de confirmación
-    setAlerta({
-      type: "confirm",
-      badge: "CONFIRMAR",
-      title: "¿Listo para pedir?",
-      text: `Vas a confirmar tu pedido por $${subtotal.toLocaleString("es-CO")} COP · Pago ${pago}`,
-      highlight: `$${subtotal.toLocaleString("es-CO")} COP`,
-      confirmText: "Sí, confirmar",
-      cancelText: "Volver",
-      onConfirm: () => {
-        setAlerta(null);
-        ejecutarPedido();
-      },
-      onCancel: () => setAlerta(null),
-    });
+    return true;
+  };
+
+  const confirmarPedido = () => {
+    if (!validarFormulario()) return;
+    setModalPagoOpen(true);
   };
 
   const opcionesPago = [
@@ -634,6 +621,36 @@ function Checkout() {
           </button>
         </div>
       </div>
+
+      {/* ── MODALES DE PAGO ── */}
+      {modalPagoOpen && pago === "efectivo" && (
+        <PagoEfectivo
+          onCerrar={() => {
+            setModalPagoOpen(false);
+            ejecutarPedido();
+          }}
+        />
+      )}
+      {modalPagoOpen && pago === "transferencia" && (
+        <PagoTransferencia
+          total={subtotal}
+          onConfirmar={() => {
+            setModalPagoOpen(false);
+            ejecutarPedido();
+          }}
+          onCerrar={() => setModalPagoOpen(false)}
+        />
+      )}
+      {modalPagoOpen && pago === "tarjeta" && (
+        <PagoTarjeta
+          total={subtotal}
+          onConfirmar={() => {
+            setModalPagoOpen(false);
+            ejecutarPedido();
+          }}
+          onCerrar={() => setModalPagoOpen(false)}
+        />
+      )}
 
       {/* ── SWEET ALERT ── */}
       {alerta && <SweetAlert {...alerta} onClose={() => setAlerta(null)} />}

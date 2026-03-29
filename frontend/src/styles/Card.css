@@ -139,3 +139,20 @@
 .card-heart-btn.active {
   background: rgba(255, 60, 60, 0.25);
 }
+/* El botón se oculta por defecto en TODOS los casos */
+.card-comprar-btn {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Al hacer hover sobre la card, el botón aparece */
+.card:hover .card-comprar-btn {
+  opacity: 1;
+}
+
+/* Estilo específico para sin stock */
+.card-comprar-btn.disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  color: #aaa;
+}

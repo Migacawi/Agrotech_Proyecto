@@ -11,8 +11,8 @@ import useCartStore from "../store/cartStore";
 
 function DescripcionProduct() {
   const location = useLocation();
-  const navigate  = useNavigate();
-  const producto  = location.state;
+  const navigate = useNavigate();
+  const producto = location.state;
 
   console.log("producto completo:", producto);
   console.log("fechaCosecha:", producto?.fechaCosecha);
@@ -32,68 +32,69 @@ function DescripcionProduct() {
     );
   }
 
-  const precio              = producto?.precio ?? 0;
-  const stock               = producto?.stock ?? 0;
+  const precio = producto?.precio ?? 0;
+  const stock = producto?.stock ?? 0;
   const descuentoPorcentaje = producto?.descuentoPorcentaje ?? 0;
-  const precioDescontado    = precio - (precio * descuentoPorcentaje) / 100;
+  const precioDescontado = precio - (precio * descuentoPorcentaje) / 100;
 
   // Intentamos ambas variantes del campo por si acaso
   const rawFecha = producto.fechaCosecha || producto.FechaCosecha || null;
 
   const fechaCosechaFormateada = rawFecha
     ? new Date(rawFecha).toLocaleDateString("es-CO", {
-        year:  "numeric",
+        year: "numeric",
         month: "long",
-        day:   "numeric",
+        day: "numeric",
       })
     : null;
 
   const ofertasVendedor = (producto.todosLosProductos || [])
-    .filter(p => p.VendedorId === producto.vendedorId && p.Id !== producto.id)
+    .filter((p) => p.VendedorId === producto.vendedorId && p.Id !== producto.id)
     .slice(0, 4)
-    .map(p => ({
-      id:          p.Id,
-      nombre:      p.Nombre,
-      precio:      p.PrecioPorLibra,
-      stock:       p.StockLibras,
+    .map((p) => ({
+      id: p.Id,
+      nombre: p.Nombre,
+      precio: p.PrecioPorLibra,
+      stock: p.StockLibras,
       descripcion: p.Descripcion,
       img:
-        p.Imagenes?.find(i => i.EsPrincipal)?.UrlImagen ||
+        p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
         p.Imagenes?.[0]?.UrlImagen ||
         "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19",
     }));
 
   const handleAgregarCarrito = () => {
     addItem({
-      id:     producto.id,
+      id: producto.id,
       nombre: producto.titulo,
       precio: precioDescontado,
       imagen: producto.img,
-      stock:  stock,
+      stock: stock,
     });
   };
 
   const navegarAProducto = (idDestino) => {
-    const crudo = producto.todosLosProductos.find(p => p.Id === idDestino);
+    const crudo = producto.todosLosProductos.find((p) => p.Id === idDestino);
     if (!crudo) return;
 
     const adaptado = {
-      id:                  crudo.Id,
-      titulo:              crudo.Nombre,
-      precio:              crudo.PrecioPorLibra,
-      descuento:           "0%",
+      id: crudo.Id,
+      titulo: crudo.Nombre,
+      precio: crudo.PrecioPorLibra,
+      descuento: "0%",
       img:
-        crudo.Imagenes?.find(i => i.EsPrincipal)?.UrlImagen ||
+        crudo.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
         crudo.Imagenes?.[0]?.UrlImagen ||
         "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19",
-      stock:               crudo.StockLibras,
-      descripcionCorta:    crudo.Descripcion,
-      detalles:            crudo.Detalles,
-      fechaCosecha:        crudo.FechaCosecha || crudo.fechaCosecha,
-      vendedorId:          crudo.VendedorId,
-      vendedorNombre:      crudo.Usuario?.Nombre || crudo.Usuario?.nombre || "Vendedor",
+      stock: crudo.StockLibras,
+      descripcionCorta: crudo.Descripcion,
+      detalles: crudo.Detalles,
+      fechaCosecha: crudo.FechaCosecha || crudo.fechaCosecha,
+      vendedorId: crudo.VendedorId,
+      vendedorNombre:
+        crudo.Usuario?.Nombre || crudo.Usuario?.nombre || "Vendedor",
       descuentoPorcentaje: 0,
-      todosLosProductos:   producto.todosLosProductos,
+      todosLosProductos: producto.todosLosProductos,
     };
 
     navigate("/producto", { state: adaptado });
@@ -140,9 +141,15 @@ function DescripcionProduct() {
               <p>Vendedor: {producto.vendedorNombre}</p>
             )}
           </div>
-
-          <button className="btn-carrito" onClick={handleAgregarCarrito}>
-            Anadir Al Carrito - ${precioDescontado.toLocaleString()}
+          <button
+            className="btn-carrito"
+            onClick={handleAgregarCarrito}
+            disabled={stock <= 0}
+            style={stock <= 0 ? { opacity: 0.5, cursor: "not-allowed" } : {}}
+          >
+            {stock <= 0
+              ? "❌ Sin stock"
+              : `🛒 Añadir Al Carrito - $${precioDescontado.toLocaleString()}`}
           </button>
 
           <div className="ofertas-vendedor">
@@ -177,16 +184,41 @@ function DescripcionProduct() {
                       flexShrink: 0,
                     }}
                   />
-                  <div style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
-                    <p style={{ margin: 0, fontWeight: "600", fontSize: "0.95rem" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "4px",
+                      flex: 1,
+                    }}
+                  >
+                    <p
+                      style={{
+                        margin: 0,
+                        fontWeight: "600",
+                        fontSize: "0.95rem",
+                      }}
+                    >
                       {oferta.nombre}
                     </p>
                     {oferta.descripcion && (
-                      <p style={{ margin: 0, color: "#aaa", fontSize: "0.82rem" }}>
+                      <p
+                        style={{
+                          margin: 0,
+                          color: "#aaa",
+                          fontSize: "0.82rem",
+                        }}
+                      >
                         {oferta.descripcion}
                       </p>
                     )}
-                    <p style={{ margin: 0, color: "#74e2d7", fontSize: "0.88rem" }}>
+                    <p
+                      style={{
+                        margin: 0,
+                        color: "#74e2d7",
+                        fontSize: "0.88rem",
+                      }}
+                    >
                       ${oferta.precio.toLocaleString()} / libra
                     </p>
                   </div>

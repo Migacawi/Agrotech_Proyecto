@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://bug-free-fortnight-pjq5gpjj9xpghwrp-3000.app.github.dev";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const axiosClient = axios.create({
   baseURL: `${BASE_URL}/api`,

@@ -16,6 +16,7 @@ function Card({ item }) {
 
   const handleAgregarCarrito = (e) => {
     e.stopPropagation();
+    if (item.stock <= 0) return; // guardia extra por si acaso
     addItem({
       id: item.id,
       nombre: item.titulo,
@@ -61,8 +62,14 @@ function Card({ item }) {
         {item.descuentoPorcentaje > 0 && (
           <p className="card-discount">🔥 {item.descuento} OFF</p>
         )}
-        <button className="card-comprar-btn" onClick={handleAgregarCarrito}>
-          Agregar al carrito
+
+        {/* Botón con lógica de stock */}
+        <button
+          className={`card-comprar-btn ${item.stock <= 0 ? "disabled" : ""}`}
+          onClick={handleAgregarCarrito}
+          disabled={item.stock <= 0}
+        >
+          {item.stock <= 0 ? "Sin stock" : "Agregar al carrito"}
         </button>
       </div>
     </div>
