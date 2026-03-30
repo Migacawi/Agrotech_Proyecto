@@ -1,0 +1,111 @@
+.saldo-hero {
+  background: linear-gradient(135deg, #07393c, #0d5559);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 24px;
+  color: white;
+}
+
+.saldo-hero-label {
+  font-size: 13px;
+  color: #74e2d7;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.saldo-hero-valor {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  margin: 0 0 8px 0;
+}
+
+.saldo-hero-sub {
+  font-size: 12px;
+  color: #7ab8a8;
+}
+
+.saldo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.saldo-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.saldo-card-icon {
+  font-size: 28px;
+}
+
+.saldo-card-label {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+.saldo-card-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #07393c;
+  margin: 0;
+}
+
+.saldo-card-desc {
+  font-size: 11px;
+  color: #aaa;
+  margin: 0;
+}
+
+.saldo-movimientos {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.saldo-movimientos-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #07393c;
+  margin-bottom: 16px;
+}
+
+.saldo-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.saldo-tabla th {
+  background: #07393c;
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.saldo-tabla td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.saldo-tabla tr:last-child td {
+  border-bottom: none;
+}
+.saldo-tabla tr:hover td {
+  background: #f9f9f9;
+}

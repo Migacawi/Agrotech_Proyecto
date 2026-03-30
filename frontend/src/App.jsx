@@ -19,6 +19,8 @@ import MisFavoritos from "./pages/MisFavoritos.jsx"; // ← nuevo
 import AdminPedidos from "./pages/AdminPedidos.jsx";
 import HistorialCompras from "./pages/HistorialCompras.jsx";
 import MisVentas from "./pages/MisVentas.jsx";
+import Estadisticas from "./pages/Estadisticas.jsx";
+import Saldo from "./pages/Saldo.jsx";
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
         <Route path="/mis-favoritos" element={<MisFavoritos />} />{" "}
         <Route path="/historial" element={<HistorialCompras />} />
         <Route path="/mis-ventas" element={<MisVentas />} />
+        <Route path="/estadisticas" element={<Estadisticas />} />
+        <Route path="/saldo" element={<Saldo />} />
       </Route>
 
       {/* ── Solo admin ──────────────────────────────────────────────── */}

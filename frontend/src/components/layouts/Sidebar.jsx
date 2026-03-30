@@ -60,7 +60,12 @@ function Sidebar() {
               >
                 Perfil
               </li>
-              <li>Estadisticas</li>
+              <li
+                onClick={() => navigate("/estadisticas")}
+                style={{ cursor: "pointer" }}
+              >
+                Estadisticas
+              </li>
 
               {/* ❤️ Favoritos */}
               <li
@@ -102,9 +107,12 @@ function Sidebar() {
           </button>
           {openMenus.saldo && (
             <ul className="submenu">
-              <li>Saldo Total</li>
-              <li>Saldo de Regalo</li>
-              <li>Saldo de Ganancias</li>
+              <li
+                onClick={() => navigate("/saldo")}
+                style={{ cursor: "pointer" }}
+              >
+                Ver Saldo
+              </li>
             </ul>
           )}
         </li>

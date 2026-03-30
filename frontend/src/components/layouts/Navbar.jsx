@@ -5,6 +5,8 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useCartStore from "../../store/cartStore";
 import useFavoritosStore from "../../store/favoritosStore";
+import useAuthStore from "../../store/authStore"; // ← nuevo
+import { getUsuarioById } from "../../api/usuariosService"; // ← nuevo
 
 function Navbar() {
   const logo = "/logo3.png";
@@ -18,6 +20,22 @@ function Navbar() {
   const navigate = useNavigate();
   const { items, removeItem, deleteItem, getTotal, getTotalItems } =
     useCartStore();
+  const { user } = useAuthStore(); // ← nuevo
+  const [fotoUrl, setFotoUrl] = useState(null); // ← nuevo
+
+  // ← nuevo: carga la foto del usuario
+  useEffect(() => {
+    if (!user?.id) return;
+    const fetchFoto = async () => {
+      try {
+        const data = await getUsuarioById(user.id);
+        if (data.FotoUrl) setFotoUrl(data.FotoUrl);
+      } catch (err) {
+        console.error("Error al cargar foto:", err);
+      }
+    };
+    fetchFoto();
+  }, [user]);
 
   const toggleCart = () => setOpenCart(!openCart);
   const toggleSearch = () => setSearchOpen(!searchOpen);
@@ -75,12 +93,12 @@ function Navbar() {
           <img src={bandera} alt="Colombia" className="flag" />
           <span className="language-text">Español Latinoamerica | COP</span>
         </div>
+
         <div
           className="favoritos icon-container"
           onClick={() => navigate("/mis-favoritos")}
         >
           <img src="/corazon.png" alt="favoritos" className="icon" />
-
           {favoritosNoVistos > 0 && (
             <span className="icon-badge">{favoritosNoVistos}</span>
           )}
@@ -116,8 +134,14 @@ function Navbar() {
           )}
         </div>
 
+        {/* ← foto de perfil con imagen real o default */}
         <Link to="/perfil" className="perfil">
-          <img src="/perfil.png" alt="perfil" className="icon" />
+          <img
+            src={fotoUrl || "/perfil.png"}
+            alt="perfil"
+            className="icon"
+            style={{ borderRadius: "50%", objectFit: "cover" }}
+          />
         </Link>
       </div>
 
@@ -132,7 +156,6 @@ function Navbar() {
             </p>
           ) : (
             <>
-              {/* lista de items */}
               <div className="cart-items">
                 {items.map((item) => (
                   <div
@@ -146,7 +169,6 @@ function Navbar() {
                       paddingBottom: "12px",
                     }}
                   >
-                    {/* imagen */}
                     <img
                       src={item.imagen || "/placeholder.png"}
                       alt={item.nombre}
@@ -157,8 +179,6 @@ function Navbar() {
                         objectFit: "cover",
                       }}
                     />
-
-                    {/* info */}
                     <div style={{ flex: 1 }}>
                       <p
                         style={{
@@ -179,8 +199,6 @@ function Navbar() {
                         ${Number(item.precio).toLocaleString("es-CO")} / lb
                       </p>
                     </div>
-
-                    {/* controles cantidad */}
                     <div
                       style={{
                         display: "flex",
@@ -251,7 +269,6 @@ function Navbar() {
                 ))}
               </div>
 
-              {/* total */}
               <div
                 style={{
                   display: "flex",

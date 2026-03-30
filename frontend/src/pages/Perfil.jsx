@@ -5,7 +5,7 @@ import "../styles/Perfil.css";
 import ImageCropper from "../components/ui/ImageCropper";
 
 import useAuthStore from "../store/authStore";
-import { getPedidos } from "../api/pedidosService"; // ← nuevo
+import { getPedidos } from "../api/pedidosService";
 import {
   getUsuarioById,
   updateUsuario,
@@ -45,8 +45,10 @@ function Perfil() {
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [cropperOpen, setCropperOpen] = useState(false);
-  const [ultimasCompras, setUltimasCompras] = useState([]); // ← nuevo
+  const [ultimasCompras, setUltimasCompras] = useState([]);
+  const [saldoGanancias, setSaldoGanancias] = useState(0); // ← aquí dentro
 
+  // Cargar usuario
   useEffect(() => {
     if (!user?.id) return;
     const fetchUsuario = async () => {
@@ -62,7 +64,7 @@ function Perfil() {
     fetchUsuario();
   }, [user]);
 
-  // ← nuevo
+  // Cargar últimas compras
   useEffect(() => {
     const fetchCompras = async () => {
       try {
@@ -74,15 +76,30 @@ function Perfil() {
           .sort((a, b) => b.Id - a.Id)
           .slice(0, 3);
         setUltimasCompras(mias);
-      } catch {
-        // silencioso, no es crítico
-      }
+      } catch {}
     };
     if (user?.id) fetchCompras();
   }, [user]);
 
-  const handleImagen = () => setCropperOpen(true);
+  // Cargar saldo de ganancias
+  useEffect(() => {
+    const fetchSaldo = async () => {
+      try {
+        const todos = await getPedidos();
+        const ganado = todos
+          .filter((p) => p.Estado === "Entregado")
+          .flatMap((p) =>
+            (p.Detalles || []).map((d) => ({ ...d, pedidoEstado: p.Estado })),
+          )
+          .filter((d) => d.Producto?.VendedorId === user?.id)
+          .reduce((acc, d) => acc + Number(d.Subtotal), 0);
+        setSaldoGanancias(ganado);
+      } catch {}
+    };
+    if (user?.id) fetchSaldo();
+  }, [user]);
 
+  const handleImagen = () => setCropperOpen(true);
   const handleCropDone = (file, preview) => {
     setImagenFile(file);
     setPreview(preview);
@@ -94,18 +111,15 @@ function Perfil() {
     setMensaje("");
     try {
       const payload = { Nombre: form.Nombre };
-      if (form.PasswordHash.trim() !== "") {
+      if (form.PasswordHash.trim() !== "")
         payload.PasswordHash = form.PasswordHash;
-      }
       const actualizado = await updateUsuario(user.id, payload);
       setUsuario(actualizado);
-
       if (imagenFile) {
         const res = await updateFotoUsuario(user.id, imagenFile);
         setPreview(res.FotoUrl);
         setUsuario((prev) => ({ ...prev, FotoUrl: res.FotoUrl }));
       }
-
       setMensaje("¡Perfil actualizado correctamente!");
       setTimeout(() => {
         setModalOpen(false);
@@ -156,7 +170,6 @@ function Perfil() {
           {/* Card últimas compras */}
           <div className="compras-card">
             <h4>Ultimas Compras</h4>
-
             {ultimasCompras.length === 0 ? (
               <p style={{ fontSize: "13px", color: "#999", margin: 0 }}>
                 No hay compras todavía
@@ -174,7 +187,6 @@ function Perfil() {
                     .map((d) => d.Producto?.Nombre || `#${d.ProductoId}`)
                     .join(", ");
                   const badge = colorBadge(p.Estado);
-
                   return (
                     <div
                       key={p.Id}
@@ -232,19 +244,9 @@ function Perfil() {
         {/* Saldo */}
         <div className="saldo-section">
           <h4>Saldo Total</h4>
-          <h1 className="saldo-total">0,00 COP</h1>
-          <div className="saldo-item">
-            <div>
-              <p className="saldo-title">Saldo De Regalo</p>
-              <span className="saldo-desc">
-                Saldo obtenido de tarjetas de regalo
-              </span>
-            </div>
-            <div className="saldo-right">
-              <span className="saldo-value">0,00 COP</span>
-              <button className="saldo-btn">+</button>
-            </div>
-          </div>
+          <h1 className="saldo-total">
+            ${saldoGanancias.toLocaleString("es-CO")} COP
+          </h1>
           <div className="saldo-item">
             <div>
               <p className="saldo-title">Saldo De Ganancias</p>
@@ -253,8 +255,9 @@ function Perfil() {
               </span>
             </div>
             <div className="saldo-right">
-              <span className="saldo-value">0,00 COP</span>
-              <button className="saldo-btn">+</button>
+              <span className="saldo-value">
+                ${saldoGanancias.toLocaleString("es-CO")} COP
+              </span>
             </div>
           </div>
         </div>
