@@ -5,6 +5,7 @@ import "../styles/Perfil.css";
 import ImageCropper from "../components/ui/ImageCropper";
 
 import useAuthStore from "../store/authStore";
+import { getPedidos } from "../api/pedidosService"; // ← nuevo
 import {
   getUsuarioById,
   updateUsuario,
@@ -17,7 +18,12 @@ const IconoPerfil = ({ src }) => {
       <img
         src={src}
         alt="perfil"
-        style={{ width: 60, height: 60, borderRadius: "50%", objectFit: "cover" }}
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
       />
     );
   return (
@@ -39,6 +45,7 @@ function Perfil() {
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [cropperOpen, setCropperOpen] = useState(false);
+  const [ultimasCompras, setUltimasCompras] = useState([]); // ← nuevo
 
   useEffect(() => {
     if (!user?.id) return;
@@ -55,9 +62,26 @@ function Perfil() {
     fetchUsuario();
   }, [user]);
 
-  const handleImagen = () => {
-    setCropperOpen(true);
-  };
+  // ← nuevo
+  useEffect(() => {
+    const fetchCompras = async () => {
+      try {
+        const todos = await getPedidos();
+        const mias = todos
+          .filter(
+            (p) => p.CompradorId === user?.id || p.Usuario?.Id === user?.id,
+          )
+          .sort((a, b) => b.Id - a.Id)
+          .slice(0, 3);
+        setUltimasCompras(mias);
+      } catch {
+        // silencioso, no es crítico
+      }
+    };
+    if (user?.id) fetchCompras();
+  }, [user]);
+
+  const handleImagen = () => setCropperOpen(true);
 
   const handleCropDone = (file, preview) => {
     setImagenFile(file);
@@ -95,6 +119,14 @@ function Perfil() {
     }
   };
 
+  const colorBadge = (estado) =>
+    ({
+      Pendiente: { bg: "#fff3cd", color: "#856404" },
+      Enviado: { bg: "#cce5ff", color: "#004085" },
+      Entregado: { bg: "#d4edda", color: "#155724" },
+      Cancelado: { bg: "#f8d7da", color: "#721c24" },
+    })[estado] || { bg: "#eee", color: "#555" };
+
   return (
     <div className="perfil-page">
       <NavbarPerfil />
@@ -102,31 +134,111 @@ function Perfil() {
       <div className="perfil-content">
         <h3 className="section-title">INFORMACION GENERAL</h3>
         <div className="perfil-grid">
+          {/* Card perfil */}
           <div className="perfil-card">
             <h4>PERFIL</h4>
             <div className="perfil-info">
               <IconoPerfil src={usuario?.FotoUrl || preview} />
               <div>
-                <p className="perfil-nombre">{usuario?.Nombre || "Cargando..."}</p>
-                <p className="perfil-email">{usuario?.Email || user?.email || "Cargando..."}</p>
+                <p className="perfil-nombre">
+                  {usuario?.Nombre || "Cargando..."}
+                </p>
+                <p className="perfil-email">
+                  {usuario?.Email || user?.email || "Cargando..."}
+                </p>
               </div>
-              <button className="edit-btn" onClick={() => setModalOpen(true)}>✏</button>
+              <button className="edit-btn" onClick={() => setModalOpen(true)}>
+                ✏
+              </button>
             </div>
           </div>
 
+          {/* Card últimas compras */}
           <div className="compras-card">
             <h4>Ultimas Compras</h4>
-            <p>No hay compras todavia</p>
+
+            {ultimasCompras.length === 0 ? (
+              <p style={{ fontSize: "13px", color: "#999", margin: 0 }}>
+                No hay compras todavía
+              </p>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                {ultimasCompras.map((p) => {
+                  const nombres = (p.Detalles || [])
+                    .map((d) => d.Producto?.Nombre || `#${d.ProductoId}`)
+                    .join(", ");
+                  const badge = colorBadge(p.Estado);
+
+                  return (
+                    <div
+                      key={p.Id}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "8px 0",
+                        borderBottom: "1px solid #f0f0f0",
+                        gap: "8px",
+                      }}
+                    >
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            color: "#07393c",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          #{p.Id} · {nombres || "—"}
+                        </p>
+                        <p
+                          style={{ margin: 0, fontSize: "11px", color: "#aaa" }}
+                        >
+                          ${Number(p.Total).toLocaleString("es-CO")} COP
+                        </p>
+                      </div>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          fontWeight: 600,
+                          padding: "2px 8px",
+                          borderRadius: "20px",
+                          background: badge.bg,
+                          color: badge.color,
+                          whiteSpace: "nowrap",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {p.Estado}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 
+        {/* Saldo */}
         <div className="saldo-section">
           <h4>Saldo Total</h4>
           <h1 className="saldo-total">0,00 COP</h1>
           <div className="saldo-item">
             <div>
               <p className="saldo-title">Saldo De Regalo</p>
-              <span className="saldo-desc">Saldo obtenido de tarjetas de regalo</span>
+              <span className="saldo-desc">
+                Saldo obtenido de tarjetas de regalo
+              </span>
             </div>
             <div className="saldo-right">
               <span className="saldo-value">0,00 COP</span>
@@ -136,7 +248,9 @@ function Perfil() {
           <div className="saldo-item">
             <div>
               <p className="saldo-title">Saldo De Ganancias</p>
-              <span className="saldo-desc">Saldo obtenido de las ventas realizadas</span>
+              <span className="saldo-desc">
+                Saldo obtenido de las ventas realizadas
+              </span>
             </div>
             <div className="saldo-right">
               <span className="saldo-value">0,00 COP</span>
@@ -156,60 +270,144 @@ function Perfil() {
       )}
 
       {modalOpen && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
-          <div style={{ background: "white", borderRadius: "12px", padding: "32px", width: "100%", maxWidth: "400px", display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "white",
+              borderRadius: "12px",
+              padding: "32px",
+              width: "100%",
+              maxWidth: "400px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+            }}
+          >
             <h3 style={{ margin: 0, color: "#07393c" }}>Editar Perfil</h3>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
               <IconoPerfil src={preview || usuario?.FotoUrl} />
               <button
                 type="button"
                 onClick={handleImagen}
-                style={{ padding: "8px 16px", borderRadius: "8px", border: "1px solid #07393c", color: "#07393c", cursor: "pointer", fontSize: "13px", background: "white" }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  border: "1px solid #07393c",
+                  color: "#07393c",
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  background: "white",
+                }}
               >
                 Cambiar foto
               </button>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "6px" }}
+            >
               <label style={{ fontSize: "13px", color: "#555" }}>Nombre</label>
               <input
                 value={form.Nombre}
                 onChange={(e) => setForm({ ...form, Nombre: e.target.value })}
-                style={{ padding: "10px", borderRadius: "8px", border: "1px solid #ccc", fontSize: "14px" }}
+                style={{
+                  padding: "10px",
+                  borderRadius: "8px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
               />
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "6px" }}
+            >
               <label style={{ fontSize: "13px", color: "#555" }}>
-                Nueva Contraseña <span style={{ color: "#aaa" }}>(dejar vacío para no cambiar)</span>
+                Nueva Contraseña{" "}
+                <span style={{ color: "#aaa" }}>
+                  (dejar vacío para no cambiar)
+                </span>
               </label>
               <input
                 type="password"
                 placeholder="Nueva contraseña"
                 value={form.PasswordHash}
-                onChange={(e) => setForm({ ...form, PasswordHash: e.target.value })}
-                style={{ padding: "10px", borderRadius: "8px", border: "1px solid #ccc", fontSize: "14px" }}
+                onChange={(e) =>
+                  setForm({ ...form, PasswordHash: e.target.value })
+                }
+                style={{
+                  padding: "10px",
+                  borderRadius: "8px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
               />
             </div>
 
             {mensaje && (
-              <p style={{ color: mensaje.includes("Error") ? "#ff6b6b" : "#07393c", fontSize: "13px", margin: 0 }}>
+              <p
+                style={{
+                  color: mensaje.includes("Error") ? "#ff6b6b" : "#07393c",
+                  fontSize: "13px",
+                  margin: 0,
+                }}
+              >
                 {mensaje}
               </p>
             )}
 
-            <div style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                justifyContent: "flex-end",
+              }}
+            >
               <button
-                onClick={() => { setModalOpen(false); setImagenFile(null); }}
-                style={{ padding: "10px 20px", borderRadius: "8px", border: "1px solid #ccc", background: "white", cursor: "pointer" }}
+                onClick={() => {
+                  setModalOpen(false);
+                  setImagenFile(null);
+                }}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  border: "1px solid #ccc",
+                  background: "white",
+                  cursor: "pointer",
+                }}
               >
                 Cancelar
               </button>
               <button
                 onClick={handleGuardar}
                 disabled={loading}
-                style={{ padding: "10px 20px", borderRadius: "8px", border: "none", background: "#07393c", color: "white", cursor: "pointer", opacity: loading ? 0.7 : 1 }}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  border: "none",
+                  background: "#07393c",
+                  color: "white",
+                  cursor: "pointer",
+                  opacity: loading ? 0.7 : 1,
+                }}
               >
                 {loading ? "Guardando..." : "Guardar"}
               </button>

@@ -119,7 +119,12 @@ function Sidebar() {
           </button>
           {openMenus.compras && (
             <ul className="submenu">
-              <li>Historial</li>
+              <li
+                onClick={() => navigate("/historial")}
+                style={{ cursor: "pointer" }}
+              >
+                Historial
+              </li>
             </ul>
           )}
         </li>
@@ -140,7 +145,12 @@ function Sidebar() {
               >
                 Mis Productos
               </li>
-              <li>Mis ventas</li>
+              <li
+                onClick={() => navigate("/mis-ventas")}
+                style={{ cursor: "pointer" }}
+              >
+                Mis ventas
+              </li>
             </ul>
           )}
         </li>

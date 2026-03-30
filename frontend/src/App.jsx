@@ -16,6 +16,9 @@ import AdminProductos from "./pages/AdminProductos.jsx";
 import MisProductos from "./pages/MisProductos.jsx";
 import ConfirmacionPedido from "./pages/ConfirmacionPedido.jsx";
 import MisFavoritos from "./pages/MisFavoritos.jsx"; // ← nuevo
+import AdminPedidos from "./pages/AdminPedidos.jsx";
+import HistorialCompras from "./pages/HistorialCompras.jsx";
+import MisVentas from "./pages/MisVentas.jsx";
 
 function App() {
   return (
@@ -36,12 +39,15 @@ function App() {
         <Route path="/mis-productos" element={<MisProductos />} />
         <Route path="/confirmacion/:id" element={<ConfirmacionPedido />} />
         <Route path="/mis-favoritos" element={<MisFavoritos />} />{" "}
+        <Route path="/historial" element={<HistorialCompras />} />
+        <Route path="/mis-ventas" element={<MisVentas />} />
       </Route>
 
       {/* ── Solo admin ──────────────────────────────────────────────── */}
       <Route element={<ProtectedRoute roles={["Administrador"]} />}>
         <Route path="/admin/usuarios" element={<AdminUsuarios />} />
         <Route path="/admin/productos" element={<AdminProductos />} />
+        <Route path="/admin/pedidos" element={<AdminPedidos />} />
       </Route>
     </Routes>
   );
