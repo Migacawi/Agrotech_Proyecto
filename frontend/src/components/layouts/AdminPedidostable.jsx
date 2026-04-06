@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import * as XLSX from "xlsx";
 
 const ITEMS_POR_PAGINA = 20;
-
 const th = {
   padding: "12px 16px",
   textAlign: "left",
@@ -23,16 +23,96 @@ const colorEstado = {
 
 function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
   const [pagina, setPagina] = useState(1);
+  const [busqueda, setBusqueda] = useState("");
 
-  const totalPaginas = Math.ceil(pedidos.length / ITEMS_POR_PAGINA);
+  const filtrados = pedidos.filter((p) => {
+    const q = busqueda.toLowerCase();
+    return (
+      String(p.Id).includes(q) ||
+      p.Usuario?.Nombre?.toLowerCase().includes(q) ||
+      p.Usuario?.Email?.toLowerCase().includes(q) ||
+      p.Estado?.toLowerCase().includes(q)
+    );
+  });
+
+  const totalPaginas = Math.ceil(filtrados.length / ITEMS_POR_PAGINA);
   const inicio = (pagina - 1) * ITEMS_POR_PAGINA;
-  const pedidosPagina = pedidos.slice(inicio, inicio + ITEMS_POR_PAGINA);
+  const pedidosPagina = filtrados.slice(inicio, inicio + ITEMS_POR_PAGINA);
   const irA = (n) => setPagina(Math.min(Math.max(1, n), totalPaginas));
+
+  const handleBusqueda = (e) => {
+    setBusqueda(e.target.value);
+    setPagina(1);
+  };
+
+  const exportarExcel = () => {
+    const datos = filtrados.map((p) => ({
+      ID: p.Id,
+      Comprador: p.Usuario?.Nombre || "—",
+      Email: p.Usuario?.Email || "—",
+      Total: Number(p.Total),
+      Estado: p.Estado,
+      Fecha:
+        p.CreadoEn || p.createdAt
+          ? new Date(p.CreadoEn || p.createdAt).toLocaleDateString("es-CO")
+          : "—",
+      Productos: (p.Detalles || [])
+        .map(
+          (d) => `${d.Producto?.Nombre || "Producto"} x${d.CantidadLibras}lb`,
+        )
+        .join(", "),
+    }));
+    const ws = XLSX.utils.json_to_sheet(datos);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Pedidos");
+    XLSX.writeFile(wb, "pedidos.xlsx");
+  };
 
   return (
     <div
       style={{ background: "white", borderRadius: "6px", overflow: "hidden" }}
     >
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          padding: "12px 16px",
+          borderBottom: "1px solid #f0f0f0",
+          flexWrap: "wrap",
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Buscar por ID, comprador, email o estado..."
+          value={busqueda}
+          onChange={handleBusqueda}
+          style={{
+            flex: 1,
+            minWidth: "200px",
+            padding: "8px 12px",
+            borderRadius: "6px",
+            border: "1px solid #ddd",
+            fontSize: "13px",
+          }}
+        />
+        <button
+          onClick={exportarExcel}
+          style={{
+            padding: "8px 16px",
+            borderRadius: "6px",
+            border: "none",
+            background: "#1d6f42",
+            color: "white",
+            cursor: "pointer",
+            fontSize: "13px",
+            fontWeight: "600",
+            whiteSpace: "nowrap",
+          }}
+        >
+          📥 Exportar Excel
+        </button>
+      </div>
+
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead style={{ background: "#07393c", color: "white" }}>
           <tr>
@@ -56,7 +136,6 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
                     "es-CO",
                   )
                 : "—";
-
             return (
               <tr
                 key={p.Id}
@@ -64,14 +143,12 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
               >
                 <td style={td}>#{p.Id}</td>
                 <td style={td}>
-                  <div>
-                    <p style={{ margin: 0, fontWeight: "600" }}>
-                      {p.Usuario?.Nombre || p.Usuario?.nombre || "—"}
-                    </p>
-                    <p style={{ margin: 0, fontSize: "12px", color: "#888" }}>
-                      {p.Usuario?.Email || p.Usuario?.email || ""}
-                    </p>
-                  </div>
+                  <p style={{ margin: 0, fontWeight: "600" }}>
+                    {p.Usuario?.Nombre || "—"}
+                  </p>
+                  <p style={{ margin: 0, fontSize: "12px", color: "#888" }}>
+                    {p.Usuario?.Email || ""}
+                  </p>
                 </td>
                 <td style={td}>
                   <strong>
@@ -129,9 +206,11 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
         </tbody>
       </table>
 
-      {pedidos.length === 0 && (
+      {filtrados.length === 0 && (
         <p style={{ padding: "20px", color: "#aaa", textAlign: "center" }}>
-          No hay pedidos registrados.
+          {busqueda
+            ? "No se encontraron resultados."
+            : "No hay pedidos registrados."}
         </p>
       )}
 
@@ -140,7 +219,7 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
           pagina={pagina}
           totalPaginas={totalPaginas}
           irA={irA}
-          total={pedidos.length}
+          total={filtrados.length}
         />
       )}
     </div>

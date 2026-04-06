@@ -6,6 +6,7 @@ import "../styles/HistorialCompras.css";
 import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 const colorEstado = {
   Pendiente: "badge-pendiente",
@@ -21,6 +22,7 @@ function HistorialCompras() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [abierto, setAbierto] = useState(null);
+  const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     const fetchMisPedidos = async () => {
@@ -43,7 +45,6 @@ function HistorialCompras() {
 
   const toggle = (id) => setAbierto((prev) => (prev === id ? null : id));
 
-  // Genera el preview de productos: "Papa · Piña · Tomate"
   const preview = (detalles = []) =>
     detalles
       .map((d) => d.Producto?.Nombre || `Producto #${d.ProductoId}`)
@@ -57,6 +58,37 @@ function HistorialCompras() {
           year: "numeric",
         })
       : "—";
+
+  // Filtro de búsqueda
+  const pedidosFiltrados = pedidos.filter((p) => {
+    const q = busqueda.toLowerCase();
+    const nombres = (p.Detalles || [])
+      .map((d) => d.Producto?.Nombre || "")
+      .join(" ")
+      .toLowerCase();
+    return (
+      String(p.Id).includes(q) ||
+      p.Estado?.toLowerCase().includes(q) ||
+      nombres.includes(q)
+    );
+  });
+
+  // Exportar Excel
+  const exportarExcel = () => {
+    const datos = pedidosFiltrados.map((p) => ({
+      "Pedido #": p.Id,
+      Estado: p.Estado,
+      Productos: (p.Detalles || [])
+        .map((d) => d.Producto?.Nombre || `#${d.ProductoId}`)
+        .join(", "),
+      Total: Number(p.Total),
+      Fecha: formatFecha(p.CreadoEn || p.createdAt),
+    }));
+    const ws = XLSX.utils.json_to_sheet(datos);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Mis Compras");
+    XLSX.writeFile(wb, "mis-compras.xlsx");
+  };
 
   return (
     <div className="perfil-page">
@@ -84,76 +116,128 @@ function HistorialCompras() {
         )}
 
         {!loading && !error && pedidos.length > 0 && (
-          <div className="historial-lista">
-            {pedidos.map((pedido) => {
-              const estaAbierto = abierto === pedido.Id;
-              const badgeClass =
-                colorEstado[pedido.Estado] || "badge-pendiente";
-              const fecha = formatFecha(pedido.CreadoEn || pedido.createdAt);
+          <>
+            {/* Barra de herramientas */}
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                margin: "16px 0",
+                flexWrap: "wrap",
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Buscar por ID, estado o producto..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                style={{
+                  flex: 1,
+                  minWidth: "200px",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                  border: "1px solid #ddd",
+                  fontSize: "13px",
+                }}
+              />
+              <button
+                onClick={exportarExcel}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "6px",
+                  border: "none",
+                  background: "#1d6f42",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                📥 Exportar Excel
+              </button>
+            </div>
 
-              return (
-                <div key={pedido.Id} className="historial-card">
-                  {/* Cabecera — siempre visible */}
-                  <div
-                    className="historial-card-header"
-                    onClick={() => toggle(pedido.Id)}
-                  >
-                    <span className="historial-num">#{pedido.Id}</span>
+            {pedidosFiltrados.length === 0 ? (
+              <p
+                style={{ color: "#aaa", textAlign: "center", padding: "20px" }}
+              >
+                No se encontraron resultados.
+              </p>
+            ) : (
+              <div className="historial-lista">
+                {pedidosFiltrados.map((pedido) => {
+                  const estaAbierto = abierto === pedido.Id;
+                  const badgeClass =
+                    colorEstado[pedido.Estado] || "badge-pendiente";
+                  const fecha = formatFecha(
+                    pedido.CreadoEn || pedido.createdAt,
+                  );
 
-                    <span className="historial-productos-preview">
-                      {preview(pedido.Detalles)}
-                    </span>
-
-                    <span className={`historial-badge ${badgeClass}`}>
-                      {pedido.Estado}
-                    </span>
-
-                    <span className="historial-total">
-                      ${Number(pedido.Total).toLocaleString("es-CO")}
-                    </span>
-
-                    <span className="historial-fecha">{fecha}</span>
-
-                    <span className="historial-chevron">
-                      {estaAbierto ? "▲" : "▼"}
-                    </span>
-                  </div>
-
-                  {/* Detalle expandible */}
-                  {estaAbierto && (
-                    <div className="historial-card-body">
-                      {(pedido.Detalles || []).map((d) => (
-                        <div key={d.Id} className="historial-fila">
-                          <div>
-                            <p className="historial-prod-nombre">
-                              {d.Producto?.Nombre ||
-                                `Producto #${d.ProductoId}`}
-                            </p>
-                            <p className="historial-prod-meta">
-                              {Number(d.CantidadLibras).toLocaleString("es-CO")}{" "}
-                              lb
-                              {" × "}$
-                              {Number(d.PrecioUnitario).toLocaleString("es-CO")}
-                            </p>
-                          </div>
-                          <span className="historial-prod-sub">
-                            ${Number(d.Subtotal).toLocaleString("es-CO")}
-                          </span>
-                        </div>
-                      ))}
-
-                      <div className="historial-total-fila">
-                        <span>Total pagado</span>
-                        <strong>
-                          ${Number(pedido.Total).toLocaleString("es-CO")} COP
-                        </strong>
+                  return (
+                    <div key={pedido.Id} className="historial-card">
+                      {/* Cabecera */}
+                      <div
+                        className="historial-card-header"
+                        onClick={() => toggle(pedido.Id)}
+                      >
+                        <span className="historial-num">#{pedido.Id}</span>
+                        <span className="historial-productos-preview">
+                          {preview(pedido.Detalles)}
+                        </span>
+                        <span className={`historial-badge ${badgeClass}`}>
+                          {pedido.Estado}
+                        </span>
+                        <span className="historial-total">
+                          ${Number(pedido.Total).toLocaleString("es-CO")}
+                        </span>
+                        <span className="historial-fecha">{fecha}</span>
+                        <span className="historial-chevron">
+                          {estaAbierto ? "▲" : "▼"}
+                        </span>
                       </div>
+
+                      {/* Detalle expandible */}
+                      {estaAbierto && (
+                        <div className="historial-card-body">
+                          {(pedido.Detalles || []).map((d) => (
+                            <div key={d.Id} className="historial-fila">
+                              <div>
+                                <p className="historial-prod-nombre">
+                                  {d.Producto?.Nombre ||
+                                    `Producto #${d.ProductoId}`}
+                                </p>
+                                <p className="historial-prod-meta">
+                                  {Number(d.CantidadLibras).toLocaleString(
+                                    "es-CO",
+                                  )}{" "}
+                                  lb
+                                  {" × "}$
+                                  {Number(d.PrecioUnitario).toLocaleString(
+                                    "es-CO",
+                                  )}
+                                </p>
+                              </div>
+                              <span className="historial-prod-sub">
+                                ${Number(d.Subtotal).toLocaleString("es-CO")}
+                              </span>
+                            </div>
+                          ))}
+                          <div className="historial-total-fila">
+                            <span>Total pagado</span>
+                            <strong>
+                              ${Number(pedido.Total).toLocaleString("es-CO")}{" "}
+                              COP
+                            </strong>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
