@@ -14,7 +14,7 @@ function PasswordField({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="input-group">
+    <div className="input-group">{/*
       <div className="password-label-row">
         <label htmlFor={name}>{label}</label>
         {showForgot && (
@@ -23,7 +23,7 @@ function PasswordField({
           </Link>
         )}
       </div>
-
+      */}
       <div className="password-input-wrapper">
         <input
           id={name}
