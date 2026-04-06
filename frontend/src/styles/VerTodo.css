@@ -1,20 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
-/* Contenedor del texto superior */
+
+.ver-todo-page {
+  background-color: #07393c;
+  min-height: 100vh;
+  width: 100%;
+  color: white;
+}
+
 .results-header-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* Alinea el filtro de popularidad con la base de los textos */
-  padding: 30px 14% 20px 14%; /* Ajustado al 14% para que coincida con tu diseño */
+  align-items: flex-end;
+  padding: 30px 14% 20px 14%;
   color: white;
+  flex-wrap: wrap;
+  gap: 12px;
 }
-/* El texto superior (Tienda > Frutas) */
+
 .breadcrumb-text {
-  font-size: 0.9rem; /* Tamaño pequeño */
-  color: #a0c2c1; /* Color suavizado */
+  font-size: 0.9rem;
+  color: #a0c2c1;
   margin: 0;
   font-family: "K2D", sans-serif;
   opacity: 0.8;
 }
+
 .results-count {
   font-size: 1.8rem;
   font-weight: bold;
@@ -22,33 +32,129 @@
   margin: 0;
   color: white;
 }
+
 .results-filter {
   font-size: 1rem;
-  padding-bottom: 5px; /* Ajuste fino para alinearlo visualmente */
+  padding-bottom: 5px;
   font-family: "K2D", sans-serif;
 }
 
-/* El envoltorio que separa Sidebar de Tarjetas */
 .main-content-wrapper {
-  display: flex; /* Esto pone los hijos en línea (horizontal) */
+  display: flex;
   align-items: flex-start;
   padding: 0 5% 40px 5%;
   gap: 30px;
+  position: relative;
 }
 
-/* El área de las tarjetas */
 .cards-grid-container {
-  flex: 1; /* Esto hace que las tarjetas usen todo el espacio restante */
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(200px, 1fr)
-  ); /* Preparado para tus tarjetas */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
-.ver-todo-page {
-  background-color: #07393c; /* El verde muy oscuro de tu diseño */
-  min-height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
-  width: 100%;
-  color: white; /* Para que los textos por defecto sean blancos */
+
+/* Grid de productos */
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Botón filtros — oculto en desktop */
+.filtro-toggle-btn {
+  display: none;
+  padding: 8px 16px;
+  background: #38787e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: "K2D", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Overlay mobile */
+.filtro-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+}
+
+/* Wrapper del sidebar filtro */
+.sidebar-filtro-wrapper {
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .productos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .results-header-container {
+    padding: 20px 5% 16px 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .productos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .results-header-container {
+    padding: 16px 5% 12px 5%;
+  }
+
+  .results-count {
+    font-size: 1.3rem;
+  }
+
+  .main-content-wrapper {
+    padding: 0 4% 30px 4%;
+    gap: 0;
+  }
+
+  /* Botón filtros visible en mobile */
+  .filtro-toggle-btn {
+    display: block;
+  }
+
+  /* Overlay visible cuando está abierto */
+  .filtro-overlay {
+    display: block;
+  }
+
+  /* Sidebar filtro se convierte en panel lateral deslizable */
+  .sidebar-filtro-wrapper {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 240px;
+    height: 100vh;
+    background: #07393c;
+    z-index: 200;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    padding: 20px 0;
+  }
+
+  .sidebar-filtro-wrapper.open {
+    left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .productos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .results-count {
+    font-size: 1.1rem;
+  }
 }

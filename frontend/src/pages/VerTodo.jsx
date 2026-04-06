@@ -6,7 +6,6 @@ import Card from "../components/ui/Card";
 import "../styles/VerTodo.css";
 import Footer from "../components/layouts/Footer";
 import { useSearchParams } from "react-router-dom";
-
 import { getProductos } from "../api/productosService";
 
 const PRODUCTOS_POR_PAGINA = 20;
@@ -17,6 +16,7 @@ function VerTodo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [pagina, setPagina] = useState(1);
+  const [filtroOpen, setFiltroOpen] = useState(false); // ← nuevo
 
   const [searchParams] = useSearchParams();
 
@@ -37,13 +37,11 @@ function VerTodo() {
             (p) => p.Categoria?.toLowerCase() === categoriaURL.toLowerCase(),
           );
         }
-
         if (ofertasURL === "true") {
           resultado = resultado.filter(
             (p) => Number(p.PrecioOriginal) > Number(p.PrecioPorLibra),
           );
         }
-
         if (buscarURL) {
           resultado = resultado.filter(
             (p) =>
@@ -71,19 +69,16 @@ function VerTodo() {
         (p) => Number(p.PrecioOriginal) > Number(p.PrecioPorLibra),
       );
     }
-
     if (categorias.length > 0) {
       resultado = resultado.filter((p) =>
         categorias.some((c) => c.toLowerCase() === p.Categoria?.toLowerCase()),
       );
     }
-
     if (precioMin !== "") {
       resultado = resultado.filter(
         (p) => Number(p.PrecioPorLibra) >= Number(precioMin),
       );
     }
-
     if (precioMax !== "") {
       resultado = resultado.filter(
         (p) => Number(p.PrecioPorLibra) <= Number(precioMax),
@@ -92,6 +87,7 @@ function VerTodo() {
 
     setFiltrados(resultado);
     setPagina(1);
+    setFiltroOpen(false); // ← cierra el filtro al aplicar en mobile
   };
 
   const adaptarProducto = (p) => {
@@ -102,19 +98,17 @@ function VerTodo() {
         ? Math.round(((precioOriginal - precioActual) / precioOriginal) * 100)
         : 0;
 
-    const imagenPrincipal =
-      p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
-      p.Imagenes?.[0]?.UrlImagen ||
-      "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19";
-
     return {
       id: p.Id,
       titulo: p.Nombre,
       precio: precioActual,
-      precioOriginal: precioOriginal,
+      precioOriginal,
       descuento: descuento > 0 ? `${descuento}%` : "0%",
       descuentoPorcentaje: descuento,
-      img: imagenPrincipal,
+      img:
+        p.Imagenes?.find((i) => i.EsPrincipal)?.UrlImagen ||
+        p.Imagenes?.[0]?.UrlImagen ||
+        "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19",
       stock: p.StockLibras,
       descripcionCorta: p.Descripcion,
       region: "Colombia",
@@ -163,11 +157,31 @@ function VerTodo() {
                   : "¡Compra las mejores frutas y verduras!"}
           </h2>
         </div>
-        <span className="results-filter">Popularidad: los mas populares ▽</span>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Botón filtros — solo mobile */}
+          <button
+            className="filtro-toggle-btn"
+            onClick={() => setFiltroOpen(!filtroOpen)}
+          >
+            ☰ Filtros
+          </button>
+          <span className="results-filter">
+            Popularidad: los mas populares ▽
+          </span>
+        </div>
       </div>
 
+      {/* Overlay para cerrar filtro en mobile */}
+      {filtroOpen && (
+        <div className="filtro-overlay" onClick={() => setFiltroOpen(false)} />
+      )}
+
       <div className="main-content-wrapper">
-        <SidebarFiltro productos={productos} onFiltrar={handleFiltrar} />
+        {/* Sidebar filtro */}
+        <div className={`sidebar-filtro-wrapper ${filtroOpen ? "open" : ""}`}>
+          <SidebarFiltro productos={productos} onFiltrar={handleFiltrar} />
+        </div>
 
         <div
           style={{
@@ -177,13 +191,7 @@ function VerTodo() {
             gap: "30px",
           }}
         >
-          <main
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "20px",
-            }}
-          >
+          <main className="productos-grid">
             {loading && (
               <p
                 style={{
@@ -195,7 +203,6 @@ function VerTodo() {
                 Cargando productos...
               </p>
             )}
-
             {error && (
               <p
                 style={{
@@ -207,7 +214,6 @@ function VerTodo() {
                 {error}
               </p>
             )}
-
             {!loading && !error && filtrados.length === 0 && (
               <p
                 style={{ color: "#aaa", padding: "20px", gridColumn: "span 4" }}
@@ -217,7 +223,6 @@ function VerTodo() {
                   : "No hay productos con esos filtros."}
               </p>
             )}
-
             {!loading &&
               !error &&
               productosPagina.map((p) => (
@@ -232,6 +237,7 @@ function VerTodo() {
                 justifyContent: "center",
                 gap: "8px",
                 paddingBottom: "20px",
+                flexWrap: "wrap",
               }}
             >
               <button
