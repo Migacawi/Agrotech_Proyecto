@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
+import { updateUsuario } from "../../api/usuariosService";
+import useAuthStore from "../../store/authStore";
+import Swal from "sweetalert2";
 
 const ITEMS_POR_PAGINA = 20;
 
@@ -15,9 +18,14 @@ const td = {
   borderBottom: "1px solid #f0f0f0",
 };
 
-function AdminUsuariosTable({ usuarios, onEditar, onEliminar }) {
+function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
   const [pagina, setPagina] = useState(1);
   const [busqueda, setBusqueda] = useState("");
+  const [loadingRol, setLoadingRol] = useState(null); // id del usuario que está cambiando
+
+  // Rol del admin logueado
+  const rolActual = useAuthStore((s) => s.user?.rol?.toLowerCase());
+  const esAdmin = rolActual === "administrador";
 
   const filtrados = usuarios.filter((u) => {
     const q = busqueda.toLowerCase();
@@ -54,10 +62,55 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar }) {
     XLSX.writeFile(wb, "usuarios.xlsx");
   };
 
+  // Alterna el rol entre Administrador y Comprador
+  const handleToggleRol = async (u) => {
+    const esAdminTarget = u.Rol?.Nombre?.toLowerCase() === "administrador";
+    const nuevoRol = esAdminTarget ? "Comprador" : "Administrador";
+
+    const confirmacion = await Swal.fire({
+      title: `¿Cambiar rol a ${nuevoRol}?`,
+      text: `${u.Nombre} pasará a ser ${nuevoRol}.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#07393c",
+      cancelButtonColor: "#aaa",
+      confirmButtonText: "Sí, cambiar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (!confirmacion.isConfirmed) return;
+
+    setLoadingRol(u.Id);
+    try {
+      await updateUsuario(u.Id, {
+        Nombre:       u.Nombre,
+        Email:        u.Email,
+        RolNombre:    nuevoRol,
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Rol actualizado",
+        text: `${u.Nombre} ahora es ${nuevoRol}.`,
+        confirmButtonColor: "#07393c",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      onActualizar(); // refresca la lista desde el padre
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message || "No se pudo actualizar el rol",
+        confirmButtonColor: "#07393c",
+      });
+    } finally {
+      setLoadingRol(null);
+    }
+  };
+
   return (
-    <div
-      style={{ background: "white", borderRadius: "6px", overflow: "hidden" }}
-    >
+    <div style={{ background: "white", borderRadius: "6px", overflow: "hidden" }}>
+
       {/* Barra de herramientas */}
       <div
         style={{
@@ -112,78 +165,112 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar }) {
           </tr>
         </thead>
         <tbody>
-          {usuariosPagina.map((u, i) => (
-            <tr
-              key={u.Id}
-              style={{ background: i % 2 === 0 ? "#f9f9f9" : "white" }}
-            >
-              <td style={td}>{u.Id}</td>
-              <td style={td}>{u.Nombre}</td>
-              <td style={td}>{u.Email}</td>
-              <td style={td}>
-                <span
-                  style={{
-                    background:
-                      u.Rol?.Nombre?.toLowerCase() === "administrador"
-                        ? "#07393c"
-                        : "#e0f0f0",
-                    color:
-                      u.Rol?.Nombre?.toLowerCase() === "administrador"
-                        ? "white"
-                        : "#07393c",
-                    padding: "3px 10px",
-                    borderRadius: "20px",
-                    fontSize: "12px",
-                  }}
-                >
-                  {u.Rol?.Nombre || "Sin rol"}
-                </span>
-              </td>
-              <td style={td}>
-                {u.FechaRegistro
-                  ? new Date(u.FechaRegistro).toLocaleDateString("es-CO")
-                  : "—"}
-              </td>
-              <td style={{ ...td, display: "flex", gap: "8px" }}>
-                <button
-                  onClick={() => onEditar(u)}
-                  style={{
-                    padding: "6px 12px",
-                    borderRadius: "6px",
-                    border: "none",
-                    background: "#07393c",
-                    color: "white",
-                    cursor: "pointer",
-                    fontSize: "13px",
-                  }}
-                >
-                  ✏ Editar
-                </button>
-                <button
-                  onClick={() => onEliminar(u.Id)}
-                  style={{
-                    padding: "6px 12px",
-                    borderRadius: "6px",
-                    border: "none",
-                    background: "#ff4d4d",
-                    color: "white",
-                    cursor: "pointer",
-                    fontSize: "13px",
-                  }}
-                >
-                  🗑 Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {usuariosPagina.map((u, i) => {
+            const esAdminTarget = u.Rol?.Nombre?.toLowerCase() === "administrador";
+
+            return (
+              <tr
+                key={u.Id}
+                style={{ background: i % 2 === 0 ? "#f9f9f9" : "white" }}
+              >
+                <td style={td}>{u.Id}</td>
+                <td style={td}>{u.Nombre}</td>
+                <td style={td}>{u.Email}</td>
+
+                {/* ── Chip de rol ── */}
+                <td style={td}>
+                  <span
+                    style={{
+                      background: esAdminTarget ? "#07393c" : "#e0f0f0",
+                      color:      esAdminTarget ? "white"   : "#07393c",
+                      padding: "3px 10px",
+                      borderRadius: "20px",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {u.Rol?.Nombre || "Sin rol"}
+                  </span>
+                </td>
+
+                <td style={td}>
+                  {u.FechaRegistro
+                    ? new Date(u.FechaRegistro).toLocaleDateString("es-CO")
+                    : "—"}
+                </td>
+
+                {/* ── Acciones ── */}
+                <td style={{ ...td, display: "flex", gap: "8px", flexWrap: "wrap" }}>
+
+                  {/* Editar — siempre visible */}
+                  <button
+                    onClick={() => onEditar(u)}
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "6px",
+                      border: "none",
+                      background: "#07393c",
+                      color: "white",
+                      cursor: "pointer",
+                      fontSize: "13px",
+                    }}
+                  >
+                    ✏ Editar
+                  </button>
+
+                  {/* Toggle de rol — solo si el logueado es admin */}
+                  {esAdmin && (
+                    <button
+                      onClick={() => handleToggleRol(u)}
+                      disabled={loadingRol === u.Id}
+                      title={esAdminTarget ? "Quitar administrador" : "Hacer administrador"}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: esAdminTarget ? "#b56a00" : "#1a6fb5",
+                        color: "white",
+                        cursor: loadingRol === u.Id ? "not-allowed" : "pointer",
+                        fontSize: "13px",
+                        opacity: loadingRol === u.Id ? 0.6 : 1,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {loadingRol === u.Id
+                        ? "..."
+                        : esAdminTarget
+                        ? "⬇ Quitar admin"
+                        : "⬆ Hacer admin"}
+                    </button>
+                  )}
+
+                  {/* Eliminar — se oculta si el target es admin */}
+                  {!esAdminTarget && (
+                    <button
+                      onClick={() => onEliminar(u.Id)}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: "#ff4d4d",
+                        color: "white",
+                        cursor: "pointer",
+                        fontSize: "13px",
+                      }}
+                    >
+                      🗑 Eliminar
+                    </button>
+                  )}
+
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
       {filtrados.length === 0 && (
         <p style={{ padding: "20px", color: "#aaa", textAlign: "center" }}>
-          {busqueda
-            ? "No se encontraron resultados."
-            : "No hay usuarios registrados."}
+          {busqueda ? "No se encontraron resultados." : "No hay usuarios registrados."}
         </p>
       )}
 
@@ -220,16 +307,10 @@ function Paginador({ pagina, totalPaginas, irA, total }) {
         <strong>{totalPaginas}</strong>
       </span>
       <div style={{ display: "flex", gap: "4px" }}>
-        <BtnPag onClick={() => irA(1)} disabled={pagina === 1}>
-          «
-        </BtnPag>
-        <BtnPag onClick={() => irA(pagina - 1)} disabled={pagina === 1}>
-          ‹
-        </BtnPag>
+        <BtnPag onClick={() => irA(1)} disabled={pagina === 1}>«</BtnPag>
+        <BtnPag onClick={() => irA(pagina - 1)} disabled={pagina === 1}>‹</BtnPag>
         {Array.from({ length: totalPaginas }, (_, i) => i + 1)
-          .filter(
-            (n) => n === 1 || n === totalPaginas || Math.abs(n - pagina) <= 1,
-          )
+          .filter((n) => n === 1 || n === totalPaginas || Math.abs(n - pagina) <= 1)
           .reduce((acc, n, idx, arr) => {
             if (idx > 0 && n - arr[idx - 1] > 1) acc.push("...");
             acc.push(n);
@@ -237,34 +318,15 @@ function Paginador({ pagina, totalPaginas, irA, total }) {
           }, [])
           .map((item, idx) =>
             item === "..." ? (
-              <span
-                key={`sep-${idx}`}
-                style={{ padding: "0 4px", color: "#aaa" }}
-              >
-                …
-              </span>
+              <span key={`sep-${idx}`} style={{ padding: "0 4px", color: "#aaa" }}>…</span>
             ) : (
-              <BtnPag
-                key={item}
-                onClick={() => irA(item)}
-                activo={item === pagina}
-              >
+              <BtnPag key={item} onClick={() => irA(item)} activo={item === pagina}>
                 {item}
               </BtnPag>
-            ),
+            )
           )}
-        <BtnPag
-          onClick={() => irA(pagina + 1)}
-          disabled={pagina === totalPaginas}
-        >
-          ›
-        </BtnPag>
-        <BtnPag
-          onClick={() => irA(totalPaginas)}
-          disabled={pagina === totalPaginas}
-        >
-          »
-        </BtnPag>
+        <BtnPag onClick={() => irA(pagina + 1)} disabled={pagina === totalPaginas}>›</BtnPag>
+        <BtnPag onClick={() => irA(totalPaginas)} disabled={pagina === totalPaginas}>»</BtnPag>
       </div>
     </div>
   );

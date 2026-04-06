@@ -275,7 +275,7 @@ function Checkout() {
         Authorization: `Bearer ${token}`,
       };
 
-      const resPedido = await fetch("http://localhost:3000/api/pedidos", {
+      const resPedido = await fetch("https://curly-capybara-69gwrjprgrw6h5x7x-3000.app.github.dev", {
         method: "POST",
         headers,
         body: JSON.stringify({
@@ -296,7 +296,7 @@ function Checkout() {
 
       const pedidoId = dataPedido.Id;
 
-      const resPago = await fetch("http://localhost:3000/api/pagos/procesar", {
+      const resPago = await fetch("https://curly-capybara-69gwrjprgrw6h5x7x-3000.app.github.dev", {
         method: "POST",
         headers,
         body: JSON.stringify({ pedidoId, metodoPago: pago }),
