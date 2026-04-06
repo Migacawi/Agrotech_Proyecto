@@ -14,6 +14,7 @@ function AdminPedidos() {
   const [modalOpen, setModalOpen] = useState(false);
   const [pedidoSel, setPedidoSel] = useState(null);
   const [loadingEdit, setLoadingEdit] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchPedidos();
@@ -113,8 +114,8 @@ function AdminPedidos() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="perfil-content">
         <h3 className="section-title">GESTIÓN DE PEDIDOS</h3>
 

@@ -104,3 +104,30 @@
   background: #f8d7da;
   color: #721c24;
 }
+@media (max-width: 768px) {
+  .stats-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stats-kpi {
+    padding: 14px 10px;
+  }
+
+  .stats-kpi-valor {
+    font-size: 1.2rem;
+  }
+
+  .stats-card {
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  .stats-tabla {
+    min-width: 500px;
+  }
+
+  .stats-card > div {
+    overflow-x: auto;
+  }
+}

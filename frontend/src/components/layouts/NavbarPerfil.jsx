@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/NavbarPerfil.css";
 import { Link } from "react-router-dom";
-
 import useAuthStore from "../../store/authStore";
 import { getUsuarioById } from "../../api/usuariosService";
 
-function NavbarPerfil() {
+function NavbarPerfil({ onToggleSidebar }) {
   const logo = "/logo3.png";
   const { user } = useAuthStore();
   const [fotoUrl, setFotoUrl] = useState(null);
@@ -25,10 +24,23 @@ function NavbarPerfil() {
 
   return (
     <header className="NavbarPerfil">
-      <Link to="/" className="navbar-left" style={{ textDecoration: "none" }}>
-        <img src={logo} alt="Agrotech" className="logo" />
-        <span className="brand">AGROTECH</span>
-      </Link>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        {/* Botón hamburguesa — solo visible en mobile via CSS */}
+        <button
+          className="navbar-hamburger"
+          onClick={onToggleSidebar}
+          aria-label="Abrir menú"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <Link to="/" className="navbar-left" style={{ textDecoration: "none" }}>
+          <img src={logo} alt="Agrotech" className="logo" />
+          <span className="brand">AGROTECH</span>
+        </Link>
+      </div>
 
       <div className="perfil">
         <img

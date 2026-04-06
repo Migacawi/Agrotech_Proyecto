@@ -27,6 +27,7 @@ function MisProductos() {
   const [precioOriginal, setPrecioOriginal] = useState(0);
   const [mensaje, setMensaje] = useState("");
   const [loadingEdit, setLoadingEdit] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchProductos();
@@ -111,8 +112,8 @@ function MisProductos() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="perfil-content">
         <h3 className="section-title">MIS PRODUCTOS</h3>

@@ -20,7 +20,7 @@ function MisVentas() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busqueda, setBusqueda] = useState("");
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     const fetchVentas = async () => {
       try {
@@ -101,8 +101,8 @@ function MisVentas() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="perfil-content">
         <h3 className="section-title">MIS VENTAS</h3>
@@ -189,7 +189,64 @@ function MisVentas() {
                 </p>
               ) : (
                 ventasFiltradas.map((v, i) => {
-                  /* ... mismo código que ya tienes */
+                  const img =
+                    v.producto?.Imagenes?.find((img) => img.EsPrincipal)
+                      ?.UrlImagen ||
+                    v.producto?.Imagenes?.[0]?.UrlImagen ||
+                    "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19";
+
+                  const badge = colorEstado[v.estado] || {
+                    bg: "#eee",
+                    color: "#555",
+                  };
+
+                  return (
+                    <div key={i} className="misventas-card">
+                      <div className="misventas-card-img">
+                        <img
+                          src={img}
+                          alt={v.producto?.Nombre}
+                          onError={(e) => {
+                            e.target.src =
+                              "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19";
+                          }}
+                        />
+                      </div>
+                      <div className="misventas-card-info">
+                        <div className="misventas-card-top">
+                          <p className="misventas-nombre">
+                            {v.producto?.Nombre || "Producto"}
+                          </p>
+                          <span
+                            className="misventas-badge"
+                            style={{ background: badge.bg, color: badge.color }}
+                          >
+                            {v.estado}
+                          </span>
+                        </div>
+                        <p className="misventas-comprador">
+                          Comprador: <strong>{v.comprador}</strong>
+                        </p>
+                        <div className="misventas-card-bottom">
+                          <span className="misventas-meta">
+                            {v.cantidadLibras} lb × $
+                            {v.precioUnitario.toLocaleString("es-CO")}
+                          </span>
+                          <span className="misventas-subtotal">
+                            ${v.subtotal.toLocaleString("es-CO")}
+                          </span>
+                        </div>
+                        <div className="misventas-footer">
+                          <span className="misventas-pedido">
+                            Pedido #{v.pedidoId}
+                          </span>
+                          <span className="misventas-fecha">
+                            {formatFecha(v.fecha)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
                 })
               )}
             </div>

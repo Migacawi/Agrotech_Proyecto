@@ -47,6 +47,7 @@ function Perfil() {
   const [cropperOpen, setCropperOpen] = useState(false);
   const [ultimasCompras, setUltimasCompras] = useState([]);
   const [saldoGanancias, setSaldoGanancias] = useState(0); // ← aquí dentro
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Cargar usuario
   useEffect(() => {
@@ -143,8 +144,8 @@ function Perfil() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="perfil-content">
         <h3 className="section-title">INFORMACION GENERAL</h3>
         <div className="perfil-grid">

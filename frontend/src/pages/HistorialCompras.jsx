@@ -23,6 +23,7 @@ function HistorialCompras() {
   const [error, setError] = useState("");
   const [abierto, setAbierto] = useState(null);
   const [busqueda, setBusqueda] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchMisPedidos = async () => {
@@ -92,8 +93,8 @@ function HistorialCompras() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="perfil-content">
         <h3 className="section-title">HISTORIAL DE COMPRAS</h3>

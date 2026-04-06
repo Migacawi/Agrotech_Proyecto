@@ -6,18 +6,22 @@ import AdminUsuarioModal from "../components/layouts/AdminUsuarioModal";
 import "../styles/Perfil.css";
 import Swal from "sweetalert2";
 
-import { getUsuarios, updateUsuario, deleteUsuario } from "../api/usuariosService";
+import {
+  getUsuarios,
+  updateUsuario,
+  deleteUsuario,
+} from "../api/usuariosService";
 
 function AdminUsuarios() {
-  const [usuarios, setUsuarios]       = useState([]);
-  const [loading, setLoading]         = useState(true);
-  const [error, setError]             = useState("");
-  const [modalOpen, setModalOpen]     = useState(false);
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const [usuarioEdit, setUsuarioEdit] = useState(null);
-  const [form, setForm]               = useState({ Nombre: "", Email: "" });
-  const [mensaje, setMensaje]         = useState("");
+  const [form, setForm] = useState({ Nombre: "", Email: "" });
+  const [mensaje, setMensaje] = useState("");
   const [loadingEdit, setLoadingEdit] = useState(false);
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     fetchUsuarios();
   }, []);
@@ -44,7 +48,10 @@ function AdminUsuarios() {
     setLoadingEdit(true);
     setMensaje("");
     try {
-      await updateUsuario(usuarioEdit.Id, { Nombre: form.Nombre, Email: form.Email });
+      await updateUsuario(usuarioEdit.Id, {
+        Nombre: form.Nombre,
+        Email: form.Email,
+      });
       setModalOpen(false);
       setMensaje("");
       fetchUsuarios();
@@ -105,14 +112,14 @@ function AdminUsuarios() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="perfil-content">
         <h3 className="section-title">GESTIÓN DE USUARIOS</h3>
 
         {loading && <p style={{ color: "#07393c" }}>Cargando usuarios...</p>}
-        {error   && <p style={{ color: "#ff6b6b" }}>{error}</p>}
+        {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
 
         {!loading && !error && (
           <AdminUsuariosTable

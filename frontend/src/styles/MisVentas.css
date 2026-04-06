@@ -183,3 +183,35 @@
     width: 80px;
   }
 }
+@media (max-width: 768px) {
+  .misventas-resumen {
+    gap: 10px;
+  }
+
+  .misventas-stat {
+    min-width: calc(50% - 5px);
+    padding: 12px;
+  }
+
+  .misventas-stat-valor {
+    font-size: 16px;
+  }
+
+  .misventas-card-img {
+    width: 80px;
+    min-height: 80px;
+  }
+
+  .misventas-card-info {
+    padding: 10px 12px;
+    gap: 4px;
+  }
+
+  .misventas-nombre {
+    font-size: 13px;
+  }
+
+  .misventas-subtotal {
+    font-size: 13px;
+  }
+}

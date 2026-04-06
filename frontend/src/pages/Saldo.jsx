@@ -11,7 +11,7 @@ function Saldo() {
   const [loading, setLoading] = useState(true);
   const [saldoGanancias, setSaldoGanancias] = useState(0);
   const [ventasEntregadas, setVentasEntregadas] = useState([]);
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     const fetchSaldo = async () => {
       try {
@@ -46,8 +46,8 @@ function Saldo() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="perfil-content">
         <h3 className="section-title">SALDO</h3>

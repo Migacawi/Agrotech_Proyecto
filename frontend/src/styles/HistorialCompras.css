@@ -178,3 +178,31 @@
 .historial-btn-tienda:hover {
   opacity: 0.85;
 }
+@media (max-width: 768px) {
+  .historial-card-header {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .historial-fecha {
+    display: none;
+  }
+
+  .historial-productos-preview {
+    max-width: 120px;
+  }
+
+  .historial-total {
+    min-width: 60px;
+    font-size: 12px;
+  }
+
+  .historial-num {
+    min-width: 44px;
+    font-size: 12px;
+  }
+
+  .historial-card-body {
+    padding: 8px 12px 12px;
+  }
+}

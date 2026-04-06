@@ -109,3 +109,30 @@
 .saldo-tabla tr:hover td {
   background: #f9f9f9;
 }
+@media (max-width: 768px) {
+  .saldo-hero {
+    padding: 20px 16px;
+  }
+
+  .saldo-hero-valor {
+    font-size: 1.8rem;
+  }
+
+  .saldo-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .saldo-movimientos {
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  .saldo-tabla {
+    min-width: 480px;
+  }
+
+  .saldo-movimientos > div {
+    overflow-x: auto;
+  }
+}

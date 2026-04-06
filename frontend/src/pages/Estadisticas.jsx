@@ -24,6 +24,7 @@ function Estadisticas() {
   const [pedidos, setPedidos] = useState([]);
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -123,8 +124,8 @@ function Estadisticas() {
   if (loading)
     return (
       <div className="perfil-page">
-        <NavbarPerfil />
-        <Sidebar />
+        <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="perfil-content">
           <p style={{ color: "#07393c" }}>Cargando estadísticas...</p>
         </div>
@@ -133,8 +134,8 @@ function Estadisticas() {
 
   return (
     <div className="perfil-page">
-      <NavbarPerfil />
-      <Sidebar />
+      <NavbarPerfil onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="perfil-content">
         <h3 className="section-title">ESTADÍSTICAS</h3>

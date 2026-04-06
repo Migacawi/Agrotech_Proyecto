@@ -200,3 +200,35 @@
     gap: 20px;
   }
 }
+@media (max-width: 768px) {
+  .perfil-content {
+    margin-left: 0;
+    margin-top: 70px;
+    padding: 16px;
+  }
+
+  .perfil-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .saldo-section {
+    margin-top: 16px;
+    padding: 16px;
+  }
+
+  .saldo-total {
+    font-size: 1.8rem;
+  }
+
+  .saldo-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .saldo-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
