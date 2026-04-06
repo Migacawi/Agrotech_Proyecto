@@ -7,6 +7,7 @@ import useCartStore from "../../store/cartStore";
 import useFavoritosStore from "../../store/favoritosStore";
 import useAuthStore from "../../store/authStore"; // ← nuevo
 import { getUsuarioById } from "../../api/usuariosService"; // ← nuevo
+import SearchBar from "../ui/SearchBar";
 
 function Navbar() {
   const logo = "/logo3.png";
@@ -63,11 +64,7 @@ function Navbar() {
 
       {/* centro */}
       <div className="navbar-center">
-        <input
-          type="text"
-          placeholder="Busca frutas, verduras y mas"
-          className="search-bar"
-        />
+        <SearchBar />
       </div>
 
       {/* derecha */}
@@ -79,11 +76,9 @@ function Navbar() {
           </button>
           {searchOpen && (
             <div className="search-dropdown">
-              <input
-                type="text"
-                placeholder="Busca frutas, verduras y mas"
+              <SearchBar
                 className="search-bar-mobile"
-                autoFocus
+                onSearch={() => setSearchOpen(false)}
               />
             </div>
           )}

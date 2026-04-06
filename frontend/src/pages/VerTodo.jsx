@@ -17,8 +17,7 @@ function VerTodo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [pagina, setPagina] = useState(1);
-  const params = new URLSearchParams(location.search);
-  const categoria = params.get("categoria");
+
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -29,6 +28,7 @@ function VerTodo() {
 
         const categoriaURL = searchParams.get("categoria");
         const ofertasURL = searchParams.get("ofertas");
+        const buscarURL = searchParams.get("buscar");
 
         let resultado = [...data];
 
@@ -41,6 +41,15 @@ function VerTodo() {
         if (ofertasURL === "true") {
           resultado = resultado.filter(
             (p) => Number(p.PrecioOriginal) > Number(p.PrecioPorLibra),
+          );
+        }
+
+        if (buscarURL) {
+          resultado = resultado.filter(
+            (p) =>
+              p.Nombre?.toLowerCase().includes(buscarURL.toLowerCase()) ||
+              p.Categoria?.toLowerCase().includes(buscarURL.toLowerCase()) ||
+              p.Descripcion?.toLowerCase().includes(buscarURL.toLowerCase()),
           );
         }
 
@@ -127,6 +136,7 @@ function VerTodo() {
 
   const categoriaActual = searchParams.get("categoria");
   const esOfertas = searchParams.get("ofertas") === "true";
+  const buscarActual = searchParams.get("buscar");
 
   return (
     <div className="ver-todo-page">
@@ -137,16 +147,20 @@ function VerTodo() {
         <div className="text-group-left">
           <p className="breadcrumb-text">
             Tienda &gt;{" "}
-            {esOfertas
-              ? "Ofertas Flash"
-              : categoriaActual || "Todos los productos"}
+            {buscarActual
+              ? `Búsqueda: "${buscarActual}"`
+              : esOfertas
+                ? "Ofertas Flash"
+                : categoriaActual || "Todos los productos"}
           </p>
           <h2 className="results-count">
-            {esOfertas
-              ? `🔥 Ofertas Flash — ${filtrados.length} productos`
-              : categoriaActual
-                ? `${categoriaActual} — ${filtrados.length} productos`
-                : "¡Compra las mejores frutas y verduras!"}
+            {buscarActual
+              ? `🔍 "${buscarActual}" — ${filtrados.length} productos`
+              : esOfertas
+                ? `🔥 Ofertas Flash — ${filtrados.length} productos`
+                : categoriaActual
+                  ? `${categoriaActual} — ${filtrados.length} productos`
+                  : "¡Compra las mejores frutas y verduras!"}
           </h2>
         </div>
         <span className="results-filter">Popularidad: los mas populares ▽</span>
@@ -181,6 +195,7 @@ function VerTodo() {
                 Cargando productos...
               </p>
             )}
+
             {error && (
               <p
                 style={{
@@ -192,13 +207,17 @@ function VerTodo() {
                 {error}
               </p>
             )}
+
             {!loading && !error && filtrados.length === 0 && (
               <p
                 style={{ color: "#aaa", padding: "20px", gridColumn: "span 4" }}
               >
-                No hay productos con esos filtros.
+                {buscarActual
+                  ? `No se encontraron productos para "${buscarActual}".`
+                  : "No hay productos con esos filtros."}
               </p>
             )}
+
             {!loading &&
               !error &&
               productosPagina.map((p) => (
