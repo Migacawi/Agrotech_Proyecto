@@ -22,6 +22,7 @@ function AdminUsuarios() {
   const [mensaje, setMensaje] = useState("");
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     fetchUsuarios();
   }, []);
@@ -126,6 +127,7 @@ function AdminUsuarios() {
             usuarios={usuarios}
             onEditar={abrirModal}
             onEliminar={handleEliminar}
+            onActualizar={fetchUsuarios}
           />
         )}
 

@@ -21,9 +21,8 @@ const td = {
 function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
   const [pagina, setPagina] = useState(1);
   const [busqueda, setBusqueda] = useState("");
-  const [loadingRol, setLoadingRol] = useState(null); // id del usuario que está cambiando
+  const [loadingRol, setLoadingRol] = useState(null);
 
-  // Rol del admin logueado
   const rolActual = useAuthStore((s) => s.user?.rol?.toLowerCase());
   const esAdmin = rolActual === "administrador";
 
@@ -62,14 +61,10 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
     XLSX.writeFile(wb, "usuarios.xlsx");
   };
 
-  // Alterna el rol entre Administrador y Comprador
   const handleToggleRol = async (u) => {
-    const esAdminTarget = u.Rol?.Nombre?.toLowerCase() === "administrador";
-    const nuevoRol = esAdminTarget ? "Comprador" : "Administrador";
-
     const confirmacion = await Swal.fire({
-      title: `¿Cambiar rol a ${nuevoRol}?`,
-      text: `${u.Nombre} pasará a ser ${nuevoRol}.`,
+      title: `¿Hacer administrador a ${u.Nombre}?`,
+      text: `${u.Nombre} pasará a ser Administrador.`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#07393c",
@@ -83,19 +78,19 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
     setLoadingRol(u.Id);
     try {
       await updateUsuario(u.Id, {
-        Nombre:       u.Nombre,
-        Email:        u.Email,
-        RolNombre:    nuevoRol,
+        Nombre:    u.Nombre,
+        Email:     u.Email,
+        RolNombre: "Administrador",
       });
       Swal.fire({
         icon: "success",
         title: "Rol actualizado",
-        text: `${u.Nombre} ahora es ${nuevoRol}.`,
+        text: `${u.Nombre} ahora es Administrador.`,
         confirmButtonColor: "#07393c",
         timer: 2000,
         showConfirmButton: false,
       });
-      onActualizar(); // refresca la lista desde el padre
+      onActualizar();
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -111,7 +106,6 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
   return (
     <div style={{ background: "white", borderRadius: "6px", overflow: "hidden" }}>
 
-      {/* Barra de herramientas */}
       <div
         style={{
           display: "flex",
@@ -177,7 +171,6 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                 <td style={td}>{u.Nombre}</td>
                 <td style={td}>{u.Email}</td>
 
-                {/* ── Chip de rol ── */}
                 <td style={td}>
                   <span
                     style={{
@@ -198,10 +191,8 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                     : "—"}
                 </td>
 
-                {/* ── Acciones ── */}
                 <td style={{ ...td, display: "flex", gap: "8px", flexWrap: "wrap" }}>
 
-                  {/* Editar — siempre visible */}
                   <button
                     onClick={() => onEditar(u)}
                     style={{
@@ -217,17 +208,16 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                     ✏ Editar
                   </button>
 
-                  {/* Toggle de rol — solo si el logueado es admin */}
-                  {esAdmin && (
+                  {esAdmin && !esAdminTarget && (
                     <button
                       onClick={() => handleToggleRol(u)}
                       disabled={loadingRol === u.Id}
-                      title={esAdminTarget ? "Quitar administrador" : "Hacer administrador"}
+                      title="Hacer administrador"
                       style={{
                         padding: "6px 12px",
                         borderRadius: "6px",
                         border: "none",
-                        background: esAdminTarget ? "#b56a00" : "#1a6fb5",
+                        background: "#1a6fb5",
                         color: "white",
                         cursor: loadingRol === u.Id ? "not-allowed" : "pointer",
                         fontSize: "13px",
@@ -235,15 +225,10 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {loadingRol === u.Id
-                        ? "..."
-                        : esAdminTarget
-                        ? "⬇ Quitar admin"
-                        : "⬆ Hacer admin"}
+                      {loadingRol === u.Id ? "..." : "⬆ Hacer admin"}
                     </button>
                   )}
 
-                  {/* Eliminar — se oculta si el target es admin */}
                   {!esAdminTarget && (
                     <button
                       onClick={() => onEliminar(u.Id)}
