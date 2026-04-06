@@ -142,14 +142,15 @@ function AdminProductoModal({
             style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}
           >
             <button
-              onClick={onCancelar}
-              style={{
-                padding: "10px 20px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-                background: "white",
-                cursor: "pointer",
-              }}
+  onClick={onCancelar}
+  style={{
+    padding: "10px 20px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    background: "white",
+    cursor: "pointer",
+    color: "#333",      // ← agregar esta línea
+  }}
             >
               Cancelar
             </button>

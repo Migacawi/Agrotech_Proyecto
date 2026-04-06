@@ -275,7 +275,7 @@ function Checkout() {
         Authorization: `Bearer ${token}`,
       };
 
-      const resPedido = await fetch("https://curly-capybara-69gwrjprgrw6h5x7x-3000.app.github.dev", {
+      const resPedido = await fetch("https://redesigned-giggle-7v9wrgxr9pj4c95-3000.app.github.dev/api/pedidos", {
         method: "POST",
         headers,
         body: JSON.stringify({
@@ -296,7 +296,7 @@ function Checkout() {
 
       const pedidoId = dataPedido.Id;
 
-      const resPago = await fetch("https://curly-capybara-69gwrjprgrw6h5x7x-3000.app.github.dev", {
+      const resPago = await fetch("https://redesigned-giggle-7v9wrgxr9pj4c95-3000.app.github.dev/api/pagos/procesar", {
         method: "POST",
         headers,
         body: JSON.stringify({ pedidoId, metodoPago: pago }),

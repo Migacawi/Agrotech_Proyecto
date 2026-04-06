@@ -186,9 +186,20 @@ function AñadirProduct() {
             </div>
 
             <div className="form-group">
-              <label>Fecha de Cosecha</label>
-              <input type="date" name="fechaCosecha" onChange={handleChange} required />
-            </div>
+  <label>Fecha de Cosecha</label>
+  <input
+    type="date"
+    name="fechaCosecha"
+    onChange={handleChange}   
+    required
+    min={(() => {
+      const d = new Date();
+      d.setDate(d.getDate() - 14);
+      return d.toISOString().split("T")[0];
+    })()}
+    max={new Date().toISOString().split("T")[0]}
+  />
+</div>
 
             <div className="form-group">
               <label>Precio por Libra (COP)</label>
