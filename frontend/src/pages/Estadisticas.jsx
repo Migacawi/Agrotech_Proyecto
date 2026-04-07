@@ -6,6 +6,7 @@ import "../styles/Estadisticas.css";
 import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import { getProductos } from "../api/productosService";
+import { getUsuarios } from "../api/usuariosService";
 import {
   BarChart,
   Bar,
@@ -23,15 +24,19 @@ function Estadisticas() {
   const { user, isAdmin, isVendedor } = useAuthStore();
   const [pedidos, setPedidos] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        const [p, pr] = await Promise.all([getPedidos(), getProductos()]);
+        const calls = [getPedidos(), getProductos()];
+        if (isAdmin()) calls.push(getUsuarios());
+        const [p, pr, us] = await Promise.all(calls);
         setPedidos(p);
         setProductos(pr);
+        if (us) setUsuarios(us);
       } finally {
         setLoading(false);
       }
@@ -77,7 +82,21 @@ function Estadisticas() {
     (d) => d.pedido.Estado === "Pendiente",
   ).length;
 
-  // ── Gráfica ventas por mes ────────────────────────────────────────────────
+  // ── KPIs globales de admin ────────────────────────────────────────────────────
+  const revenueTotal = pedidos
+    .filter(p => p.Estado === 'Entregado')
+    .reduce((acc, p) => acc + Number(p.Total), 0);
+
+  const ventasGlobalesPorMes = {};
+  pedidos.forEach(p => {
+    const fecha = p.CreadoEn || p.createdAt;
+    if (!fecha) return;
+    const mes = new Date(fecha).toLocaleString('es-CO', { month: 'short', year: '2-digit' });
+    ventasGlobalesPorMes[mes] = (ventasGlobalesPorMes[mes] || 0) + Number(p.Total);
+  });
+  const dataVentasGlobales = Object.entries(ventasGlobalesPorMes).map(([mes, total]) => ({ mes, total }));
+
+  // ── Gráfica ventas por mes ────────────────────────────────────────────────────
   const ventasPorMes = {};
   misVentasDetalles.forEach((d) => {
     const fecha = d.pedido.FechaPedido || d.pedido.CreadoEn;
@@ -139,6 +158,50 @@ function Estadisticas() {
 
       <div className="perfil-content">
         <h3 className="section-title">ESTADÍSTICAS</h3>
+
+        {/* ── KPIs globales de admin ── */}
+        {isAdmin() && (
+          <>
+            <h4 className="stats-card-titulo" style={{ marginTop: '8px' }}>🌐 Resumen global de la plataforma</h4>
+            <div className="stats-kpi-grid">
+              <div className="stats-kpi">
+                <span className="stats-kpi-icon">👥</span>
+                <p className="stats-kpi-valor">{usuarios.length}</p>
+                <p className="stats-kpi-label">Usuarios registrados</p>
+              </div>
+              <div className="stats-kpi">
+                <span className="stats-kpi-icon">📦</span>
+                <p className="stats-kpi-valor">{pedidos.length}</p>
+                <p className="stats-kpi-label">Pedidos totales</p>
+              </div>
+              <div className="stats-kpi">
+                <span className="stats-kpi-icon">💰</span>
+                <p className="stats-kpi-valor">${revenueTotal.toLocaleString('es-CO')}</p>
+                <p className="stats-kpi-label">Revenue total (Entregados)</p>
+              </div>
+              <div className="stats-kpi">
+                <span className="stats-kpi-icon">🌿</span>
+                <p className="stats-kpi-valor">{productos.length}</p>
+                <p className="stats-kpi-label">Productos activos</p>
+              </div>
+            </div>
+
+            {dataVentasGlobales.length > 0 && (
+              <div className="stats-card">
+                <h4 className="stats-card-titulo">📈 Ventas globales por mes (COP)</h4>
+                <ResponsiveContainer width="100%" height={260}>
+                  <BarChart data={dataVentasGlobales}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                    <XAxis dataKey="mes" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip formatter={(v) => [`$${Number(v).toLocaleString('es-CO')}`, 'Total']} />
+                    <Bar dataKey="total" fill="#07393c" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+          </>
+        )}
 
         {/* ── KPIs ── */}
         <div className="stats-kpi-grid">

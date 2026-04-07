@@ -31,12 +31,20 @@ function Register() {
 
   const validate = () => {
     const errors = {};
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+
     if (!form.name.trim())
       errors.name = 'El nombre es obligatorio.';
     if (!form.email.trim())
       errors.email = 'El correo es obligatorio.';
-    if (form.password.length < 6)
-      errors.password = 'La contraseña debe tener al menos 6 caracteres.';
+    if (form.password.length < 8)
+      errors.password = 'La contraseña debe tener al menos 8 caracteres.';
+    else if (!/[A-Z]/.test(form.password))
+      errors.password = 'La contraseña debe tener al menos una letra mayúscula.';
+    else if (!/[0-9]/.test(form.password))
+      errors.password = 'La contraseña debe tener al menos un número.';
+    else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(form.password))
+      errors.password = 'La contraseña debe tener al menos un carácter especial (!@#$...).';
     if (form.password !== form.confirmPassword)
       errors.confirmPassword = 'Las contraseñas no coinciden.';
     return errors;

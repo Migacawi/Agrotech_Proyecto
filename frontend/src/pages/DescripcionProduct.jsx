@@ -8,15 +8,14 @@ import "../styles/DescripcionProduct.css";
 import Footer from "../components/layouts/Footer";
 
 import useCartStore from "../store/cartStore";
+import { carrito as toastCarrito } from "../utils/swal";
 
 function DescripcionProduct() {
   const location = useLocation();
   const navigate = useNavigate();
   const producto = location.state;
 
-  console.log("producto completo:", producto);
-  console.log("fechaCosecha:", producto?.fechaCosecha);
-  console.log("FechaCosecha:", producto?.FechaCosecha);
+
 
   const { addItem } = useCartStore();
 
@@ -71,6 +70,7 @@ function DescripcionProduct() {
       imagen: producto.img,
       stock: stock,
     });
+    toastCarrito(producto.titulo);
   };
 
   const navegarAProducto = (idDestino) => {

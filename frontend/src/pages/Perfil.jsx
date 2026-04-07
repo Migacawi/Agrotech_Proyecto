@@ -7,6 +7,7 @@ import ImageCropper from "../components/ui/ImageCropper";
 import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import { getUsuarioById, updateUsuario, updateFotoUsuario } from "../api/usuariosService";
+import { toastExito, toastError } from "../utils/swal";
 
 const IconoPerfil = ({ src }) => {
   if (src) return (
@@ -90,18 +91,10 @@ function Perfil() {
   const handleGuardar = async () => {
     setMensaje("");
 
-    // Validación de contraseña
+    // Validación local básica
     if (form.PasswordHash.trim() !== "") {
       if (!form.PasswordActual.trim()) {
         setMensaje("Debes ingresar tu contraseña actual.");
-        return;
-      }
-      if (form.PasswordActual !== usuario?.PasswordHash) {
-        setMensaje("La contraseña actual es incorrecta.");
-        return;
-      }
-      if (form.PasswordHash.length < 6) {
-        setMensaje("La nueva contraseña debe tener al menos 6 caracteres.");
         return;
       }
       if (form.PasswordHash !== form.ConfirmarPassword) {
@@ -113,7 +106,10 @@ function Perfil() {
     setLoading(true);
     try {
       const payload = { Nombre: form.Nombre };
-      if (form.PasswordHash.trim() !== "") payload.PasswordHash = form.PasswordHash;
+      if (form.PasswordHash.trim() !== "") {
+        payload.PasswordHash = form.PasswordHash;
+        payload.PasswordActual = form.PasswordActual; // el back verifica con bcrypt
+      }
       const actualizado = await updateUsuario(user.id, payload);
       setUsuario(actualizado);
 
@@ -123,10 +119,12 @@ function Perfil() {
         setUsuario(prev => ({ ...prev, FotoUrl: res.FotoUrl }));
       }
 
-      setMensaje("¡Perfil actualizado correctamente!");
-      setTimeout(() => { setModalOpen(false); setMensaje(""); setImagenFile(null); }, 1500);
+      toastExito('¡Perfil actualizado!');
+      setTimeout(() => { setModalOpen(false); setMensaje(""); setImagenFile(null); }, 800);
     } catch (err) {
-      setMensaje(err.message || "Error al actualizar");
+      const msg = err.message || "Error al actualizar";
+      setMensaje(msg);
+      toastError('Error', msg);
     } finally {
       setLoading(false);
     }

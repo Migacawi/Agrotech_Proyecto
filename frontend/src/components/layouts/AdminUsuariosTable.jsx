@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import * as XLSX from "xlsx";
+import { exportarUsuarios } from "../../utils/excelExport";
 import { updateUsuario } from "../../api/usuariosService";
 import useAuthStore from "../../store/authStore";
-import Swal from "sweetalert2";
+import { confirmarCambioRol, toastError, toastExito } from "../../utils/swal";
 
 const ITEMS_POR_PAGINA = 20;
 
@@ -45,35 +45,11 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
     setPagina(1);
   };
 
-  const exportarExcel = () => {
-    const datos = filtrados.map((u) => ({
-      ID: u.Id,
-      Nombre: u.Nombre,
-      Email: u.Email,
-      Rol: u.Rol?.Nombre || "—",
-      Registro: u.FechaRegistro
-        ? new Date(u.FechaRegistro).toLocaleDateString("es-CO")
-        : "—",
-    }));
-    const ws = XLSX.utils.json_to_sheet(datos);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Usuarios");
-    XLSX.writeFile(wb, "usuarios.xlsx");
-  };
+  const exportarExcel = () => exportarUsuarios(filtrados);
 
   const handleToggleRol = async (u) => {
-    const confirmacion = await Swal.fire({
-      title: `¿Hacer administrador a ${u.Nombre}?`,
-      text: `${u.Nombre} pasará a ser Administrador.`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#07393c",
-      cancelButtonColor: "#aaa",
-      confirmButtonText: "Sí, cambiar",
-      cancelButtonText: "Cancelar",
-    });
-
-    if (!confirmacion.isConfirmed) return;
+    const ok = await confirmarCambioRol(u.Nombre, 'Administrador');
+    if (!ok) return;
 
     setLoadingRol(u.Id);
     try {
@@ -82,22 +58,10 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
         Email:     u.Email,
         RolNombre: "Administrador",
       });
-      Swal.fire({
-        icon: "success",
-        title: "Rol actualizado",
-        text: `${u.Nombre} ahora es Administrador.`,
-        confirmButtonColor: "#07393c",
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      toastExito(`${u.Nombre} ahora es Administrador`);
       onActualizar();
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: err.message || "No se pudo actualizar el rol",
-        confirmButtonColor: "#07393c",
-      });
+      toastError('Error', err.message || 'No se pudo actualizar el rol');
     } finally {
       setLoadingRol(null);
     }

@@ -70,8 +70,14 @@ function RecuperarPassword() {
 
   // ── Paso 3: cambiar contraseña ─────────────────────────────────────────────
   const handleCambiarPassword = async () => {
-    if (nuevaPass.length < 6)
-      return Swal.fire({ icon: 'warning', title: 'La contraseña debe tener al menos 6 caracteres', confirmButtonColor: '#07393c' });
+    if (nuevaPass.length < 8)
+      return Swal.fire({ icon: 'warning', title: 'Mínimo 8 caracteres', confirmButtonColor: '#07393c' });
+    if (!/[A-Z]/.test(nuevaPass))
+      return Swal.fire({ icon: 'warning', title: 'Debe contener al menos una mayúscula', confirmButtonColor: '#07393c' });
+    if (!/[0-9]/.test(nuevaPass))
+      return Swal.fire({ icon: 'warning', title: 'Debe contener al menos un número', confirmButtonColor: '#07393c' });
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(nuevaPass))
+      return Swal.fire({ icon: 'warning', title: 'Debe contener al menos un carácter especial (!@#$...)', confirmButtonColor: '#07393c' });
     if (nuevaPass !== confirmaPass)
       return Swal.fire({ icon: 'warning', title: 'Las contraseñas no coinciden', confirmButtonColor: '#07393c' });
 
@@ -171,7 +177,7 @@ function RecuperarPassword() {
             <>
               <h1 className="welcome-title">Nueva contraseña</h1>
               <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px' }}>
-                Elige una contraseña segura de al menos 6 caracteres.
+                Elige una contraseña segura: mínimo 8 caracteres, una mayúscula, un número y un carácter especial.
               </p>
               <div className="input-group">
                 <label>Nueva contraseña</label>

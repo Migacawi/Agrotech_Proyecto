@@ -6,7 +6,7 @@ import "../styles/HistorialCompras.css";
 import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import { useNavigate } from "react-router-dom";
-import * as XLSX from "xlsx";
+import { exportarPedidos } from "../utils/excelExport";
 
 const colorEstado = {
   Pendiente: "badge-pendiente",
@@ -74,22 +74,7 @@ function HistorialCompras() {
     );
   });
 
-  // Exportar Excel
-  const exportarExcel = () => {
-    const datos = pedidosFiltrados.map((p) => ({
-      "Pedido #": p.Id,
-      Estado: p.Estado,
-      Productos: (p.Detalles || [])
-        .map((d) => d.Producto?.Nombre || `#${d.ProductoId}`)
-        .join(", "),
-      Total: Number(p.Total),
-      Fecha: formatFecha(p.CreadoEn || p.createdAt),
-    }));
-    const ws = XLSX.utils.json_to_sheet(datos);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Mis Compras");
-    XLSX.writeFile(wb, "mis-compras.xlsx");
-  };
+  const exportarExcel = () => exportarPedidos(pedidosFiltrados);
 
   return (
     <div className="perfil-page">

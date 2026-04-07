@@ -111,8 +111,12 @@ function VerTodo() {
         "https://images.unsplash.com/photo-1464965911861-74ce9de9ce19",
       stock: p.StockLibras,
       descripcionCorta: p.Descripcion,
+      fechaCosecha:     p.FechaCosecha || null,
+      vendedorId:       p.VendedorId,
+      vendedorNombre:   p.Usuario?.Nombre || 'Vendedor',
       region: "Colombia",
       envio: "A convenir",
+      todosLosProductos: productos,
     };
   };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as XLSX from "xlsx";
+import { exportarPedidos } from "../../utils/excelExport";
 
 const ITEMS_POR_PAGINA = 20;
 const th = {
@@ -45,28 +45,7 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
     setPagina(1);
   };
 
-  const exportarExcel = () => {
-    const datos = filtrados.map((p) => ({
-      ID: p.Id,
-      Comprador: p.Usuario?.Nombre || "—",
-      Email: p.Usuario?.Email || "—",
-      Total: Number(p.Total),
-      Estado: p.Estado,
-      Fecha:
-        p.CreadoEn || p.createdAt
-          ? new Date(p.CreadoEn || p.createdAt).toLocaleDateString("es-CO")
-          : "—",
-      Productos: (p.Detalles || [])
-        .map(
-          (d) => `${d.Producto?.Nombre || "Producto"} x${d.CantidadLibras}lb`,
-        )
-        .join(", "),
-    }));
-    const ws = XLSX.utils.json_to_sheet(datos);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Pedidos");
-    XLSX.writeFile(wb, "pedidos.xlsx");
-  };
+  const exportarExcel = () => exportarPedidos(filtrados);
 
   return (
     <div

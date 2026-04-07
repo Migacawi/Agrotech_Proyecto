@@ -77,8 +77,12 @@ function AgrotechHome() {
       img:                 imagenPrincipal,
       stock:               p.StockLibras,
       descripcionCorta:    p.Descripcion,
+      fechaCosecha:        p.FechaCosecha || null,
+      vendedorId:          p.VendedorId,
+      vendedorNombre:      p.Usuario?.Nombre || 'Vendedor',
       region:              'Colombia',
       envio:               'A convenir',
+      todosLosProductos:   productos,
     };
   };
 

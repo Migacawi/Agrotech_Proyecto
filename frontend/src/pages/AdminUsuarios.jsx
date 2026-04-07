@@ -4,7 +4,7 @@ import Sidebar from "../components/layouts/Sidebar";
 import AdminUsuariosTable from "../components/layouts/AdminUsuariosTable";
 import AdminUsuarioModal from "../components/layouts/AdminUsuarioModal";
 import "../styles/Perfil.css";
-import Swal from "sweetalert2";
+import { toastExito, toastError, exito, error, confirmarEliminar } from "../utils/swal";
 
 import {
   getUsuarios,
@@ -56,14 +56,7 @@ function AdminUsuarios() {
       setModalOpen(false);
       setMensaje("");
       fetchUsuarios();
-      Swal.fire({
-        icon: "success",
-        title: "¡Usuario actualizado!",
-        text: "Los cambios fueron guardados correctamente.",
-        confirmButtonColor: "#07393c",
-        background: "#062e2f",
-        color: "#e8f5f0",
-      });
+      toastExito('¡Usuario actualizado!', 'Los cambios fueron guardados.');
     } catch (err) {
       setMensaje(err.message || "Error al actualizar");
     } finally {
@@ -72,42 +65,16 @@ function AdminUsuarios() {
   };
 
   const handleEliminar = async (id) => {
-    const result = await Swal.fire({
-      title: "¿Eliminar usuario?",
-      text: "Esta acción no se puede deshacer.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ff4d4d",
-      cancelButtonColor: "#07393c",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-      background: "#062e2f",
-      color: "#e8f5f0",
-    });
-
-    if (!result.isConfirmed) return;
+    const usuario = usuarios.find(u => u.Id === id);
+    const ok = await confirmarEliminar(usuario?.Nombre || `usuario #${id}`);
+    if (!ok) return;
 
     try {
       await deleteUsuario(id);
       setUsuarios(usuarios.filter((u) => u.Id !== id));
-      Swal.fire({
-        icon: "success",
-        title: "Usuario eliminado",
-        confirmButtonColor: "#07393c",
-        background: "#062e2f",
-        color: "#e8f5f0",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toastExito('Usuario eliminado');
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: err.message || "No se pudo eliminar el usuario.",
-        confirmButtonColor: "#07393c",
-        background: "#062e2f",
-        color: "#e8f5f0",
-      });
+      toastError('Error', err.message || 'No se pudo eliminar el usuario.');
     }
   };
 

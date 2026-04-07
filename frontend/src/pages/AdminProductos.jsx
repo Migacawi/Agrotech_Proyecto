@@ -4,7 +4,7 @@ import Sidebar from "../components/layouts/Sidebar";
 import AdminProductosTable from "../components/layouts/AdminProductosTable";
 import AdminProductoModal from "../components/layouts/AdminProductoModal";
 import "../styles/Perfil.css";
-import Swal from "sweetalert2";
+import { toastExito, toastError, confirmarEliminar } from "../utils/swal";
 
 import {
   getProductos,
@@ -71,14 +71,7 @@ function AdminProductos() {
       setModalOpen(false);
       setMensaje("");
       fetchProductos();
-      Swal.fire({
-        icon: "success",
-        title: "¡Producto actualizado!",
-        text: "Los cambios fueron guardados correctamente.",
-        confirmButtonColor: "#07393c",
-        background: "#062e2f",
-        color: "#e8f5f0",
-      });
+      toastExito('¡Producto actualizado!', 'Los cambios fueron guardados.');
     } catch (err) {
       setMensaje(err.message || "Error al actualizar");
     } finally {
@@ -87,42 +80,16 @@ function AdminProductos() {
   };
 
   const handleEliminar = async (id) => {
-    const result = await Swal.fire({
-      title: "¿Eliminar producto?",
-      text: "Esta acción no se puede deshacer.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ff4d4d",
-      cancelButtonColor: "#07393c",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-      background: "#062e2f",
-      color: "#e8f5f0",
-    });
-
-    if (!result.isConfirmed) return;
+    const producto = productos.find(p => p.Id === id);
+    const ok = await confirmarEliminar(producto?.Nombre || `producto #${id}`);
+    if (!ok) return;
 
     try {
       await deleteProducto(id);
       setProductos(productos.filter((p) => p.Id !== id));
-      Swal.fire({
-        icon: "success",
-        title: "Producto eliminado",
-        confirmButtonColor: "#07393c",
-        background: "#062e2f",
-        color: "#e8f5f0",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toastExito('Producto eliminado');
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: err.message || "No se pudo eliminar el producto.",
-        confirmButtonColor: "#07393c",
-        background: "#062e2f",
-        color: "#e8f5f0",
-      });
+      toastError('Error', err.message || 'No se pudo eliminar el producto.');
     }
   };
 

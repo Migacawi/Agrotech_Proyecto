@@ -22,7 +22,6 @@ function AñadirProduct() {
     precio: "",
     stock: "",
     descripcion: "",
-    detalles: "",
   });
 
   const [imagen, setImagen]           = useState(null);
@@ -217,10 +216,6 @@ function AñadirProduct() {
             <textarea name="descripcion" rows="4" placeholder="Describe tu producto..." onChange={handleChange} />
           </div>
 
-          <div className="form-group full">
-            <label>Detalles adicionales</label>
-            <textarea name="detalles" rows="3" placeholder="Calidad, tamaño, origen, etc." onChange={handleChange} />
-          </div>
 
           <button className="btn-publicar" type="submit" disabled={loading} style={{ opacity: loading ? 0.7 : 1 }}>
             {loading ? "Publicando..." : "Publicar Producto"}
