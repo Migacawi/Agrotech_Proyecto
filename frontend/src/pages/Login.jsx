@@ -9,6 +9,12 @@ import PasswordField from "../components/layouts/PasswordField";
 import "../styles/Login.css";
 import Swal from "sweetalert2";
 
+const swalBase = {
+  background: '#062e2f',
+  color: '#e8f5f0',
+  confirmButtonColor: '#07393c',
+};
+
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -38,10 +44,10 @@ function Login() {
       redirigirPorRol();
     } catch (err) {
       Swal.fire({
+        ...swalBase,
         icon: "error",
         title: "Error al iniciar sesión",
         text: err.message || "Correo o contraseña incorrectos",
-        confirmButtonColor: "#07393c",
       });
     } finally {
       setLoading(false);
@@ -56,20 +62,20 @@ function Login() {
       redirigirPorRol();
     } catch (err) {
       Swal.fire({
+        ...swalBase,
         icon: "error",
         title: "Error con Google",
         text: err.message || "No se pudo iniciar sesión con Google",
-        confirmButtonColor: "#07393c",
       });
     }
   };
 
   const handleGoogleError = () => {
     Swal.fire({
+      ...swalBase,
       icon: "error",
       title: "Error con Google",
       text: "No se pudo completar el inicio de sesión con Google",
-      confirmButtonColor: "#07393c",
     });
   };
 
