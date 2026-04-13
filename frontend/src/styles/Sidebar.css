@@ -163,10 +163,7 @@
     transform: translateX(0);
   }
 
-  /* Mostrar botón hamburguesa */
-  .sidebar-toggle {
-    display: flex;
-  }
+
 
   /* Mostrar X dentro del sidebar */
   .sidebar-close {

@@ -3,3 +3,4 @@
 
 npm install jspdf
 npm install recharts
+npm install xlsx
