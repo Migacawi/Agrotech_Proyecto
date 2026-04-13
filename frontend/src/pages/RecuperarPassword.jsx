@@ -36,10 +36,12 @@ function RecuperarPassword() {
       });
       setPaso(2);
     } catch (err) {
+      const d = err.response?.data;
+      const hint = d?.detalle ? `\n\n${d.detalle}` : '';
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: err.response?.data?.message || err.message || 'No se pudo enviar el código',
+        text: (d?.message || err.message || 'No se pudo enviar el código') + hint,
         confirmButtonColor: '#07393c',
       });
     } finally {

@@ -119,9 +119,12 @@ body {
   margin-bottom: 10px;
 }
 
-.card-desde {
+.card-producto-label {
   font-size: 0.75rem;
-  color: #8caeae;
+  color: #b8d4d4;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .card-price {

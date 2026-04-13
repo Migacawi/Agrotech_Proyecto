@@ -643,10 +643,11 @@ function Checkout() {
       {/* ── MODALES DE PAGO ── */}
       {modalPagoOpen && pago === "efectivo" && (
         <PagoEfectivo
-          onCerrar={() => {
+          onConfirmar={() => {
             setModalPagoOpen(false);
             ejecutarPedido();
           }}
+          onCancelar={() => setModalPagoOpen(false)}
         />
       )}
       {modalPagoOpen && pago === "transferencia" && (

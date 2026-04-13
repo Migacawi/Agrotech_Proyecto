@@ -30,6 +30,7 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
   const [loadingRol, setLoadingRol] = useState(null);
 
   const rolActual = useAuthStore((s) => s.user?.rol?.toLowerCase());
+  const miUsuarioId = useAuthStore((s) => s.user?.id);
   const esAdmin = rolActual === "administrador";
 
   const filtrados = usuarios.filter((u) => {
@@ -135,6 +136,10 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
         <tbody>
           {usuariosPagina.map((u, i) => {
             const esAdminTarget = u.Rol?.Nombre?.toLowerCase() === "administrador";
+            const esOtroAdministrador =
+              esAdminTarget &&
+              miUsuarioId != null &&
+              Number(u.Id) !== Number(miUsuarioId);
 
             return (
               <tr
@@ -167,24 +172,26 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
 
                 <td style={{ ...td, display: "flex", gap: "8px", flexWrap: "wrap" }}>
 
-                  <button
-                    type="button"
-                    onClick={() => onEditar(u)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "none",
-                      background: "#07393c",
-                      color: "white",
-                      cursor: "pointer",
-                      fontSize: "13px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                    }}
-                  >
-                    <FaEdit aria-hidden /> Editar
-                  </button>
+                  {!esOtroAdministrador && (
+                    <button
+                      type="button"
+                      onClick={() => onEditar(u)}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: "#07393c",
+                        color: "white",
+                        cursor: "pointer",
+                        fontSize: "13px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+                      <FaEdit aria-hidden /> Editar
+                    </button>
+                  )}
 
                   {esAdmin && !esAdminTarget && (
                     <button

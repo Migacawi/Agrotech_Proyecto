@@ -293,12 +293,6 @@ function ConfirmacionPedido() {
               type="button"
               className="btn-comprobante"
               onClick={handleDescargarComprobante}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-              }}
             >
               <FaFileDownload aria-hidden /> Descargar comprobante
             </button>

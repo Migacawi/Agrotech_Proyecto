@@ -327,6 +327,9 @@ body {
   padding: 32px 28px;
   width: 100%;
   max-width: 400px;
+  max-height: min(90vh, 640px);
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -364,6 +367,27 @@ body {
   gap: 8px;
   font-size: 13px;
   color: #86ddc7;
+}
+
+.pago-modal-info-beneficios {
+  color: #e8f5f0;
+}
+
+.pago-modal-beneficio-linea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f0faf8;
+  line-height: 1.45;
+}
+
+.pago-modal-beneficio-icon {
+  flex-shrink: 0;
+  color: #00ff88;
+  font-size: 15px;
 }
 
 .pago-modal-datos {
@@ -407,11 +431,13 @@ body {
 }
 
 .pago-modal-campo input {
+  width: 100%;
+  max-width: 100%;
   padding: 11px 12px;
   border: none;
   border-radius: 6px;
   background: #062e2f;
-  color: white;
+  color: #f0faf8;
   font-size: 14px;
   font-family: "K2D", sans-serif;
   outline: none;
@@ -427,16 +453,33 @@ body {
   gap: 12px;
 }
 
+.pago-modal-fila .pago-modal-campo {
+  min-width: 0;
+}
+
 .pago-tarjeta-preview {
-  background: linear-gradient(135deg, #0f5557, #062e2f);
+  background: linear-gradient(135deg, #145a5c, #062e2f);
   border-radius: 10px;
   padding: 16px 20px;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  font-size: 14px;
-  color: #74e2d7;
-  letter-spacing: 1px;
+  gap: 10px 12px;
+  font-size: 13px;
+  color: #e8f5f0;
+  letter-spacing: 0.06em;
   font-weight: 600;
+}
+
+.pago-tarjeta-preview span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.pago-tarjeta-preview span:first-child {
+  flex: 1 1 100%;
 }
 
 .pago-modal-total {
@@ -497,4 +540,15 @@ body {
   color: #ff7070;
   font-size: 11px;
   margin-top: 2px;
+}
+
+@media (max-width: 480px) {
+  .pago-modal {
+    padding: 24px 18px;
+    max-height: 92vh;
+  }
+
+  .pago-modal-fila {
+    grid-template-columns: 1fr;
+  }
 }

@@ -122,11 +122,10 @@ function Login() {
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
-              useOneTap
               shape="rectangular"
               text="signin_with"
               locale="es"
-              width="100%"
+              width="320"
             />
           </div>
 

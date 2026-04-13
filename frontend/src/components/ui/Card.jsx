@@ -58,7 +58,7 @@ function Card({ item }) {
       </button>
 
       <div className="card-content">
-        <p className="card-desde">Desde</p>
+        <p className="card-producto-label">Producto</p>
         <h3 className="card-title">{item.titulo}</h3>
         <p className="card-price">
           ${item.precio?.toLocaleString("es-CO")}

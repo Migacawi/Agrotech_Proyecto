@@ -168,11 +168,10 @@ function Register() {
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
-              useOneTap
               shape="rectangular"
               text="signup_with"
               locale="es"
-              width="100%"
+              width="320"
             />
           </div>
 

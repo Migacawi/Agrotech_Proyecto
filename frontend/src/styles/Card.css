@@ -43,10 +43,13 @@
   color: white;
 }
 
-.card-desde {
+.card-producto-label {
   font-size: 12px;
-  color: white;
+  color: rgba(255, 255, 255, 0.92);
   font-family: "K2D", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .card-price {
