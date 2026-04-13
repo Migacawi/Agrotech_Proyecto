@@ -5,6 +5,13 @@ import "../styles/Perfil.css";
 import "../styles/Saldo.css";
 import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
+import {
+  FaBoxOpen,
+  FaChartBar,
+  FaClipboardList,
+  FaCreditCard,
+  FaDollarSign,
+} from "react-icons/fa";
 
 function Saldo() {
   const { user } = useAuthStore();
@@ -70,7 +77,9 @@ function Saldo() {
             {/* Cards */}
             <div className="saldo-cards">
               <div className="saldo-card">
-                <span className="saldo-card-icon">💰</span>
+                <span className="saldo-card-icon">
+                  <FaDollarSign aria-hidden />
+                </span>
                 <p className="saldo-card-label">Ganancias confirmadas</p>
                 <p className="saldo-card-valor">
                   ${saldoGanancias.toLocaleString("es-CO")} COP
@@ -79,14 +88,18 @@ function Saldo() {
               </div>
 
               <div className="saldo-card">
-                <span className="saldo-card-icon">📦</span>
+                <span className="saldo-card-icon">
+                  <FaBoxOpen aria-hidden />
+                </span>
                 <p className="saldo-card-label">Ventas confirmadas</p>
                 <p className="saldo-card-valor">{ventasEntregadas.length}</p>
                 <p className="saldo-card-desc">Productos entregados</p>
               </div>
 
               <div className="saldo-card">
-                <span className="saldo-card-icon">📊</span>
+                <span className="saldo-card-icon">
+                  <FaChartBar aria-hidden />
+                </span>
                 <p className="saldo-card-label">Promedio por venta</p>
                 <p className="saldo-card-valor">
                   $
@@ -104,7 +117,9 @@ function Saldo() {
             {/* Tabla de movimientos */}
             {ventasEntregadas.length > 0 && (
               <div className="saldo-movimientos">
-                <h4 className="saldo-movimientos-titulo">📋 Movimientos</h4>
+                <h4 className="saldo-movimientos-titulo saldo-titulo-con-icono">
+                  <FaClipboardList aria-hidden /> Movimientos
+                </h4>
                 <table className="saldo-tabla">
                   <thead>
                     <tr>
@@ -142,7 +157,9 @@ function Saldo() {
                   color: "#aaa",
                 }}
               >
-                <p style={{ fontSize: "32px" }}>💳</p>
+                <p style={{ fontSize: "32px", color: "#07393c", margin: "0 0 8px" }}>
+                  <FaCreditCard aria-hidden />
+                </p>
                 <p>Aún no tienes ganancias confirmadas.</p>
                 <p style={{ fontSize: "12px" }}>
                   Aparecerán aquí cuando tus pedidos sean marcados como

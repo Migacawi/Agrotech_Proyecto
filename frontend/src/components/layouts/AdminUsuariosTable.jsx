@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import {
+  FaArrowUp,
+  FaEdit,
+  FaFileDownload,
+  FaTrash,
+} from "react-icons/fa";
 import { exportarUsuarios } from "../../utils/excelExport";
 import { updateUsuario } from "../../api/usuariosService";
 import useAuthStore from "../../store/authStore";
@@ -94,6 +100,7 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
           }}
         />
         <button
+          type="button"
           onClick={exportarExcel}
           style={{
             padding: "8px 16px",
@@ -105,9 +112,12 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
             fontSize: "13px",
             fontWeight: "600",
             whiteSpace: "nowrap",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          📥 Exportar Excel
+          <FaFileDownload aria-hidden /> Exportar Excel
         </button>
       </div>
 
@@ -158,6 +168,7 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                 <td style={{ ...td, display: "flex", gap: "8px", flexWrap: "wrap" }}>
 
                   <button
+                    type="button"
                     onClick={() => onEditar(u)}
                     style={{
                       padding: "6px 12px",
@@ -167,13 +178,17 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                       color: "white",
                       cursor: "pointer",
                       fontSize: "13px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
                     }}
                   >
-                    ✏ Editar
+                    <FaEdit aria-hidden /> Editar
                   </button>
 
                   {esAdmin && !esAdminTarget && (
                     <button
+                      type="button"
                       onClick={() => handleToggleRol(u)}
                       disabled={loadingRol === u.Id}
                       title="Hacer administrador"
@@ -187,14 +202,24 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                         fontSize: "13px",
                         opacity: loadingRol === u.Id ? 0.6 : 1,
                         whiteSpace: "nowrap",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
                       }}
                     >
-                      {loadingRol === u.Id ? "..." : "⬆ Hacer admin"}
+                      {loadingRol === u.Id ? (
+                        "..."
+                      ) : (
+                        <>
+                          <FaArrowUp aria-hidden /> Hacer admin
+                        </>
+                      )}
                     </button>
                   )}
 
                   {!esAdminTarget && (
                     <button
+                      type="button"
                       onClick={() => onEliminar(u.Id)}
                       style={{
                         padding: "6px 12px",
@@ -204,9 +229,12 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
                         color: "white",
                         cursor: "pointer",
                         fontSize: "13px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
                       }}
                     >
-                      🗑 Eliminar
+                      <FaTrash aria-hidden /> Eliminar
                     </button>
                   )}
 

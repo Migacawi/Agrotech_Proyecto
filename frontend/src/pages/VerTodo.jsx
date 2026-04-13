@@ -7,6 +7,7 @@ import "../styles/VerTodo.css";
 import Footer from "../components/layouts/Footer";
 import { useSearchParams } from "react-router-dom";
 import { getProductos } from "../api/productosService";
+import { FaBars, FaFire, FaSearch } from "react-icons/fa";
 
 const PRODUCTOS_POR_PAGINA = 20;
 
@@ -151,24 +152,41 @@ function VerTodo() {
                 ? "Ofertas Flash"
                 : categoriaActual || "Todos los productos"}
           </p>
-          <h2 className="results-count">
-            {buscarActual
-              ? `🔍 "${buscarActual}" — ${filtrados.length} productos`
-              : esOfertas
-                ? `🔥 Ofertas Flash — ${filtrados.length} productos`
-                : categoriaActual
-                  ? `${categoriaActual} — ${filtrados.length} productos`
-                  : "¡Compra las mejores frutas y verduras!"}
+          <h2
+            className="results-count"
+            style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}
+          >
+            {buscarActual ? (
+              <>
+                <FaSearch aria-hidden />
+                <span>
+                  &quot;{buscarActual}&quot; — {filtrados.length} productos
+                </span>
+              </>
+            ) : esOfertas ? (
+              <>
+                <FaFire aria-hidden />
+                <span>Ofertas Flash — {filtrados.length} productos</span>
+              </>
+            ) : categoriaActual ? (
+              <span>
+                {categoriaActual} — {filtrados.length} productos
+              </span>
+            ) : (
+              <span>¡Compra las mejores frutas y verduras!</span>
+            )}
           </h2>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           {/* Botón filtros — solo mobile */}
           <button
+            type="button"
             className="filtro-toggle-btn"
             onClick={() => setFiltroOpen(!filtroOpen)}
           >
-            ☰ Filtros
+            <FaBars aria-hidden style={{ marginRight: "6px", verticalAlign: "middle" }} />
+            Filtros
           </button>
           <span className="results-filter">
             Popularidad: los mas populares ▽

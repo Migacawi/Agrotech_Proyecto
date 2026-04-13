@@ -101,7 +101,7 @@ export async function exportarUsuarios(usuarios) {
   ];
 
   definirColumnas(ws, cols);
-  agregarTitulo(ws, '🌱 AgroTech — Reporte de Usuarios', cols.length);
+  agregarTitulo(ws, 'AgroTech — Reporte de Usuarios', cols.length);
   agregarHeaderRow(ws, cols);
 
   usuarios.forEach((u, i) => {
@@ -145,7 +145,7 @@ export async function exportarProductos(productos) {
   ];
 
   definirColumnas(ws, cols);
-  agregarTitulo(ws, '🌿 AgroTech — Reporte de Productos', cols.length);
+  agregarTitulo(ws, 'AgroTech — Reporte de Productos', cols.length);
   agregarHeaderRow(ws, cols);
 
   productos.forEach((p, i) => {
@@ -195,7 +195,7 @@ export async function exportarPedidos(pedidos) {
   ];
 
   definirColumnas(ws, cols);
-  agregarTitulo(ws, '📦 AgroTech — Reporte de Pedidos', cols.length);
+  agregarTitulo(ws, 'AgroTech — Reporte de Pedidos', cols.length);
   agregarHeaderRow(ws, cols);
 
   let totalGeneral = 0;

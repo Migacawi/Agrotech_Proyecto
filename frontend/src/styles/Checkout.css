@@ -211,8 +211,11 @@ body {
 }
 
 .pago-icon {
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 4px;
+  color: #74e2d7;
 }
 
 .pago-label {
@@ -332,8 +335,10 @@ body {
 }
 
 .pago-modal-icon {
-  font-size: 40px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #74e2d7;
 }
 
 .pago-modal-titulo {

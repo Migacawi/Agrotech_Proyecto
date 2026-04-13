@@ -7,6 +7,7 @@ import BotonVt from "../components/ui/BotonVt";
 import Footer from "../components/layouts/Footer";
 
 import { getProductos } from "../api/productosService";
+import { FaFire } from "react-icons/fa";
 
 function AgrotechHome() {
   const [productos, setProductos]           = useState([]);
@@ -110,7 +111,9 @@ function AgrotechHome() {
       <section className="product-section ofertas-bg">
         <div className="section-header">
           <div className="section-title-wrapper">
-            <span className="section-pill">🔥 Hot</span>
+            <span className="section-pill">
+              <FaFire aria-hidden /> Hot
+            </span>
             <h2 className="section-title">Ofertas Destacadas</h2>
           </div>
           <p className="section-subtitle">

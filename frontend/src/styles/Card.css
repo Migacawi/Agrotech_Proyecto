@@ -63,9 +63,17 @@
 }
 
 .card-discount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
   color: #82f8ff;
   font-family: "K2D", sans-serif;
+}
+
+.card-discount-icon {
+  flex-shrink: 0;
+  font-size: 13px;
 }
 
 .card-comprar-btn {

@@ -7,6 +7,7 @@ import {
   FaUsers,
   FaSignOutAlt,
   FaHeart,
+  FaTimes,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Sidebar.css";
@@ -49,8 +50,8 @@ function Sidebar({ isOpen, onClose }) {
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <span>Menu</span>
-          <button className="sidebar-close" onClick={onClose}>
-            ✕
+          <button type="button" className="sidebar-close" onClick={onClose} aria-label="Cerrar menú">
+            <FaTimes aria-hidden />
           </button>
         </div>
 

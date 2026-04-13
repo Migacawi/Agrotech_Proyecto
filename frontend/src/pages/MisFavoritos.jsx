@@ -6,19 +6,19 @@ import Footer from "../components/layouts/Footer";
 import { getProductos } from "../api/productosService";
 import useFavoritosStore from "../store/favoritosStore";
 import "../styles/MisFavoritos.css";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 function MisFavoritos() {
   const {
     favoritos,
     limpiarFavoritos,
-    limpiarNoVistos, // ✅ nuevo
+    limpiarNoVistos,
   } = useFavoritosStore();
 
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ limpiar badge al entrar
   useEffect(() => {
     limpiarNoVistos();
   }, []);
@@ -74,9 +74,15 @@ function MisFavoritos() {
       <div className="favoritos-header-container">
         <div className="text-group-left">
           <p className="breadcrumb-text">Tienda &gt; Mis Favoritos</p>
-          <h2 className="results-count">
-            ❤️ Mis Favoritos — {productos.length} producto
-            {productos.length !== 1 ? "s" : ""}
+          <h2
+            className="results-count"
+            style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}
+          >
+            <FaHeart aria-hidden style={{ color: "#e63946" }} />
+            <span>
+              Mis Favoritos — {productos.length} producto
+              {productos.length !== 1 ? "s" : ""}
+            </span>
           </h2>
         </div>
 
@@ -93,7 +99,9 @@ function MisFavoritos() {
 
         {!loading && !error && favoritos.length === 0 && (
           <div className="favoritos-vacio">
-            <span className="favoritos-vacio-icon">🤍</span>
+            <span className="favoritos-vacio-icon">
+              <FaRegHeart aria-hidden />
+            </span>
             <h3>Aún no tienes favoritos</h3>
             <p>
               Presiona el corazón en cualquier producto para guardarlo aquí.

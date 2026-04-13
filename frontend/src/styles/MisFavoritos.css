@@ -20,7 +20,7 @@
   font-weight: bold;
   font-family: "K2D", sans-serif;
   margin: 0;
-  color: white; /* ✅ FORZAR BLANCO */
+  color: white;
 }
 
 .favoritos-header-container .results-count {
@@ -82,6 +82,10 @@
 .favoritos-vacio-icon {
   font-size: 64px;
   opacity: 0.5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #e8f5f0;
 }
 
 .favoritos-vacio h3 {

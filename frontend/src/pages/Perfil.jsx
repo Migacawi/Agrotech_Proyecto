@@ -8,6 +8,7 @@ import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import { getUsuarioById, updateUsuario, updateFotoUsuario } from "../api/usuariosService";
 import { toastExito, toastError } from "../utils/swal";
+import { FaPen } from "react-icons/fa";
 
 const IconoPerfil = ({ src }) => {
   if (src) return (
@@ -166,14 +167,17 @@ function Perfil() {
                 <p className="perfil-email">{usuario?.Email || user?.email || "Cargando..."}</p>
               </div>
               <button
+                type="button"
                 className="edit-btn"
-                 style={{ color: "black" }}
+                style={{ color: "black", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                title="Editar perfil"
+                aria-label="Editar perfil"
                 onClick={() => {
                   setModalOpen(true);
                   setForm(prev => ({ ...prev, PasswordHash: "", PasswordActual: "", ConfirmarPassword: "" }));
                 }}
               >
-                ✏
+                <FaPen aria-hidden />
               </button>
             </div>
           </div>

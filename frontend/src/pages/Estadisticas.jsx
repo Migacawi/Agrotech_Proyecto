@@ -19,6 +19,22 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
+import {
+  FaBoxOpen,
+  FaChartBar,
+  FaChartLine,
+  FaCreditCard,
+  FaDollarSign,
+  FaFileInvoiceDollar,
+  FaGlobe,
+  FaHourglassHalf,
+  FaInbox,
+  FaLeaf,
+  FaShoppingBag,
+  FaShoppingCart,
+  FaTrophy,
+  FaUsers,
+} from "react-icons/fa";
 
 function Estadisticas() {
   const { user, isAdmin, isVendedor } = useAuthStore();
@@ -162,25 +178,27 @@ function Estadisticas() {
         {/* ── KPIs globales de admin ── */}
         {isAdmin() && (
           <>
-            <h4 className="stats-card-titulo" style={{ marginTop: '8px' }}>🌐 Resumen global de la plataforma</h4>
+            <h4 className="stats-card-titulo stats-titulo-con-icono" style={{ marginTop: '8px' }}>
+              <FaGlobe aria-hidden /> Resumen global de la plataforma
+            </h4>
             <div className="stats-kpi-grid">
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">👥</span>
+                <span className="stats-kpi-icon"><FaUsers aria-hidden /></span>
                 <p className="stats-kpi-valor">{usuarios.length}</p>
                 <p className="stats-kpi-label">Usuarios registrados</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">📦</span>
+                <span className="stats-kpi-icon"><FaBoxOpen aria-hidden /></span>
                 <p className="stats-kpi-valor">{pedidos.length}</p>
                 <p className="stats-kpi-label">Pedidos totales</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">💰</span>
+                <span className="stats-kpi-icon"><FaDollarSign aria-hidden /></span>
                 <p className="stats-kpi-valor">${revenueTotal.toLocaleString('es-CO')}</p>
                 <p className="stats-kpi-label">Revenue total (Entregados)</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">🌿</span>
+                <span className="stats-kpi-icon"><FaLeaf aria-hidden /></span>
                 <p className="stats-kpi-valor">{productos.length}</p>
                 <p className="stats-kpi-label">Productos activos</p>
               </div>
@@ -188,7 +206,9 @@ function Estadisticas() {
 
             {dataVentasGlobales.length > 0 && (
               <div className="stats-card">
-                <h4 className="stats-card-titulo">📈 Ventas globales por mes (COP)</h4>
+                <h4 className="stats-card-titulo stats-titulo-con-icono">
+                  <FaChartLine aria-hidden /> Ventas globales por mes (COP)
+                </h4>
                 <ResponsiveContainer width="100%" height={260}>
                   <BarChart data={dataVentasGlobales}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -208,24 +228,24 @@ function Estadisticas() {
           {esVendedor && (
             <>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">💰</span>
+                <span className="stats-kpi-icon"><FaDollarSign aria-hidden /></span>
                 <p className="stats-kpi-valor">
                   ${totalGanado.toLocaleString("es-CO")}
                 </p>
                 <p className="stats-kpi-label">Ganancias confirmadas</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">📦</span>
+                <span className="stats-kpi-icon"><FaBoxOpen aria-hidden /></span>
                 <p className="stats-kpi-valor">{misVentasDetalles.length}</p>
                 <p className="stats-kpi-label">Ventas realizadas</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">🌿</span>
+                <span className="stats-kpi-icon"><FaLeaf aria-hidden /></span>
                 <p className="stats-kpi-valor">{misProductos.length}</p>
                 <p className="stats-kpi-label">Productos publicados</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">⏳</span>
+                <span className="stats-kpi-icon"><FaHourglassHalf aria-hidden /></span>
                 <p className="stats-kpi-valor">{ventasPendientes}</p>
                 <p className="stats-kpi-label">Ventas pendientes</p>
               </div>
@@ -235,19 +255,19 @@ function Estadisticas() {
           {esComprador && (
             <>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">🛒</span>
+                <span className="stats-kpi-icon"><FaShoppingCart aria-hidden /></span>
                 <p className="stats-kpi-valor">{misCompras.length}</p>
                 <p className="stats-kpi-label">Pedidos realizados</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">💳</span>
+                <span className="stats-kpi-icon"><FaCreditCard aria-hidden /></span>
                 <p className="stats-kpi-valor">
                   ${totalGastado.toLocaleString("es-CO")}
                 </p>
                 <p className="stats-kpi-label">Total gastado</p>
               </div>
               <div className="stats-kpi">
-                <span className="stats-kpi-icon">📬</span>
+                <span className="stats-kpi-icon"><FaInbox aria-hidden /></span>
                 <p className="stats-kpi-valor">{pedidosPendientes}</p>
                 <p className="stats-kpi-label">Pedidos pendientes</p>
               </div>
@@ -258,7 +278,9 @@ function Estadisticas() {
         {/* ── Gráfica ventas por mes ── */}
         {esVendedor && dataVentas.length > 0 && (
           <div className="stats-card">
-            <h4 className="stats-card-titulo">📈 Ventas por mes (COP)</h4>
+            <h4 className="stats-card-titulo stats-titulo-con-icono">
+              <FaChartLine aria-hidden /> Ventas por mes (COP)
+            </h4>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={dataVentas}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -279,7 +301,9 @@ function Estadisticas() {
         {/* ── Gráfica compras por mes ── */}
         {esComprador && dataCompras.length > 0 && (
           <div className="stats-card">
-            <h4 className="stats-card-titulo">📊 Compras por mes (COP)</h4>
+            <h4 className="stats-card-titulo stats-titulo-con-icono">
+              <FaChartBar aria-hidden /> Compras por mes (COP)
+            </h4>
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={dataCompras}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -306,7 +330,9 @@ function Estadisticas() {
         {/* ── Top productos más vendidos ── */}
         {esVendedor && topProductos.length > 0 && (
           <div className="stats-card">
-            <h4 className="stats-card-titulo">🏆 Productos más vendidos</h4>
+            <h4 className="stats-card-titulo stats-titulo-con-icono">
+              <FaTrophy aria-hidden /> Productos más vendidos
+            </h4>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={topProductos} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -327,7 +353,9 @@ function Estadisticas() {
         {/* ── Tabla últimas ventas ── */}
         {esVendedor && misVentasDetalles.length > 0 && (
           <div className="stats-card">
-            <h4 className="stats-card-titulo">🧾 Últimas ventas</h4>
+            <h4 className="stats-card-titulo stats-titulo-con-icono">
+              <FaFileInvoiceDollar aria-hidden /> Últimas ventas
+            </h4>
             <table className="stats-tabla">
               <thead>
                 <tr>
@@ -364,7 +392,9 @@ function Estadisticas() {
         {/* ── Tabla últimas compras ── */}
         {esComprador && misCompras.length > 0 && (
           <div className="stats-card">
-            <h4 className="stats-card-titulo">🛍️ Últimas compras</h4>
+            <h4 className="stats-card-titulo stats-titulo-con-icono">
+              <FaShoppingBag aria-hidden /> Últimas compras
+            </h4>
             <table className="stats-tabla">
               <thead>
                 <tr>

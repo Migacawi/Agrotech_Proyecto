@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaFire, FaHeart, FaRegHeart } from "react-icons/fa";
 import "../../styles/Card.css";
 import useFavoritosStore from "../../store/favoritosStore";
 import useCartStore from "../../store/cartStore";
@@ -49,7 +50,11 @@ function Card({ item }) {
         onClick={handleToggleFavorito}
         title={esFav ? "Quitar de favoritos" : "Agregar a favoritos"}
       >
-        {esFav ? "❤️" : "🤍"}
+        {esFav ? (
+          <FaHeart aria-hidden style={{ color: "#e63946" }} />
+        ) : (
+          <FaRegHeart aria-hidden style={{ color: "#fff" }} />
+        )}
       </button>
 
       <div className="card-content">
@@ -60,7 +65,10 @@ function Card({ item }) {
           <span className="card-unit"> /libra</span>
         </p>
         {item.descuentoPorcentaje > 0 && (
-          <p className="card-discount">🔥 {item.descuento} OFF</p>
+          <p className="card-discount">
+            <FaFire aria-hidden className="card-discount-icon" /> {item.descuento}{" "}
+            OFF
+          </p>
         )}
 
         {/* Botón con lógica de stock */}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaUniversity } from "react-icons/fa";
 
 function PagoTransferencia({ total, onConfirmar, onCerrar }) {
   const [comprobante, setComprobante] = useState("");
@@ -6,7 +7,9 @@ function PagoTransferencia({ total, onConfirmar, onCerrar }) {
   return (
     <div className="pago-modal-overlay" onClick={onCerrar}>
       <div className="pago-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="pago-modal-icon">🏦</div>
+        <div className="pago-modal-icon">
+          <FaUniversity aria-hidden size={44} />
+        </div>
         <h3 className="pago-modal-titulo">Transferencia bancaria</h3>
         <p className="pago-modal-texto">
           Realiza la transferencia a los siguientes datos:

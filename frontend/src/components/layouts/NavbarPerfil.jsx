@@ -44,7 +44,7 @@ function NavbarPerfil({ onToggleSidebar }) {
 
       <div className="perfil">
         <img
-          src={fotoUrl || "/perfilprueba.png"}
+          src={fotoUrl || "/perfil.png"}
           alt="perfil"
           className="icon"
           style={{ borderRadius: "50%", objectFit: "cover" }}

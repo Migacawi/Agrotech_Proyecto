@@ -8,6 +8,7 @@ import "../styles/DescripcionProduct.css";
 import Footer from "../components/layouts/Footer";
 
 import useCartStore from "../store/cartStore";
+import { FaShoppingCart } from "react-icons/fa";
 import { carrito as toastCarrito } from "../utils/swal";
 
 function DescripcionProduct() {
@@ -145,11 +146,20 @@ function DescripcionProduct() {
             className="btn-carrito"
             onClick={handleAgregarCarrito}
             disabled={stock <= 0}
-            style={stock <= 0 ? { opacity: 0.5, cursor: "not-allowed" } : {}}
+            style={
+              stock <= 0
+                ? { opacity: 0.5, cursor: "not-allowed" }
+                : { display: "inline-flex", alignItems: "center", gap: "8px", justifyContent: "center" }
+            }
           >
-            {stock <= 0
-              ? "❌ Sin stock"
-              : `🛒 Añadir Al Carrito - $${precioDescontado.toLocaleString()}`}
+            {stock <= 0 ? (
+              "Sin stock"
+            ) : (
+              <>
+                <FaShoppingCart aria-hidden />
+                Añadir al carrito — ${precioDescontado.toLocaleString()}
+              </>
+            )}
           </button>
 
           <div className="ofertas-vendedor">

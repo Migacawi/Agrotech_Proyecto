@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import "../../styles/Footer.css";
 
 function Footer() {
@@ -59,30 +60,41 @@ function Footer() {
           <h4>Nosotros</h4>
           <ul>
             <li
+              className="footer-link-row"
               onClick={() =>
                 window.open(
                   "https://www.instagram.com/migacawi_draws?igsh=MWRpdzN3Z3FtZXd1Ng==",
                 )
               }
             >
-              📸 Instagram
-            </li>
-            <li onClick={() => window.open("https://github.com/Migacawi")}>
-              💻 GitHub Gabriel
+              <FaInstagram aria-hidden /> Instagram
             </li>
             <li
+              className="footer-link-row"
+              onClick={() => window.open("https://github.com/Migacawi")}
+            >
+              <FaGithub aria-hidden /> GitHub Gabriel
+            </li>
+            <li
+              className="footer-link-row"
               onClick={() =>
                 window.open("https://github.com/nicoalejo0856-collab")
               }
             >
-              💻 GitHub Alejandro
+              <FaGithub aria-hidden /> GitHub Alejandro
             </li>
-            <li onClick={() => window.open("https://github.com/andrewsdae")}>
-              💻 GitHub Andres
+            <li
+              className="footer-link-row"
+              onClick={() => window.open("https://github.com/andrewsdae")}
+            >
+              <FaGithub aria-hidden /> GitHub Andres
             </li>
 
-            <li onClick={() => window.open("https://linkedin.com")}>
-              🔗 LinkedIn
+            <li
+              className="footer-link-row"
+              onClick={() => window.open("https://linkedin.com")}
+            >
+              <FaLinkedin aria-hidden /> LinkedIn
             </li>
           </ul>
         </div>

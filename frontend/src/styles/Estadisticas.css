@@ -20,6 +20,17 @@
 
 .stats-kpi-icon {
   font-size: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0d5559;
+  line-height: 1;
+}
+
+.stats-titulo-con-icono {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .stats-kpi-valor {

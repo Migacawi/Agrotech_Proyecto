@@ -5,6 +5,7 @@ import Categorias from "../components/layouts/categorias";
 import Footer from "../components/layouts/Footer";
 import "../styles/ConfirmacionPedido.css";
 import { jsPDF } from "jspdf";
+import { FaCheckCircle, FaFileDownload, FaUser } from "react-icons/fa";
 
 function ConfirmacionPedido() {
   const { id } = useParams();
@@ -197,7 +198,9 @@ function ConfirmacionPedido() {
         <div className="confirmacion-wrapper">
           {/* Header */}
           <div className="confirmacion-card confirmacion-header">
-            <div className="confirmacion-icon">✅</div>
+            <div className="confirmacion-icon">
+              <FaCheckCircle aria-hidden />
+            </div>
             <h1 className="confirmacion-titulo">¡Pedido confirmado!</h1>
             <p className="confirmacion-mensaje">
               {mensaje || "Tu pedido fue procesado exitosamente."}
@@ -266,7 +269,9 @@ function ConfirmacionPedido() {
             <div className="confirmacion-card">
               <p className="confirmacion-section-title">Datos del vendedor</p>
               <div className="confirmacion-vendedor">
-                <div className="confirmacion-vendedor-avatar">🧑‍🌾</div>
+                <div className="confirmacion-vendedor-avatar">
+                  <FaUser aria-hidden />
+                </div>
                 <div>
                   <p className="confirmacion-vendedor-nombre">
                     {vendedor.nombre}
@@ -285,10 +290,17 @@ function ConfirmacionPedido() {
               Ir al inicio
             </button>
             <button
+              type="button"
               className="btn-comprobante"
               onClick={handleDescargarComprobante}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+              }}
             >
-              📄 Descargar comprobante
+              <FaFileDownload aria-hidden /> Descargar comprobante
             </button>
             <button
               className="btn-primario"

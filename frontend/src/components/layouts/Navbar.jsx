@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../styles/Navbar.css";
 import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useCartStore from "../../store/cartStore";
 import useFavoritosStore from "../../store/favoritosStore";
@@ -247,7 +247,9 @@ function Navbar() {
                         +
                       </button>
                       <button
+                        type="button"
                         onClick={() => deleteItem(item.id)}
+                        aria-label="Quitar del carrito"
                         style={{
                           background: "none",
                           border: "none",
@@ -255,9 +257,13 @@ function Navbar() {
                           cursor: "pointer",
                           fontSize: "14px",
                           marginLeft: "4px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          padding: "2px",
                         }}
                       >
-                        🗑
+                        <FaTrash aria-hidden size={14} />
                       </button>
                     </div>
                   </div>

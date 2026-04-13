@@ -10,9 +10,23 @@ import useAuthStore from "../store/authStore";
 import PagoEfectivo from "../components/ui/PagoEfectivo";
 import PagoTransferencia from "../components/ui/PagoTransferencia";
 import PagoTarjeta from "../components/ui/PagoTarjeta";
+import {
+  FaCheck,
+  FaCreditCard,
+  FaExclamation,
+  FaMoneyBillWave,
+  FaQuestion,
+  FaTimes,
+  FaUniversity,
+} from "react-icons/fa";
 
 /* ── Sweet Alert inline ── */
-const ICONS = { success: "✓", error: "✕", warning: "!", confirm: "?" };
+const ALERT_ICONS = {
+  success: <FaCheck />,
+  error: <FaTimes />,
+  warning: <FaExclamation />,
+  confirm: <FaQuestion />,
+};
 
 const saBase = {
   fontFamily: "'Segoe UI', sans-serif",
@@ -164,7 +178,7 @@ function SweetAlert({
     >
       <div style={saStyles.box} role="dialog" aria-modal="true">
         {badge && <span style={saStyles.badge}>{badge}</span>}
-        <div style={iconStyle}>{ICONS[type]}</div>
+        <div style={iconStyle}>{ALERT_ICONS[type]}</div>
         <p style={saStyles.title}>{title}</p>
         {renderText()}
         <div style={saStyles.btnRow}>
@@ -415,9 +429,9 @@ function Checkout() {
   };
 
   const opcionesPago = [
-    { value: "efectivo", label: "Contra entrega", icon: "💵" },
-    { value: "transferencia", label: "Transferencia", icon: "🏦" },
-    { value: "tarjeta", label: "Tarjeta", icon: "💳" },
+    { value: "efectivo", label: "Contra entrega", Icon: FaMoneyBillWave },
+    { value: "transferencia", label: "Transferencia", Icon: FaUniversity },
+    { value: "tarjeta", label: "Tarjeta", Icon: FaCreditCard },
   ];
 
   const estiloErrorCampo = {
@@ -495,10 +509,12 @@ function Checkout() {
                       +
                     </button>
                     <button
+                      type="button"
                       className="qty-btn qty-btn--delete"
                       onClick={() => deleteItem(p.id)}
+                      aria-label="Quitar producto del carrito"
                     >
-                      ✕
+                      <FaTimes aria-hidden size={12} />
                     </button>
                   </div>
 
@@ -606,7 +622,9 @@ function Checkout() {
                 className={`pago-option ${pago === op.value ? "active" : ""}`}
                 onClick={() => setPago(op.value)}
               >
-                <div className="pago-icon">{op.icon}</div>
+                <div className="pago-icon">
+                  <op.Icon aria-hidden size={22} />
+                </div>
                 <p className="pago-label">{op.label}</p>
               </div>
             ))}

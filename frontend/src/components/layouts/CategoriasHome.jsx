@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
 import "../../styles/CategoriasHome.css";
 
 const CATEGORIAS = [
@@ -29,7 +30,9 @@ function CategoriasHome({ open, onClose }) {
 
         <div className="categorias-panel-header">
           <span>Categorías</span>
-          <button className="categorias-close" onClick={onClose}>✕</button>
+          <button type="button" className="categorias-close" onClick={onClose} aria-label="Cerrar categorías">
+            <FaTimes aria-hidden />
+          </button>
         </div>
 
         <ul className="categorias-panel-list">

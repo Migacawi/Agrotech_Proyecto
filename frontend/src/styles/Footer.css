@@ -20,13 +20,13 @@
   margin-bottom: 15px;
 }
 
-/* ✅ TITULOS */
+/* TITULOS */
 .footer-section h4 {
   margin-bottom: 15px;
   color: #74e2d7;
 }
 
-/* ✅ TEXTO DESCRIPCIÓN (LO QUE TE FALTABA) */
+/* TEXTO DESCRIPCIÓN */
 .footer-section p {
   color: #b5cfcf; /* gris claro elegante */
   line-height: 1.5;
@@ -37,6 +37,12 @@
 .footer-section ul {
   list-style: none;
   padding: 0;
+}
+
+.footer-link-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .footer-section li {
@@ -51,7 +57,7 @@
   transform: translateX(3px);
 }
 
-/* ✅ COPYRIGHT (LO QUE TE FALTABA) */
+/* COPYRIGHT */
 .footer-bottom {
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

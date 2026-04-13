@@ -7,6 +7,7 @@ import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import { useNavigate } from "react-router-dom";
 import { exportarPedidos } from "../utils/excelExport";
+import { FaFileDownload, FaShoppingBag } from "react-icons/fa";
 
 const colorEstado = {
   Pendiente: "badge-pendiente",
@@ -89,7 +90,9 @@ function HistorialCompras() {
 
         {!loading && !error && pedidos.length === 0 && (
           <div className="historial-vacio">
-            <span className="historial-vacio-icon">🛍️</span>
+            <span className="historial-vacio-icon">
+              <FaShoppingBag aria-hidden />
+            </span>
             <h3>Aún no tienes compras</h3>
             <p>Cuando realices un pedido aparecerá aquí.</p>
             <button
@@ -127,6 +130,7 @@ function HistorialCompras() {
                 }}
               />
               <button
+                type="button"
                 onClick={exportarExcel}
                 style={{
                   padding: "8px 16px",
@@ -138,9 +142,12 @@ function HistorialCompras() {
                   fontSize: "13px",
                   fontWeight: "600",
                   whiteSpace: "nowrap",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
                 }}
               >
-                📥 Exportar Excel
+                <FaFileDownload aria-hidden /> Exportar Excel
               </button>
             </div>
 

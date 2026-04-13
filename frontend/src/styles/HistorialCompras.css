@@ -152,6 +152,10 @@
 .historial-vacio-icon {
   font-size: 48px;
   margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #07393c;
 }
 .historial-vacio h3 {
   font-size: 18px;

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { FaFolderOpen } from 'react-icons/fa';
 import ReactCrop, { centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -92,7 +93,7 @@ function ImageCropper({ aspect = 1, onCropDone, onCancel, circular = false }) {
             gap: '8px', padding: '30px', border: '2px dashed #ccc',
             borderRadius: '8px', cursor: 'pointer', color: '#555'
           }}>
-            <span style={{ fontSize: '32px' }}>📁</span>
+            <span style={{ fontSize: '32px', color: '#07393c', display: 'flex' }}><FaFolderOpen aria-hidden /></span>
             <span>Haz clic para seleccionar una imagen</span>
             <input type="file" accept="image/*" onChange={onSelectFile} hidden />
           </label>

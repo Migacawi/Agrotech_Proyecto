@@ -40,8 +40,11 @@ body { font-family: 'K2D', sans-serif; }
 }
 
 .confirmacion-icon {
-  font-size: 64px;
+  display: flex;
+  justify-content: center;
   margin-bottom: 16px;
+  color: #00ff88;
+  font-size: 64px;
 }
 
 .confirmacion-titulo {

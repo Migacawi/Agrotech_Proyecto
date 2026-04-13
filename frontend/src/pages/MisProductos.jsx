@@ -8,6 +8,7 @@ import { subirImagenes, setPrincipal } from "../api/imagenesService";
 
 import { getProductos, updateProducto } from "../api/productosService";
 import useAuthStore from "../store/authStore";
+import { FaTag } from "react-icons/fa";
 
 function MisProductos() {
   const { user } = useAuthStore();
@@ -151,9 +152,12 @@ function MisProductos() {
                   fontWeight: "bold",
                   fontSize: "14px",
                   border: "1px solid #74e2d7",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
                 }}
               >
-                🏷️ Descuento aplicado: {descuento}% OFF
+                <FaTag aria-hidden /> Descuento aplicado: {descuento}% OFF
               </div>
             )}
 

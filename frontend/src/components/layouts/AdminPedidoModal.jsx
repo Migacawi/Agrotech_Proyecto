@@ -1,4 +1,5 @@
 import React from "react";
+import { FaCheck } from "react-icons/fa";
 
 const ESTADOS = ["Pendiente", "Enviado", "Entregado", "Cancelado"];
 
@@ -82,9 +83,19 @@ function AdminPedidoModal({ pedido, onCambiarEstado, onCancelar, loading }) {
                     color: activo ? estilos.color : "#555",
                     fontWeight: activo ? "bold" : "normal",
                     opacity: loading ? 0.6 : 1,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  {activo ? `✓ ${estado}` : estado}
+                  {activo ? (
+                    <>
+                      <FaCheck aria-hidden style={{ marginRight: "6px" }} />
+                      {estado}
+                    </>
+                  ) : (
+                    estado
+                  )}
                 </button>
               );
             })}

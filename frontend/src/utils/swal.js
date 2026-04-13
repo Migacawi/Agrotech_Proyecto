@@ -69,7 +69,7 @@ export const confirmarEliminar = async (nombre) => {
     title:             '¿Eliminar?',
     html:              `<p style="margin:0;color:${TEXTO_CLARO}">Se eliminará <strong style="color:#ff9f9f">${nombre}</strong>.<br>Esta acción <u>no se puede deshacer</u>.</p>`,
     showCancelButton:  true,
-    confirmButtonText: '🗑 Sí, eliminar',
+    confirmButtonText: 'Sí, eliminar',
     cancelButtonText:  'Cancelar',
     confirmButtonColor: ROJO,
     cancelButtonColor:  VERDE,
@@ -91,7 +91,7 @@ export const confirmarCambioRol = async (nombre, nuevoRol) => {
     title:             '¿Cambiar rol?',
     html:              `<p style="margin:0;color:${TEXTO_CLARO}"><strong>${nombre}</strong> pasará a ser <strong style="color:#74e2d7">${nuevoRol}</strong>.</p>`,
     showCancelButton:  true,
-    confirmButtonText: '✅ Confirmar',
+    confirmButtonText: 'Confirmar',
     cancelButtonText:  'Cancelar',
     reverseButtons:    true,
   });
@@ -102,7 +102,7 @@ export const confirmarCambioRol = async (nombre, nuevoRol) => {
 export const bienvenida = (nombre) =>
   toast.fire({
     icon:  'success',
-    title: `¡Bienvenido, ${nombre}! 🌱`,
+    title: `¡Bienvenido, ${nombre}!`,
     timer: 2500,
   });
 
@@ -110,7 +110,7 @@ export const bienvenida = (nombre) =>
 export const carrito = (nombreProducto) =>
   toast.fire({
     icon:  'success',
-    title: '🛒 Añadido al carrito',
+    title: 'Añadido al carrito',
     text:  nombreProducto,
     timer: 2000,
   });

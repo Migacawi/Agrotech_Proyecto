@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCreditCard } from "react-icons/fa";
 
 function PagoTarjeta({ total, onConfirmar, onCerrar }) {
   const [form, setForm] = useState({
@@ -46,7 +47,9 @@ function PagoTarjeta({ total, onConfirmar, onCerrar }) {
   return (
     <div className="pago-modal-overlay" onClick={onCerrar}>
       <div className="pago-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="pago-modal-icon">💳</div>
+        <div className="pago-modal-icon">
+          <FaCreditCard aria-hidden size={44} />
+        </div>
         <h3 className="pago-modal-titulo">Pago con tarjeta</h3>
 
         <div className="pago-tarjeta-preview">

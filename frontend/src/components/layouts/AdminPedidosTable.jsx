@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import {
+  FaEye,
+  FaFileDownload,
+  FaTrash,
+} from "react-icons/fa";
 import { exportarPedidos } from "../../utils/excelExport";
 
 const ITEMS_POR_PAGINA = 20;
@@ -75,6 +80,7 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
           }}
         />
         <button
+          type="button"
           onClick={exportarExcel}
           style={{
             padding: "8px 16px",
@@ -86,9 +92,12 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
             fontSize: "13px",
             fontWeight: "600",
             whiteSpace: "nowrap",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          📥 Exportar Excel
+          <FaFileDownload aria-hidden /> Exportar Excel
         </button>
       </div>
 
@@ -151,6 +160,7 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
                 <td style={td}>{fecha}</td>
                 <td style={{ ...td, display: "flex", gap: "8px" }}>
                   <button
+                    type="button"
                     onClick={() => onVerDetalle(p)}
                     style={{
                       padding: "6px 12px",
@@ -160,11 +170,15 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
                       color: "white",
                       cursor: "pointer",
                       fontSize: "13px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
                     }}
                   >
-                    👁 Ver
+                    <FaEye aria-hidden /> Ver
                   </button>
                   <button
+                    type="button"
                     onClick={() => onEliminar(p.Id)}
                     style={{
                       padding: "6px 12px",
@@ -174,9 +188,12 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
                       color: "white",
                       cursor: "pointer",
                       fontSize: "13px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
                     }}
                   >
-                    🗑 Eliminar
+                    <FaTrash aria-hidden /> Eliminar
                   </button>
                 </td>
               </tr>

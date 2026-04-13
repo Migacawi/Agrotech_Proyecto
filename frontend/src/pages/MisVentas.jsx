@@ -6,6 +6,7 @@ import "../styles/MisVentas.css";
 import useAuthStore from "../store/authStore";
 import { getPedidos } from "../api/pedidosService";
 import * as XLSX from "xlsx";
+import { FaBoxOpen, FaFileDownload } from "react-icons/fa";
 
 const colorEstado = {
   Pendiente: { bg: "#fff3cd", color: "#856404" },
@@ -112,7 +113,9 @@ function MisVentas() {
 
         {!loading && !error && ventas.length === 0 && (
           <div className="misventas-vacio">
-            <span className="misventas-vacio-icon">📦</span>
+            <span className="misventas-vacio-icon">
+              <FaBoxOpen aria-hidden />
+            </span>
             <h3>Aún no tienes ventas</h3>
             <p>Cuando alguien compre tus productos aparecerán aquí.</p>
           </div>
@@ -158,6 +161,7 @@ function MisVentas() {
                 }}
               />
               <button
+                type="button"
                 onClick={exportarExcel}
                 style={{
                   padding: "8px 16px",
@@ -169,9 +173,12 @@ function MisVentas() {
                   fontSize: "13px",
                   fontWeight: "600",
                   whiteSpace: "nowrap",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
                 }}
               >
-                📥 Exportar Excel
+                <FaFileDownload aria-hidden /> Exportar Excel
               </button>
             </div>
 

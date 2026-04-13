@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import {
+  FaEdit,
+  FaFileDownload,
+  FaLeaf,
+  FaTrash,
+} from "react-icons/fa";
 import { exportarProductos } from "../../utils/excelExport";
 
 const ITEMS_POR_PAGINA = 20;
@@ -67,6 +73,7 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
           }}
         />
         <button
+          type="button"
           onClick={exportarExcel}
           style={{
             padding: "8px 16px",
@@ -78,9 +85,12 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
             fontSize: "13px",
             fontWeight: "600",
             whiteSpace: "nowrap",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          📥 Exportar Excel
+          <FaFileDownload aria-hidden /> Exportar Excel
         </button>
       </div>
 
@@ -132,9 +142,10 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
                         alignItems: "center",
                         justifyContent: "center",
                         fontSize: "20px",
+                        color: "#5a8f5a",
                       }}
                     >
-                      🌿
+                      <FaLeaf aria-hidden />
                     </div>
                   )}
                 </td>
@@ -161,6 +172,7 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
                 <td style={td}>{p.Usuario?.Nombre || "—"}</td>
                 <td style={{ ...td, display: "flex", gap: "8px" }}>
                   <button
+                    type="button"
                     onClick={() => onEditar(p)}
                     style={{
                       padding: "6px 12px",
@@ -170,12 +182,16 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
                       color: "white",
                       cursor: "pointer",
                       fontSize: "13px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
                     }}
                   >
-                    ✏ Editar
+                    <FaEdit aria-hidden /> Editar
                   </button>
                   {onEliminar && (
                     <button
+                      type="button"
                       onClick={() => onEliminar(p.Id)}
                       style={{
                         padding: "6px 12px",
@@ -185,9 +201,12 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
                         color: "white",
                         cursor: "pointer",
                         fontSize: "13px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
                       }}
                     >
-                      🗑 Eliminar
+                      <FaTrash aria-hidden /> Eliminar
                     </button>
                   )}
                 </td>
