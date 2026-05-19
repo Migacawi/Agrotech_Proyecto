@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:5173";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://api.thankfulmushroom-6731d2dc.eastus2.azurecontainerapps.io";
 
 const axiosClient = axios.create({
   baseURL: `${BASE_URL}/api`,
