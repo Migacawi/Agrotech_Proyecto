@@ -12,4 +12,8 @@ export default defineConfig({
       },
     },
   },
+  // Configuración para permitir que Render acceda en el entorno de producción
+  preview: {
+    allowedHosts: ['agrotech-proyectov2.onrender.com']
+  }
 })
