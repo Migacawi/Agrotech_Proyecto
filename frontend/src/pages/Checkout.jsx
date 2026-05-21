@@ -289,6 +289,7 @@ function Checkout() {
         Authorization: `Bearer ${token}`,
       };
 
+      // 1. Petición para crear el pedido
       const resPedido = await fetch("/api/pedidos", {
         method: "POST",
         headers,
@@ -304,27 +305,49 @@ function Checkout() {
         }),
       });
 
-      const dataPedido = await resPedido.json();
-      if (!resPedido.ok)
-        throw new Error(dataPedido.error || "Error al crear el pedido.");
+      // Validar si el backend respondió con un error de red o de servidor
+      if (!resPedido.ok) {
+        let textoError = "Error interno en el servidor de pedidos.";
+        try {
+          const errorData = await resPedido.json();
+          textoError = errorData.error || errorData.message || textoError;
+        } catch (_) {
+          textoError = `Error en el servidor (${resPedido.status}): No se pudo registrar el pedido.`;
+        }
+        throw new Error(textoError);
+      }
 
+      // Si la respuesta es exitosa, se parsea el JSON con seguridad
+      const dataPedido = await resPedido.json();
       const pedidoId = dataPedido.Id;
 
+      // 2. Petición para procesar el pago
       const resPago = await fetch("/api/pagos/procesar", {
         method: "POST",
         headers,
         body: JSON.stringify({ pedidoId, metodoPago: pago }),
       });
 
-      const dataPago = await resPago.json();
-      if (!resPago.ok)
-        throw new Error(dataPago.error || "Error al procesar el pago.");
+      // Validar la respuesta de la pasarela de pago
+      if (!resPago.ok) {
+        let textoErrorPago = "Error al procesar la pasarela de pago.";
+        try {
+          const errorDataPago = await resPago.json();
+          textoErrorPago = errorDataPago.error || errorDataPago.message || textoErrorPago;
+        } catch (_) {
+          textoErrorPago = `Error en el servidor de pagos (${resPago.status}).`;
+        }
+        throw new Error(textoErrorPago);
+      }
 
+      const dataPago = await resPago.json();
+
+      // Limpiar carrito tras éxito total
       clearCart();
 
       setAlerta({
         type: "success",
-        title: "¡Pedido confirmado!",
+        title: "¡Pedido confirmed!",
         text: `Tu pedido #${pedidoId} fue registrado con éxito. Recibirás tu domicilio pronto.`,
         confirmText: "Ver mi pedido",
         onConfirm: () => {
@@ -345,7 +368,7 @@ function Checkout() {
       setAlerta({
         type: "error",
         title: "Error al procesar",
-        text: err.message || "Ocurrió un error. Intenta de nuevo.",
+        text: err.message || "Ocurrió un error inesperado. Intenta de nuevo.",
         confirmText: "Reintentar",
         cancelText: "Cancelar",
         onConfirm: () => setAlerta(null),
