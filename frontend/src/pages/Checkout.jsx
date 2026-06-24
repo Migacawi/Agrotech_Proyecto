@@ -347,7 +347,7 @@ function Checkout() {
 
       setAlerta({
         type: "success",
-        title: "¡Pedido confirmed!",
+        title: "¡Pedido confirmado!",
         text: `Tu pedido #${pedidoId} fue registrado con éxito. Recibirás tu domicilio pronto.`,
         confirmText: "Ver mi pedido",
         onConfirm: () => {
