@@ -162,3 +162,25 @@
   color: #cccccc;
   line-height: 1.6;
 }
+
+@media (max-width: 900px) {
+  .descripcion-container {
+    flex-direction: column;
+    padding: 20px 24px;
+    gap: 24px;
+  }
+  .descripcion-imagen img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+  }
+  .ofertas-vendedor {
+    max-width: 100%;
+  }
+  .descripcion-extra {
+    flex-direction: column;
+    padding: 10px 24px 30px 24px;
+    gap: 16px;
+  }
+}
+

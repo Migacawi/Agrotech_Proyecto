@@ -227,3 +227,25 @@ body {
   font-size: 0.95rem;
   margin-left: 4px;
 }
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .section-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+  .section-subtitle {
+    font-size: 0.85rem;
+  }
+  .hero-banner {
+    height: 20vh;
+    min-height: 120px;
+  }
+  .product-section {
+    padding: 30px 10px;
+  }
+}
+

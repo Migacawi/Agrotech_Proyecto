@@ -66,3 +66,14 @@
   color: #b5cfcf; /* mismo tono que descripción */
   font-size: 13px;
 }
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .footer {
+    padding: 40px 20px 20px 20px;
+  }
+}
+

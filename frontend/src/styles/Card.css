@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
 
 .card {
-  width: 250px;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
   height: 380px;
   background: white;
   border-radius: 12px;
@@ -167,3 +169,30 @@
   cursor: not-allowed;
   color: #aaa;
 }
+
+@media (max-width: 768px) {
+  .card {
+    height: auto;
+    min-height: 330px;
+    padding-bottom: 12px;
+  }
+  .card-image {
+    height: 145px;
+  }
+  .card:hover .card-image {
+    height: 145px;
+  }
+  .card-comprar-btn {
+    opacity: 1 !important;
+    max-height: 50px !important;
+    margin-top: 8px;
+    padding: 8px 0;
+    font-size: 13px;
+    overflow: visible;
+  }
+  .card:hover .card-comprar-btn {
+    opacity: 1 !important;
+    max-height: 50px !important;
+  }
+}
+

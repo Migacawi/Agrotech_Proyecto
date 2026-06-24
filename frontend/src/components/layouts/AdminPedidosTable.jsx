@@ -101,106 +101,108 @@ function AdminPedidosTable({ pedidos, onVerDetalle, onEliminar }) {
         </button>
       </div>
 
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead style={{ background: "#07393c", color: "white" }}>
-          <tr>
-            <th style={th}>ID</th>
-            <th style={th}>Comprador</th>
-            <th style={th}>Total</th>
-            <th style={th}>Estado</th>
-            <th style={th}>Fecha</th>
-            <th style={th}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pedidosPagina.map((p, i) => {
-            const estiloEstado = colorEstado[p.Estado] || {
-              bg: "#eee",
-              color: "#333",
-            };
-            const fecha =
-              p.CreadoEn || p.createdAt
-                ? new Date(p.CreadoEn || p.createdAt).toLocaleDateString(
-                    "es-CO",
-                  )
-                : "—";
-            return (
-              <tr
-                key={p.Id}
-                style={{ background: i % 2 === 0 ? "#f9f9f9" : "white" }}
-              >
-                <td style={td}>#{p.Id}</td>
-                <td style={td}>
-                  <p style={{ margin: 0, fontWeight: "600" }}>
-                    {p.Usuario?.Nombre || "—"}
-                  </p>
-                  <p style={{ margin: 0, fontSize: "12px", color: "#888" }}>
-                    {p.Usuario?.Email || ""}
-                  </p>
-                </td>
-                <td style={td}>
-                  <strong>
-                    ${Number(p.Total).toLocaleString("es-CO")} COP
-                  </strong>
-                </td>
-                <td style={td}>
-                  <span
-                    style={{
-                      padding: "4px 10px",
-                      borderRadius: "20px",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      background: estiloEstado.bg,
-                      color: estiloEstado.color,
-                    }}
-                  >
-                    {p.Estado}
-                  </span>
-                </td>
-                <td style={td}>{fecha}</td>
-                <td style={{ ...td, display: "flex", gap: "8px" }}>
-                  <button
-                    type="button"
-                    onClick={() => onVerDetalle(p)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "none",
-                      background: "#07393c",
-                      color: "white",
-                      cursor: "pointer",
-                      fontSize: "13px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                    }}
-                  >
-                    <FaEye aria-hidden /> Ver
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onEliminar(p.Id)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "none",
-                      background: "#ff4d4d",
-                      color: "white",
-                      cursor: "pointer",
-                      fontSize: "13px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                    }}
-                  >
-                    <FaTrash aria-hidden /> Eliminar
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "800px" }}>
+          <thead style={{ background: "#07393c", color: "white" }}>
+            <tr>
+              <th style={th}>ID</th>
+              <th style={th}>Comprador</th>
+              <th style={th}>Total</th>
+              <th style={th}>Estado</th>
+              <th style={th}>Fecha</th>
+              <th style={th}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pedidosPagina.map((p, i) => {
+              const estiloEstado = colorEstado[p.Estado] || {
+                bg: "#eee",
+                color: "#333",
+              };
+              const fecha =
+                p.CreadoEn || p.createdAt
+                  ? new Date(p.CreadoEn || p.createdAt).toLocaleDateString(
+                      "es-CO",
+                    )
+                  : "—";
+              return (
+                <tr
+                  key={p.Id}
+                  style={{ background: i % 2 === 0 ? "#f9f9f9" : "white" }}
+                >
+                  <td style={td}>#{p.Id}</td>
+                  <td style={td}>
+                    <p style={{ margin: 0, fontWeight: "600" }}>
+                      {p.Usuario?.Nombre || "—"}
+                    </p>
+                    <p style={{ margin: 0, fontSize: "12px", color: "#888" }}>
+                      {p.Usuario?.Email || ""}
+                    </p>
+                  </td>
+                  <td style={td}>
+                    <strong>
+                      ${Number(p.Total).toLocaleString("es-CO")} COP
+                    </strong>
+                  </td>
+                  <td style={td}>
+                    <span
+                      style={{
+                        padding: "4px 10px",
+                        borderRadius: "20px",
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                        background: estiloEstado.bg,
+                        color: estiloEstado.color,
+                      }}
+                    >
+                      {p.Estado}
+                    </span>
+                  </td>
+                  <td style={td}>{fecha}</td>
+                  <td style={{ ...td, display: "flex", gap: "8px" }}>
+                    <button
+                      type="button"
+                      onClick={() => onVerDetalle(p)}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: "#07393c",
+                        color: "white",
+                        cursor: "pointer",
+                        fontSize: "13px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+                      <FaEye aria-hidden /> Ver
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onEliminar(p.Id)}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        border: "none",
+                        background: "#ff4d4d",
+                        color: "white",
+                        cursor: "pointer",
+                        fontSize: "13px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+                      <FaTrash aria-hidden /> Eliminar
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       {filtrados.length === 0 && (
         <p style={{ padding: "20px", color: "#aaa", textAlign: "center" }}>

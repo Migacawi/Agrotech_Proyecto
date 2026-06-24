@@ -122,7 +122,8 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
         </button>
       </div>
 
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "800px" }}>
         <thead style={{ background: "#07393c", color: "white" }}>
           <tr>
             <th style={th}>ID</th>
@@ -250,7 +251,8 @@ function AdminUsuariosTable({ usuarios, onEditar, onEliminar, onActualizar }) {
             );
           })}
         </tbody>
-      </table>
+        </table>
+      </div>
 
       {filtrados.length === 0 && (
         <p style={{ padding: "20px", color: "#aaa", textAlign: "center" }}>

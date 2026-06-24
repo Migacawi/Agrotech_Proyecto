@@ -94,110 +94,92 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
         </button>
       </div>
 
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead style={{ background: "#07393c", color: "white" }}>
-          <tr>
-            <th style={th}>ID</th>
-            <th style={th}>Imagen</th>
-            <th style={th}>Nombre</th>
-            <th style={th}>Categoría</th>
-            <th style={th}>Precio/Libra</th>
-            <th style={th}>Stock</th>
-            <th style={th}>Vendedor</th>
-            <th style={th}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productosPagina.map((p, i) => {
-            const imagen =
-              p.Imagenes?.find((img) => img.EsPrincipal)?.UrlImagen ||
-              p.Imagenes?.[0]?.UrlImagen ||
-              null;
-            return (
-              <tr
-                key={p.Id}
-                style={{ background: i % 2 === 0 ? "#f9f9f9" : "white" }}
-              >
-                <td style={td}>{p.Id}</td>
-                <td style={td}>
-                  {imagen ? (
-                    <img
-                      src={imagen}
-                      alt={p.Nombre}
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "800px" }}>
+          <thead style={{ background: "#07393c", color: "white" }}>
+            <tr>
+              <th style={th}>ID</th>
+              <th style={th}>Imagen</th>
+              <th style={th}>Nombre</th>
+              <th style={th}>Categoría</th>
+              <th style={th}>Precio/Libra</th>
+              <th style={th}>Stock</th>
+              <th style={th}>Vendedor</th>
+              <th style={th}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productosPagina.map((p, i) => {
+              const imagen =
+                p.Imagenes?.find((img) => img.EsPrincipal)?.UrlImagen ||
+                p.Imagenes?.[0]?.UrlImagen ||
+                null;
+              return (
+                <tr
+                  key={p.Id}
+                  style={{ background: i % 2 === 0 ? "#f9f9f9" : "white" }}
+                >
+                  <td style={td}>{p.Id}</td>
+                  <td style={td}>
+                    {imagen ? (
+                      <img
+                        src={imagen}
+                        alt={p.Nombre}
+                        style={{
+                          width: 50,
+                          height: 50,
+                          objectFit: "cover",
+                          borderRadius: "6px",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: "6px",
+                          background: "#e0e0e0",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "20px",
+                          color: "#5a8f5a",
+                        }}
+                      >
+                        <FaLeaf aria-hidden />
+                      </div>
+                    )}
+                  </td>
+                  <td style={td}>{p.Nombre}</td>
+                  <td style={td}>
+                    <span
                       style={{
-                        width: 50,
-                        height: 50,
-                        objectFit: "cover",
-                        borderRadius: "6px",
-                      }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: 50,
-                        height: 50,
-                        borderRadius: "6px",
-                        background: "#e0e0e0",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "20px",
-                        color: "#5a8f5a",
+                        background: "#e0f0f0",
+                        color: "#07393c",
+                        padding: "3px 10px",
+                        borderRadius: "20px",
+                        fontSize: "12px",
                       }}
                     >
-                      <FaLeaf aria-hidden />
-                    </div>
-                  )}
-                </td>
-                <td style={td}>{p.Nombre}</td>
-                <td style={td}>
-                  <span
-                    style={{
-                      background: "#e0f0f0",
-                      color: "#07393c",
-                      padding: "3px 10px",
-                      borderRadius: "20px",
-                      fontSize: "12px",
-                    }}
-                  >
-                    {p.Categoria}
-                  </span>
-                </td>
-                <td style={td}>
-                  ${Number(p.PrecioPorLibra).toLocaleString("es-CO")}
-                </td>
-                <td style={td}>
-                  {Number(p.StockLibras).toLocaleString("es-CO")} lb
-                </td>
-                <td style={td}>{p.Usuario?.Nombre || "—"}</td>
-                <td style={{ ...td, display: "flex", gap: "8px" }}>
-                  <button
-                    type="button"
-                    onClick={() => onEditar(p)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "none",
-                      background: "#07393c",
-                      color: "white",
-                      cursor: "pointer",
-                      fontSize: "13px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                    }}
-                  >
-                    <FaEdit aria-hidden /> Editar
-                  </button>
-                  {onEliminar && (
+                      {p.Categoria}
+                    </span>
+                  </td>
+                  <td style={td}>
+                    ${Number(p.PrecioPorLibra).toLocaleString("es-CO")}
+                  </td>
+                  <td style={td}>
+                    {Number(p.StockLibras).toLocaleString("es-CO")} lb
+                  </td>
+                  <td style={td}>{p.Usuario?.Nombre || "—"}</td>
+                  <td style={{ ...td, display: "flex", gap: "8px" }}>
                     <button
                       type="button"
-                      onClick={() => onEliminar(p.Id)}
+                      onClick={() => onEditar(p)}
                       style={{
                         padding: "6px 12px",
                         borderRadius: "6px",
                         border: "none",
-                        background: "#ff4d4d",
+                        background: "#07393c",
                         color: "white",
                         cursor: "pointer",
                         fontSize: "13px",
@@ -206,15 +188,35 @@ function AdminProductosTable({ productos, onEditar, onEliminar }) {
                         gap: "6px",
                       }}
                     >
-                      <FaTrash aria-hidden /> Eliminar
+                      <FaEdit aria-hidden /> Editar
                     </button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                    {onEliminar && (
+                      <button
+                        type="button"
+                        onClick={() => onEliminar(p.Id)}
+                        style={{
+                          padding: "6px 12px",
+                          borderRadius: "6px",
+                          border: "none",
+                          background: "#ff4d4d",
+                          color: "white",
+                          cursor: "pointer",
+                          fontSize: "13px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                        }}
+                      >
+                        <FaTrash aria-hidden /> Eliminar
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       {filtrados.length === 0 && (
         <p style={{ padding: "20px", color: "#aaa", textAlign: "center" }}>

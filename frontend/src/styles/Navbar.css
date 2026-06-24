@@ -319,3 +319,14 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 480px) {
+  .cart-popup {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    top: 90px;
+    padding: 15px;
+  }
+}
+
