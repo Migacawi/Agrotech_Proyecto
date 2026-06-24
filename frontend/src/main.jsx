@@ -7,7 +7,7 @@ import './index.css';
 
 const GOOGLE_CLIENT_ID =
   import.meta.env.VITE_GOOGLE_CLIENT_ID ||
-  '510830090396-7pk9o8pmnb1aue6821q6lq8o8hjnbm9l.apps.googleusercontent.com';
+  '580564101475-d6h80nm3m7h1gl51hv9lalodc49ujtur.apps.googleusercontent.com';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
