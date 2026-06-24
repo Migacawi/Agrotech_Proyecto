@@ -211,6 +211,7 @@ function VerTodo() {
             display: "flex",
             flexDirection: "column",
             gap: "30px",
+            minWidth: 0,
           }}
         >
           <main className="productos-grid">
