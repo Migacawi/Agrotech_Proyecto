@@ -290,7 +290,7 @@ function Checkout() {
       };
 
       // 1. Petición para crear el pedido
-      const resPedido = await fetch("/api/pedidos", {
+      const resPedido = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/pedidos`, {
         method: "POST",
         headers,
         body: JSON.stringify({
@@ -322,7 +322,7 @@ function Checkout() {
       const pedidoId = dataPedido.Id;
 
       // 2. Petición para procesar el pago
-      const resPago = await fetch("/api/pagos/procesar", {
+      const resPago = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/pagos/procesar`, {
         method: "POST",
         headers,
         body: JSON.stringify({ pedidoId, metodoPago: pago }),
