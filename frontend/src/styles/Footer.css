@@ -69,11 +69,15 @@
 
 @media (max-width: 768px) {
   .footer-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 30px;
+  }
+  .footer-section:first-child {
+    grid-column: span 2;
   }
   .footer {
     padding: 40px 20px 20px 20px;
   }
 }
+
 
