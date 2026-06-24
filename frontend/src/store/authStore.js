@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { jwtDecode } from 'jwt-decode';
 
+import useCartStore from './cartStore';
+
 const useAuthStore = create(
   persist(
     (set, get) => ({
@@ -21,6 +23,7 @@ const useAuthStore = create(
 
       logout: () => {
         localStorage.removeItem('token');
+        useCartStore.getState().clearCart();
         set({ token: null, user: null, isAuth: false });
       },
 
